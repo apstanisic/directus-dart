@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:directus/src/store.dart';
+import 'package:directus/src/stores/directus_store.dart';
+import 'package:directus/src/stores/store.dart';
 import 'package:hive/hive.dart';
 import 'handlers/handlers.dart';
 
@@ -9,17 +10,23 @@ class DirectusSDK {
   late DirectusStore store;
 
   DirectusSDK(this._url, {HiveStore? store}) {
-    client = Dio(BaseOptions(baseUrl: _url));
+    client = Dio(
+      BaseOptions(baseUrl: _url),
+    );
     this.store = store ?? HiveStore(Hive.box('directus'));
     auth = AuthHandler(client: client, store: this.store);
   }
 
+  /// Get Directus API url
   String get url => _url;
 
+  /// Change Directus API url
   set url(String url) {
     _url = url;
     client.options.baseUrl = url;
   }
+
+  late AuthHandler auth;
 
   ItemsHandler items(String collection) {
     if (collection.startsWith('directus')) {
@@ -31,8 +38,6 @@ class DirectusSDK {
   ActivityHandler get activity {
     return ActivityHandler(client: client);
   }
-
-  late AuthHandler auth;
 
   CollectionsHandler get collections {
     return CollectionsHandler(client: client);

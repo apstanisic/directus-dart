@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:directus/src/store.dart';
+import 'package:directus/src/stores/directus_store.dart';
 
 class _LoginResponse {
   late String accessToken;

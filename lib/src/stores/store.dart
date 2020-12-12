@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 
+import 'directus_store.dart';
+
 class HiveStore extends DirectusStore {
   Box storage;
   HiveStore(this.storage);
@@ -13,9 +15,4 @@ class HiveStore extends DirectusStore {
   Future<void> setItem(String key, String value) async {
     await storage.put(key, value);
   }
-}
-
-abstract class DirectusStore {
-  Future<String?> getItem(String key);
-  Future<void> setItem(String key, String value);
 }
