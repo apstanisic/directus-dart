@@ -5,7 +5,7 @@ class HiveStore extends DirectusStore {
   HiveStore(this.storage);
 
   @override
-  Future<dynamic> getItem(String key) async {
+  Future<String?> getItem(String key) async {
     return await storage.get(key);
   }
 
@@ -16,6 +16,6 @@ class HiveStore extends DirectusStore {
 }
 
 abstract class DirectusStore {
-  Future<dynamic> getItem(String key);
+  Future<String?> getItem(String key);
   Future<void> setItem(String key, String value);
 }
