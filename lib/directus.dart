@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library directus;
 
-export 'src/directus_dart_base.dart';
+export 'src/directus_sdk.dart';
 
 // TODO: Export any libraries intended for clients of this package.
