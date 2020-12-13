@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/handlers/items_handler.dart';
-import 'package:directus/src/query/query.dart';
 
 class UsersHandler extends ItemsHandler {
   UsersHandler({required Dio client}) : super('directus_users', client: client);

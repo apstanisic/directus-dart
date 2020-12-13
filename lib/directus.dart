@@ -1,4 +1,4 @@
 library directus;
 
 export 'src/directus_sdk.dart';
-export 'src/query/query.dart';
+export 'src/data_classes/data_classes.dart';

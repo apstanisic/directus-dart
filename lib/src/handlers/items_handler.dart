@@ -1,57 +1,73 @@
 import 'package:dio/dio.dart';
-import 'package:directus/src/query/query.dart';
+import 'package:directus/src/data_classes/data_classes.dart';
 
-class ItemsHandler {
+/// Handler for fetching data from Directus API
+/// Provides CRUD API
+class ItemsHandler<D> {
+  /// HTTP Client
   Dio client;
-  late String _endpoint;
 
-  ItemsHandler(String collection, {required this.client}) {
-    _endpoint =
-        collection.startsWith('directus_') ? '/${collection.substring(9)}' : '/items/${collection}';
+  /// Collection endpoint
+  /// It's `/items/$collection` for normal collections and `/$collection` for system collection
+  final String _endpoint;
+
+  ItemsHandler(String collection, {required this.client})
+      : _endpoint = collection.startsWith('directus_')
+            ? '/${collection.substring(9)}'
+            : '/items/${collection}';
+
+  /// Get item by ID
+  Future<T> readOne<T extends D>(String id) async {
+    final response = await client.get<DirectusResponse<T>>('$_endpoint/$id');
+    return response.data.data;
   }
 
-  Future<Response<dynamic>> readOne(String id) async {
-    final response = await client.get('$_endpoint/$id');
-    return response.data;
-  }
-
-  Future<Response<dynamic>> readMany({Query? query}) async {
-    final response = await client.get('$_endpoint', queryParameters: query?.toMap());
-    return response.data;
-  }
-
-  Future<Response<dynamic>> create(Map data) async {
-    final response = await client.post('$_endpoint', data: data);
-    return response.data;
-  }
-
-  Future<Response<dynamic>> createMany(List<Map> data) async {
-    final response = await client.post('$_endpoint', data: data);
-    return response.data;
-  }
-
-  Future<Response<dynamic>> updateOne({required Map data, required String id}) async {
-    final response = await client.patch('$_endpoint/$id', data: data);
-    return response.data;
-  }
-
-  Future<Response<dynamic>> updateMany({required Query query, required Map data}) async {
-    final response = await client.patch(
+  /// Get many items
+  /// ```dart
+  /// await this.readMany(query: Query(
+  ///   filter: Filters([
+  ///     Filter('a', 'b')
+  ///   ])
+  /// ));
+  /// ```
+  Future<List<T>> readMany<T extends D>({Query? query}) async {
+    final response = await client.get<DirectusResponse<List<T>>>(
       '$_endpoint',
-      data: data,
-      queryParameters: query.toMap(),
+      queryParameters: query?.toMap(),
     );
-    return response.data;
+    return response.data.data;
   }
 
-  Future<Response<dynamic>> deleteOne(String id) async {
+  /// Create one item
+  Future<T> createOne<T extends D>(Map data) async {
+    final response = await client.post<DirectusResponse<T>>('$_endpoint', data: data);
+    return response.data.data;
+  }
+
+  /// Update single item
+  Future<T> updateOne<T extends D>({required Map data, required String id}) async {
+    final response = await client.patch<DirectusResponse<T>>('$_endpoint/$id', data: data);
+    return response.data.data;
+  }
+
+  /// Update many items
+  Future<List<T>> updateMany<T extends D>({required List<String> ids, required Map data}) async {
+    final response = await client.patch<DirectusResponse<List<T>>>(
+      '$_endpoint/${ids.join(',')}',
+      data: data,
+    );
+    return response.data.data;
+  }
+
+  /// Delete item by ID
+  Future<void> deleteOne(String id) async {
     final response = await client.delete('$_endpoint/$id');
     return response.data;
   }
 
-  Future<Response<dynamic>> deleteMany(List<String> ids) async {
+  /// Delete many items
+  Future<void> deleteMany(List<String> ids) async {
     final csvKeys = ids.join(',');
-    final response = await client.delete('$_endpoint/$csvKeys');
-    return response.data;
+    await client.delete('$_endpoint/$csvKeys');
   }
 }

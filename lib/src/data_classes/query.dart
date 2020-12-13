@@ -1,4 +1,4 @@
-import 'package:directus/src/query/filter.dart';
+import 'data_classes.dart';
 
 class Query {
   /// Fields that should be returned
