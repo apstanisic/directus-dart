@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
 
 class UtilsHandler {
-  late Dio client;
+  Dio client;
 
-  UtilsHandler({Dio? client}) {
-    this.client = client ?? Dio();
-  }
+  UtilsHandler({required this.client});
 
   randomString([int length = 32]) async {
     final response = await client.get('/utils/random/string', queryParameters: {'length': length});

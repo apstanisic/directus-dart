@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class ServerHandler {
-  late Dio client;
+  Dio client;
 
   ServerHandler({required this.client});
 

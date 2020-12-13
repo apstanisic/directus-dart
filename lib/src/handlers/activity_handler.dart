@@ -1,14 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/handlers/items_handler.dart';
-import 'package:directus/src/query.dart';
+import 'package:directus/src/query/query.dart';
 
 class ActivityHandler {
-  late Dio client;
-  late ItemsHandler handler;
+  Dio client;
+  ItemsHandler handler;
 
-  ActivityHandler({required this.client, required}) {
-    handler = ItemsHandler('directus_activity', client: client);
-  }
+  ActivityHandler({required this.client})
+      : handler = ItemsHandler('directus_activity', client: client);
 
   readOne(String key) async {
     return await handler.readOne(key);

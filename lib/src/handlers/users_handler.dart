@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/handlers/items_handler.dart';
-import 'package:directus/src/query.dart';
+import 'package:directus/src/query/query.dart';
 
 class UsersHandler extends ItemsHandler {
-  UsersHandler({Dio? client}) : super('directus_users', client: client);
+  UsersHandler({required Dio client}) : super('directus_users', client: client);
 
   invite({required String email, required String role}) async {
     await client.post('/users/invite', data: {'email': email, 'role': role});
