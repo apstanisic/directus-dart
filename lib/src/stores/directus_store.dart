@@ -1,4 +1,4 @@
 abstract class DirectusStore {
-  Future<String?> getItem(String key);
-  Future<void> setItem(String key, String value);
+  Future<String?> getString(String key);
+  Future<void> setString(String key, String value);
 }

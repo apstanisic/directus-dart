@@ -17,9 +17,9 @@ class ItemsHandler<D> {
             : '/items/${collection}';
 
   /// Get item by ID
-  Future<T> readOne<T extends D>(String id) async {
-    final response = await client.get<DirectusResponse<T>>('$_endpoint/$id');
-    return response.data.data;
+  Future<DirectusResponse<T>> readOne<T extends D>(String id) async {
+    final response = await client.get('$_endpoint/$id');
+    return DirectusResponse<T>(response);
   }
 
   /// Get many items
@@ -30,33 +30,35 @@ class ItemsHandler<D> {
   ///   ])
   /// ));
   /// ```
-  Future<List<T>> readMany<T extends D>({Query? query}) async {
-    final response = await client.get<DirectusResponse<List<T>>>(
+  Future<DirectusResponse<List<T>>> readMany<T extends D>({Query? query}) async {
+    final response = await client.get(
       '$_endpoint',
       queryParameters: query?.toMap(),
     );
-    return response.data.data;
+    return DirectusResponse<List<T>>(response);
   }
 
   /// Create one item
-  Future<T> createOne<T extends D>(Map data) async {
-    final response = await client.post<DirectusResponse<T>>('$_endpoint', data: data);
-    return response.data.data;
+  Future<DirectusResponse<T>> createOne<T extends D>(Map data) async {
+    final response = await client.post('$_endpoint', data: data);
+    return DirectusResponse<T>(response);
   }
 
   /// Update single item
-  Future<T> updateOne<T extends D>({required Map data, required String id}) async {
-    final response = await client.patch<DirectusResponse<T>>('$_endpoint/$id', data: data);
-    return response.data.data;
+  Future<DirectusResponse<T>> updateOne<T extends D>(
+      {required Map data, required String id}) async {
+    final response = await client.patch('$_endpoint/$id', data: data);
+    return DirectusResponse<T>(response);
   }
 
   /// Update many items
-  Future<List<T>> updateMany<T extends D>({required List<String> ids, required Map data}) async {
-    final response = await client.patch<DirectusResponse<List<T>>>(
+  Future<DirectusResponse<List<T>>> updateMany<T extends D>(
+      {required List<String> ids, required Map data}) async {
+    final response = await client.patch(
       '$_endpoint/${ids.join(',')}',
       data: data,
     );
-    return response.data.data;
+    return DirectusResponse<List<T>>(response);
   }
 
   /// Delete item by ID

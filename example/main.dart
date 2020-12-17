@@ -1,16 +1,14 @@
 import 'package:directus/directus.dart';
-import 'package:directus/src/query/filter.dart';
 
 void main() async {
-  final sdk = DirectusSDK('http://example.com');
+  final sdk = await DirectusSDK('http://localhost:8055', storagePath: 'storage').init();
 
   await sdk.auth.login(email: 'admin@example.com', password: 'password');
 
   final items = await sdk.items('posts').readMany(
         query: Query(
           filter: Filters([
-            Filter.eq('id', 5),
-            Filter.neq('id', 6),
+            Filter.eq('id', 4),
           ]),
         ),
       );

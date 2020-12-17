@@ -17,17 +17,17 @@ class _LoginResponse {
 
 class AuthHandler {
   Dio client;
-  DirectusStore store;
+  DirectusStore storage;
   String? _accessToken;
   Timer? _timer;
 
-  AuthHandler({required this.client, required this.store});
+  AuthHandler({required this.client, required this.storage});
 
   /// Refresh access token before expiration
   Future<void> refresh() async {
     _timer?.cancel();
-    final expiresAtString = await store.getItem('access_token_expires_at');
-    final refreshToken = await store.getItem('refresh_token');
+    final expiresAtString = await storage.getString('access_token_expires_at');
+    final refreshToken = await storage.getString('refresh_token');
     if (expiresAtString == null || refreshToken == null) return;
     final expiresAt = DateTime.fromMillisecondsSinceEpoch(int.parse(expiresAtString));
 
@@ -77,9 +77,9 @@ class AuthHandler {
         .add(Duration(milliseconds: responseData.accessTokenExpiresAt))
         .millisecondsSinceEpoch;
 
-    await store.setItem('access_token', responseData.accessToken);
-    await store.setItem('access_token_expires_at', expiresAt.toString());
-    await store.setItem('refresh_token', responseData.refreshToken);
+    await storage.setString('access_token', responseData.accessToken);
+    await storage.setString('access_token_expires_at', expiresAt.toString());
+    await storage.setString('refresh_token', responseData.refreshToken);
 
     return responseData;
   }

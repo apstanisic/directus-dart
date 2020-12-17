@@ -1,3 +1,11 @@
+## 0.0.5
+
+- Add SettingsItem
+
+## 0.0.4
+
+- Bug fixes
+
 ## 0.0.3
 
 - Small fixes

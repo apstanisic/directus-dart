@@ -1,17 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/stores/directus_store.dart';
 import 'package:directus/src/stores/store.dart';
-import 'package:hive/hive.dart';
+
 import 'handlers/handlers.dart';
 
 class DirectusSDK {
   Dio client;
-  DirectusStore store;
+  late DirectusStore storage;
+  final String _storagePath;
 
-  DirectusSDK(String url, {DirectusStore? store})
-      : client = Dio(BaseOptions(baseUrl: url)),
-        store = store ?? HiveStore(Hive.box('directus')) {
-    auth = AuthHandler(client: client, store: this.store);
+  DirectusSDK(String url, {required String storagePath, Dio? client})
+      : client = client ?? Dio(BaseOptions(baseUrl: url)),
+        _storagePath = storagePath;
+
+  Future<DirectusSDK> init() async {
+    final storage = await SembastStorage(path: _storagePath);
+    await storage.init();
+    auth = AuthHandler(client: client, storage: storage);
+    return this;
   }
 
   /// Get Directus API url
