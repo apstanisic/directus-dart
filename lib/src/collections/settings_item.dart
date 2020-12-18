@@ -1,35 +1,35 @@
 /// Settings item
 class SettingsItem {
-  late int auth_login_attempts;
+  int? auth_login_attempts;
   String? auth_password_policy;
   String? custom_css;
-  late int id;
+  int? id;
   String? project_color;
   String? project_logo;
-  late String project_name;
-  late String project_url;
+  String? project_name;
+  String? project_url;
   String? public_background;
   String? public_foreground;
   String? public_note;
-  List<_AssetPreset>? storage_asset_presets;
+  List<AssetPreset>? storage_asset_presets;
 
   /// Either `none`, `all` or `presets`
-  late String storage_asset_transform;
+  late String? storage_asset_transform;
 
   SettingsItem({
-    required this.auth_login_attempts,
-    required this.auth_password_policy,
-    required this.custom_css,
-    required this.id,
-    required this.project_color,
-    required this.project_logo,
-    required this.project_name,
-    required this.project_url,
-    required this.public_background,
-    required this.public_foreground,
-    required this.public_note,
-    required this.storage_asset_presets,
-    required this.storage_asset_transform,
+    this.auth_login_attempts,
+    this.auth_password_policy,
+    this.custom_css,
+    this.id,
+    this.project_color,
+    this.project_logo,
+    this.project_name,
+    this.project_url,
+    this.public_background,
+    this.public_foreground,
+    this.public_note,
+    this.storage_asset_presets,
+    this.storage_asset_transform,
   });
 
   SettingsItem.fromMap(Map data) {
@@ -46,10 +46,15 @@ class SettingsItem {
     public_note = data['public_note'];
     storage_asset_presets = data['storage_asset_presets'];
     storage_asset_transform = data['storage_asset_transform'];
+
+    final presets = data['storage_asset_presets'];
+    if (presets is List) {
+      storage_asset_presets = presets.map((preset) => AssetPreset.fromMap(preset)).toList();
+    }
   }
 }
 
-class _AssetPreset {
+class AssetPreset {
   late String fit;
   late int height;
   late int width;
@@ -57,7 +62,7 @@ class _AssetPreset {
   late String key;
   late bool withoutEnlargement;
 
-  _AssetPreset({
+  AssetPreset({
     required this.fit,
     required this.height,
     required this.key,
@@ -66,7 +71,16 @@ class _AssetPreset {
     required this.withoutEnlargement,
   });
 
-  _AssetPreset.fromMap(Map data) {
+  AssetPreset.fromMap(Map data) {
+    if (data['fit'].runtimeType != String ||
+        data['height'].runtimeType != int ||
+        data['width'].runtimeType != int ||
+        data['quality'].runtimeType != int ||
+        data['key'].runtimeType != String ||
+        data['withoutEnlargement'].runtimeType != bool) {
+      throw Exception('Asset preset is not valid');
+    }
+
     fit = data['fit'];
     height = data['height'];
     key = data['key'];

@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:directus/src/collections/settings_item.dart';
+import 'package:directus/src/data_classes/directus_item.dart';
 import 'package:directus/src/stores/directus_store.dart';
 import 'package:directus/src/stores/store.dart';
 
@@ -30,11 +32,12 @@ class DirectusSDK {
   late AuthHandler auth;
 
   /// Items
-  ItemsHandler items(String collection) {
+  ItemsHandler<T> items<T extends DirectusItem>(String collection,
+      {CreateItem<T>? parse, T? convert}) {
     if (collection.startsWith('directus')) {
       throw Exception('You can\t read $collection collection directly.');
     }
-    return ItemsHandler(collection, client: client);
+    return ItemsHandler<T>(collection, client: client, convert: convert);
   }
 
   /// Activity
@@ -107,3 +110,17 @@ class DirectusSDK {
     return UtilsHandler(client: client);
   }
 }
+
+class Test1 extends DirectusItem {
+  @override
+  Map toMap(data) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Test1 fromMap() {
+    throw UnimplementedError();
+  }
+}
+
+class Test2 {}

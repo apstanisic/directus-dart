@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:directus/src/collections/settings_item.dart';
 import 'package:directus/src/handlers/items_handler.dart';
 
-class SettingsHandler extends ItemsHandler {
+class SettingsHandler extends ItemsHandler<SettingsItem> {
   SettingsHandler({required Dio client}) : super('directus_settings', client: client);
 }

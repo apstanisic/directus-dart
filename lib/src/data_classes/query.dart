@@ -27,7 +27,7 @@ class Query {
   /// Object used for filtering items from collection.
   ///
   /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/filter.md)
-  Filters? filter;
+  Map<String, Filter>? filter;
 
   /// Limit amount of items to be returned.
   ///
@@ -58,22 +58,16 @@ class Query {
   });
 
   /// Convert [Query] to [Map] so it can be passed to Dio for request
+  ///
+  /// Fields where value is not set, will not be sent
   Map<String, dynamic> toMap() {
-    // ignore: omit_local_variable_types
-    final Map<String, dynamic> query = {};
-    if (filter != null) query['filter'] = filter?.toMap();
-    if (deep != null) query['deep'] = deep;
-    if (fields != null) query['fields'] = fields?.join(',');
-    if (limit != null) query['limit'] = limit;
-    if (offset != null) query['offset'] = offset;
-    if (sort != null) query['sort'] = sort?.join(',');
-
-    if (deep != null) {
-      final deepMap = {};
-      deep!.entries.forEach((deepQuery) => deepMap[deepQuery.key] = deepQuery.value.toMap());
-      query['deep'] = deepMap;
-    }
-
-    return query;
+    return {
+      'filter': filter?.map((field, value) => value.toMapEntry(field)),
+      'fields': fields?.join(','),
+      'limit': limit,
+      'offset': offset,
+      'sort': sort?.join(','),
+      'deep': deep?.map((key, value) => MapEntry(key, value.toMap())),
+    }..removeWhere((key, value) => value == null);
   }
 }

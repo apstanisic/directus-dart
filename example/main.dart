@@ -6,10 +6,8 @@ void main() async {
   await sdk.auth.login(email: 'admin@example.com', password: 'password');
 
   final items = await sdk.items('posts').readMany(
-        query: Query(
-          filter: Filters([
-            Filter.eq('id', 4),
-          ]),
-        ),
+        query: Query(filter: {'id': Filter.eq(4)}),
       );
+
+  print(items.data);
 }

@@ -1,113 +1,111 @@
-/// Filters for Directus query
-/// ```dart
-/// final filters = Filters([
-///   Filter.isIn('post_name', ['pn1', 'pn2']),
-///   Filter('test', 'some-value'),
-///   Filter.or([
-///     Filter('one', 'two'),
-///     Filter('three', 'four')
-///   ])
-/// ]);
+/// Used for filtering data
 ///
+/// It should be used inside a map as a value for comparisson
+/// Example:
+/// ```dart
+/// final filter = {
+///   'name': Filter.eq('John'),
+///   'id': Filter.gte(5),
+///   'amount': Filter.between(5, 10),
+///   'or': Filter.or([
+///     {'name': Filter.notEq('Evan')},
+///     {'name': Filter.notEq('Mark')},
+///   ])
+/// };
 /// ```
-class Filters {
-  List<Filter> filters;
-
-  Filters(this.filters);
-
-  Map toMap() {
-    final map = {};
-    filters.forEach((filter) {
-      filterToItem(filter: filter, map: map);
-    });
-    return map;
-  }
-
-  /// Convert single filter to proper type and assigns it to provided map
-  void filterToItem({required Filter filter, required Map map}) {
-    if (map[filter.field] != null) throw Exception('Field ${filter.field} already exist');
-    var value;
-    if (filter.value is List) {
-      value = (filter.value as List<Filter>).map((element) {
-        var map = {};
-        filterToItem(filter: element, map: map);
-        return map;
-      });
-    } else {
-      value = filter.value;
-    }
-    if (filter.comparisson == null) {
-      map[filter.field] = value;
-    } else {
-      map[filter.field] = {filter.comparisson: value};
-    }
-  }
-}
-
 class Filter {
-  /// Field name
-  late String field;
-
   /// Comparisson that will be done (equal, not equal, less then...).
-  String? comparisson;
+  final String comparisson;
 
   /// Value to compare it to
-  dynamic value;
+  final dynamic value;
 
   /// Check if the values are equal
-  Filter(this.field, this.value);
+  Filter(this.value) : comparisson = '_eq';
 
   // Check if at least one filter is true.
-  Filter.or(List<Filter> filters) {
-    field = '_or';
-    value = filters;
-  }
+  Filter.or(List<Map<String, Filter>> filters)
+      : comparisson = '_or',
+        value = filters;
 
   // Check if at least one filter is true.
-  Filter.and(List<Filter> filters) {
-    field = '_and';
-    value = filters;
-  }
+  Filter.and(List<Map<String, Filter>> filters)
+      : comparisson = '_and',
+        value = filters;
 
   /// Check if the values are equal.
-  Filter.eq(this.field, this.value) : comparisson = '_eq';
+  Filter.eq(this.value) : comparisson = '_eq';
 
   /// Check if the values are not equal.
-  Filter.notEq(this.field, this.value) : comparisson = '_neq';
+  Filter.notEq(this.value) : comparisson = '_neq';
 
   /// Check to see if field contains value.
-  Filter.contains(this.field, this.value) : comparisson = '_contains';
+  Filter.contains(this.value) : comparisson = '_contains';
 
   /// Check to see if field does not contain value.
-  Filter.notContains(this.field, this.value) : comparisson = '_ncontains';
+  Filter.notContains(this.value) : comparisson = '_ncontains';
 
   /// Check to see if value in is provided list.
-  Filter.isIn(this.field, List this.value) : comparisson = '_in';
+  Filter.isIn(List this.value) : comparisson = '_in';
 
   /// Check to see if field in not is provided list.
-  Filter.notIn(this.field, this.value) : comparisson = '_nin';
+  Filter.notIn(this.value) : comparisson = '_nin';
 
   /// Check to see if value is greater then.
-  Filter.gt(this.field, this.value) : comparisson = '_gt';
+  Filter.gt(this.value) : comparisson = '_gt';
 
   /// Check to see if value is greater then or equal.
-  Filter.gte(this.field, this.value) : comparisson = '_gte';
+  Filter.gte(this.value) : comparisson = '_gte';
 
   /// Check to see if value is less then.
-  Filter.lt(this.field, this.value) : comparisson = '_lt';
+  Filter.lt(this.value) : comparisson = '_lt';
 
   /// Check to see if value is less then or equal.
-  Filter.lte(this.field, this.value) : comparisson = '_lte';
+  Filter.lte(this.value) : comparisson = '_lte';
 
   /// Check to see if value is empty.
-  Filter.empty(this.field) : comparisson = '_empty';
+  Filter.empty()
+      : comparisson = '_empty',
+        value = true;
 
   /// Check to see if value is not empty.
-  Filter.notEmpty(this.field) : comparisson = '_empty';
+  Filter.notEmpty()
+      : comparisson = '_empty',
+        value = true;
 
   /// Check to see if value is null.
-  Filter.isNull(this.field) : comparisson = '_null';
+  Filter.isNull()
+      : comparisson = '_null',
+        value = true;
 
   /// Check to see if value is not null.
-  Filter.notNull(this.field) : comparisson = '_nnull';
+  Filter.notNull()
+      : comparisson = '_nnull',
+        value = true;
+
+  Filter.between(dynamic from, dynamic to)
+      : comparisson = '_between',
+        value = [from, to];
+
+  Filter.notBetween(dynamic from, dynamic to)
+      : comparisson = '_nbetween',
+        value = [from, to];
+
+  List<Map<String, dynamic>> filterListToMapList(List<Map<String, Filter>> filters) {
+    // For every item in List
+    return filters.map((filterMap) {
+      // Convert value from Filter to Map
+      return filterMap.map((field, value) => value.toMapEntry(field));
+    }).toList();
+  }
+
+  MapEntry<String, dynamic> toMapEntry(String field) {
+    // If value is a list of non filters
+    if (comparisson == '_or' || comparisson == '_and') {
+      return MapEntry(comparisson, filterListToMapList(value));
+    } else if (value is List) {
+      return MapEntry(field, {comparisson: (value as List).join(',')});
+    }
+    return MapEntry(field, {comparisson: value});
+  }
 }
