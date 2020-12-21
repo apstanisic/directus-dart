@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 /// Used for filtering data
 ///
 /// It should be used inside a map as a value for comparisson
@@ -70,7 +72,7 @@ class Filter {
 
   /// Check to see if value is not empty.
   Filter.notEmpty()
-      : comparisson = '_empty',
+      : comparisson = '_nempty',
         value = true;
 
   /// Check to see if value is null.
@@ -91,6 +93,7 @@ class Filter {
       : comparisson = '_nbetween',
         value = [from, to];
 
+  @visibleForTesting
   List<Map<String, dynamic>> filterListToMapList(List<Map<String, Filter>> filters) {
     // For every item in List
     return filters.map((filterMap) {
@@ -103,8 +106,6 @@ class Filter {
     // If value is a list of non filters
     if (comparisson == '_or' || comparisson == '_and') {
       return MapEntry(comparisson, filterListToMapList(value));
-    } else if (value is List) {
-      return MapEntry(field, {comparisson: (value as List).join(',')});
     }
     return MapEntry(field, {comparisson: value});
   }

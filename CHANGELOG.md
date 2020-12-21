@@ -1,3 +1,8 @@
+## 0.0.6
+
+- Fix `Filter.notEmpty`
+- Added test
+
 ## 0.0.5
 
 - Add SettingsItem

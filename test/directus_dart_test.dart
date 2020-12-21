@@ -6,7 +6,7 @@ void main() {
     DirectusSDK sdk;
 
     setUp(() {
-      sdk = DirectusSDK('http://example.com');
+      // sdk = DirectusSDK('http://example.com');
     });
   });
 }

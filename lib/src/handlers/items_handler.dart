@@ -20,6 +20,8 @@ class ItemsHandler<T> {
             : '/items/${collection}';
 
   /// Get item by ID
+  ///
+  /// [id] is [String] or [int], but Dart does not allow
   Future<DirectusResponse<T>> readOne(String id) async {
     final response = await client.get('$_endpoint/$id');
     return DirectusResponse<T>(response);
