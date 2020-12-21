@@ -1,3 +1,4 @@
+import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/data_classes/query.dart';
 import 'package:test/test.dart';
 
@@ -15,6 +16,32 @@ void main() {
       'limit': 5,
       'offset': 4,
       'sort': 'id,-created',
+    });
+  });
+
+  test('Query transforms filter properly', () {
+    final query = Query(filter: {
+      'one': Filter.eq(2),
+      'three': Filter.eq(4),
+      'five': Filter.and([
+        {'five.one': Filter.eq(2)},
+        {'five.two': Filter.eq(4)},
+      ])
+    });
+
+    expect(query.toMap(), {
+      'filter': {
+        'one': {'_eq': 2},
+        'three': {'_eq': 4},
+        '_and': [
+          {
+            'five.one': {'_eq': 2}
+          },
+          {
+            'five.two': {'_eq': 4}
+          },
+        ]
+      }
     });
   });
 

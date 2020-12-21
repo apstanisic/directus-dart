@@ -5,8 +5,6 @@ import 'package:dio/dio.dart';
 /// Most of Directus methods return [DirectusResponse].
 class DirectusResponse<T> {
   /// Data returned from request
-  late T data;
-  DirectusResponse(Response dioResponse) {
-    data = dioResponse.data['data'];
-  }
+  T data;
+  DirectusResponse(Response dioResponse) : data = dioResponse.data['data'];
 }

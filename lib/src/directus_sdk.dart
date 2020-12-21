@@ -32,12 +32,11 @@ class DirectusSDK {
   late AuthHandler auth;
 
   /// Items
-  ItemsHandler<T> items<T extends DirectusItem>(String collection,
-      {CreateItem<T>? parse, T? convert}) {
+  ItemsHandler<Map<String, dynamic>> items(String collection) {
     if (collection.startsWith('directus')) {
       throw Exception('You can\t read $collection collection directly.');
     }
-    return ItemsHandler<T>(collection, client: client, convert: convert);
+    return ItemsHandler(collection, client: client);
   }
 
   /// Activity
@@ -110,17 +109,3 @@ class DirectusSDK {
     return UtilsHandler(client: client);
   }
 }
-
-class Test1 extends DirectusItem {
-  @override
-  Map toMap(data) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Test1 fromMap() {
-    throw UnimplementedError();
-  }
-}
-
-class Test2 {}
