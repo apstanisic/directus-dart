@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:directus/src/collections/settings_item.dart';
-import 'package:directus/src/data_classes/directus_item.dart';
 import 'package:directus/src/stores/directus_store.dart';
 import 'package:directus/src/stores/store.dart';
 
@@ -16,9 +14,9 @@ class DirectusSDK {
         _storagePath = storagePath;
 
   Future<DirectusSDK> init() async {
-    final storage = await SembastStorage(path: _storagePath);
-    await storage.init();
+    final storage = await SembastStorage(path: _storagePath).init();
     auth = AuthHandler(client: client, storage: storage);
+    await auth.init();
     return this;
   }
 
@@ -32,7 +30,7 @@ class DirectusSDK {
   late AuthHandler auth;
 
   /// Items
-  ItemsHandler<Map<String, dynamic>> items(String collection) {
+  ItemsHandler items(String collection) {
     if (collection.startsWith('directus')) {
       throw Exception('You can\t read $collection collection directly.');
     }

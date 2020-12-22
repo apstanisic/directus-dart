@@ -1,46 +1,47 @@
 import 'package:hive/hive.dart';
+import 'package:path/path.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
-import 'package:path/path.dart';
 
 import 'directus_store.dart';
 
-class HiveStore {
+class HiveStore extends DirectusStorage {
   Box storage;
   HiveStore(this.storage);
 
   @override
-  Future<String?> getItem(String key) async {
+  Future<dynamic?> getItem(String key) async {
     return await storage.get(key);
   }
 
   @override
-  Future<void> setItem(String key, String value) async {
+  Future<void> setItem(String key, dynamic value) async {
     await storage.put(key, value);
   }
 }
 
-class SembastStorage extends DirectusStore {
+class SembastStorage extends DirectusStorage {
   late Database storage;
   late StoreRef store;
   String path;
 
   SembastStorage({required this.path});
 
-  Future<void> init() async {
+  Future<SembastStorage> init() async {
     storage = await databaseFactoryIo.openDatabase(join(path, 'directus.db'));
     store = StoreRef.main();
+    return this;
   }
 
   @override
-  Future<String> getString(String key) {
+  Future<String> getItem(String key) {
     // ignore: unnecessary_null_comparison
     if (store == null || storage == null) throw Exception('Storage not initialized');
     return store.record(key).get(storage) as Future<String>;
   }
 
   @override
-  Future<void> setString(String key, String value) async {
+  Future<void> setItem(String key, dynamic value) async {
     // ignore: unnecessary_null_comparison
     if (store == null || storage == null) throw Exception('Storage not initialized');
     await store.record(key).put(storage, value);

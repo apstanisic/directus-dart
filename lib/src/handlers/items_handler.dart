@@ -4,7 +4,7 @@ import 'package:directus/src/data_classes/directus_item.dart';
 
 /// Handler for fetching data from Directus API
 /// Provides CRUD API
-class ItemsHandler<T> {
+class ItemsHandler {
   /// HTTP Client
   Dio client;
 

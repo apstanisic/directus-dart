@@ -1,22 +1,24 @@
 import 'package:dio/dio.dart';
 
+import '../../directus.dart';
+
 class ServerHandler {
   Dio client;
 
   ServerHandler({required this.client});
 
-  ping() async {
+  Future<String> ping() async {
     await client.get('/server/ping');
     return 'pong';
   }
 
-  info() async {
+  Future<DirectusResponse<Map>> info() async {
     final response = await client.get('/server/info');
-    return response.data;
+    return DirectusResponse(response);
   }
 
-  oas() async {
+  Future<DirectusResponse<Map>> oas() async {
     final response = await client.get('/server/specs/oas');
-    return response.data;
+    return DirectusResponse(response);
   }
 }

@@ -3,12 +3,12 @@ import 'package:directus/src/handlers/utils_handler.dart';
 import 'package:test/test.dart';
 
 import '../mock/mock_dio.dart';
-import '../mock/mock_directus_store.dart';
+import '../mock/mock_directus_storage.dart';
 
 void main() {
   test('handlers.dart exports all handlers', () async {
     final client = MockDio();
-    final storage = MockDirectusStore();
+    final storage = MockDirectusStorage();
 
     ActivityHandler(client: client);
     AuthHandler(client: client, storage: storage);

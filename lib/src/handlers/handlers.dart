@@ -1,5 +1,5 @@
 export 'activity_handler.dart';
-export 'auth_handler.dart';
+export 'auth/auth_handler.dart';
 export 'collections_handler.dart';
 export 'fields_handler.dart';
 export 'files_handler.dart';

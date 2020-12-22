@@ -51,7 +51,7 @@ class Filter {
   Filter.isIn(List this.value) : comparisson = '_in';
 
   /// Check to see if field in not is provided list.
-  Filter.notIn(this.value) : comparisson = '_nin';
+  Filter.notIn(List this.value) : comparisson = '_nin';
 
   /// Check to see if value is greater then.
   Filter.gt(this.value) : comparisson = '_gt';
@@ -96,10 +96,10 @@ class Filter {
   @visibleForTesting
   List<Map<String, dynamic>> filterListToMapList(List<Map<String, Filter>> filters) {
     // For every item in List
-    return filters.map((filterMap) {
-      // Convert value from Filter to Map
-      return filterMap.map((field, value) => value.toMapEntry(field));
-    }).toList();
+    // Convert value from Filter to Map
+    return filters
+        .map((filterMap) => filterMap.map((field, value) => value.toMapEntry(field)))
+        .toList();
   }
 
   MapEntry<String, dynamic> toMapEntry(String field) {

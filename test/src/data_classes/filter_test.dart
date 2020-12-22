@@ -20,6 +20,8 @@ void main() {
       'twelve': Filter.notNull(),
       'thirteen': Filter.between(1, 5),
       'fourteen': Filter.notBetween(2, 6),
+      'fiveteen': Filter.isIn(['value']),
+      'sixteen': Filter.notIn(['value']),
     }).toMap();
 
     expect(query['filter']['zero'], {'_eq': 'value'});
@@ -40,6 +42,12 @@ void main() {
     });
     expect(query['filter']['fourteen'], {
       '_nbetween': [2, 6]
+    });
+    expect(query['filter']['fiveteen'], {
+      '_in': ['value']
+    });
+    expect(query['filter']['sixteen'], {
+      '_nin': ['value']
     });
   });
 
