@@ -17,12 +17,11 @@ class AuthStorage {
   /// This method is used after fetching new data from server,
   /// this will store data to both cold storage and memory.
   /// For checking if the user is logged in, use [loginData].
-  Future<AuthResponse> storeLoginData(AuthResponse data) async {
+  Future<void> storeLoginData(AuthResponse data) async {
     await storage.setItem(accessTokenField, data.accessToken);
     await storage.setItem(accessTokenDurationField, data.accessTokenMsValid);
     await storage.setItem(expiresAtField, data.accessTokenExpiresAt.millisecondsSinceEpoch);
     await storage.setItem(refreshTokenField, data.refreshToken);
-    return data;
   }
 
   /// Store login data to both cold storage and in memory.

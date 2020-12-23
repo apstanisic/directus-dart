@@ -11,8 +11,11 @@ class AuthResponse {
   late int accessTokenMsValid;
   late DateTime accessTokenExpiresAt;
 
-  AuthResponse.fromRequest(Response response) {
-    final data = response.data['data'];
+  AuthResponse.fromResponse(Response response) {
+    final data = response.data?['data'];
+
+    if (data == null) throw Exception('Login response is invalid.');
+
     final accessToken = data[_accessTokenField];
     final refreshToken = data[_refreshTokenField];
     final accessTokenMsValid = data[_accessTokenExpiresField];

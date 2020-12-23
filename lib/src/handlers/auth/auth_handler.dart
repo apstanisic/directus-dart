@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:directus/src/handlers/auth/_auth_storage.dart';
 import 'package:directus/src/handlers/auth/_current_user.dart';
-import 'package:directus/src/handlers/auth/_otp.dart';
+import 'package:directus/src/handlers/auth/_tfa.dart';
 import 'package:directus/src/stores/directus_store.dart';
 
 import '_auth_response.dart';
@@ -82,7 +82,7 @@ class AuthHandler {
     };
 
     final dioResponse = await client.post('/auth/login', data: data);
-    final loginDataResponse = AuthResponse.fromRequest(dioResponse);
+    final loginDataResponse = AuthResponse.fromResponse(dioResponse);
     await storage.storeLoginData(loginDataResponse);
     loginData = loginDataResponse;
     currentUser = CurrentUser(client: client);
@@ -142,7 +142,7 @@ class AuthHandler {
       'mode': 'json',
       'refresh_token': loginData!.refreshToken,
     });
-    final loginDataResponse = AuthResponse.fromRequest(response);
+    final loginDataResponse = AuthResponse.fromResponse(response);
     await storage.storeLoginData(loginDataResponse);
     loginData = loginDataResponse;
     options.headers['Authorization'] = loginData!.accessToken;

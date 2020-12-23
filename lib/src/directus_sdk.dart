@@ -6,7 +6,7 @@ import 'handlers/handlers.dart';
 
 class DirectusSDK {
   Dio client;
-  late DirectusStore storage;
+  late DirectusStorage storage;
   final String _storagePath;
 
   DirectusSDK(String url, {required String storagePath, Dio? client})

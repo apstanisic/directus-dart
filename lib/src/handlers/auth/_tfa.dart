@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 class Tfa {
   Dio client;
+
   Tfa({required this.client});
 
   Future<void> enable(String password) async {

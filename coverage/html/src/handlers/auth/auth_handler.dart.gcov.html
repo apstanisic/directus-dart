@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-12-23 00:08:32</td>
+            <td class="headerValue">2020-12-23 05:02:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -65,7 +65,7 @@
 <a name="3"><span class="lineNum">       3 </span>            : import 'package:dio/dio.dart';</a>
 <a name="4"><span class="lineNum">       4 </span>            : import 'package:directus/src/handlers/auth/_auth_storage.dart';</a>
 <a name="5"><span class="lineNum">       5 </span>            : import 'package:directus/src/handlers/auth/_current_user.dart';</a>
-<a name="6"><span class="lineNum">       6 </span>            : import 'package:directus/src/handlers/auth/_otp.dart';</a>
+<a name="6"><span class="lineNum">       6 </span>            : import 'package:directus/src/handlers/auth/_tfa.dart';</a>
 <a name="7"><span class="lineNum">       7 </span>            : import 'package:directus/src/stores/directus_store.dart';</a>
 <a name="8"><span class="lineNum">       8 </span>            : </a>
 <a name="9"><span class="lineNum">       9 </span>            : import '_auth_response.dart';</a>
@@ -144,7 +144,7 @@
 <a name="82"><span class="lineNum">      82 </span>            :     };</a>
 <a name="83"><span class="lineNum">      83 </span>            : </a>
 <a name="84"><span class="lineNum">      84 </span><span class="lineNoCov">          0 :     final dioResponse = await client.post('/auth/login', data: data);</span></a>
-<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 :     final loginDataResponse = AuthResponse.fromRequest(dioResponse);</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 :     final loginDataResponse = AuthResponse.fromResponse(dioResponse);</span></a>
 <a name="86"><span class="lineNum">      86 </span><span class="lineNoCov">          0 :     await storage.storeLoginData(loginDataResponse);</span></a>
 <a name="87"><span class="lineNum">      87 </span><span class="lineNoCov">          0 :     loginData = loginDataResponse;</span></a>
 <a name="88"><span class="lineNum">      88 </span><span class="lineNoCov">          0 :     currentUser = CurrentUser(client: client);</span></a>
@@ -204,7 +204,7 @@
 <a name="142"><span class="lineNum">     142 </span>            :       'mode': 'json',</a>
 <a name="143"><span class="lineNum">     143 </span><span class="lineNoCov">          0 :       'refresh_token': loginData!.refreshToken,</span></a>
 <a name="144"><span class="lineNum">     144 </span>            :     });</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineNoCov">          0 :     final loginDataResponse = AuthResponse.fromRequest(response);</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineNoCov">          0 :     final loginDataResponse = AuthResponse.fromResponse(response);</span></a>
 <a name="146"><span class="lineNum">     146 </span><span class="lineNoCov">          0 :     await storage.storeLoginData(loginDataResponse);</span></a>
 <a name="147"><span class="lineNum">     147 </span><span class="lineNoCov">          0 :     loginData = loginDataResponse;</span></a>
 <a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 :     options.headers['Authorization'] = loginData!.accessToken;</span></a>
