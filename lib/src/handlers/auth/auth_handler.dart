@@ -126,7 +126,10 @@ class AuthHandler {
     if (loginData == null) return options;
 
     // If there are less then 5 seconds in access token, get new token
-    if (loginData!.accessTokenExpiresAt.add(Duration(seconds: 5)).isAfter(DateTime.now())) {}
+    if (!loginData!.accessTokenExpiresAt.subtract(Duration(seconds: 5)).isBefore(DateTime.now())) {
+      return options;
+    }
+
     client.lock();
 
     final response = await _tokenClient.post('/auth/refresh', data: {
