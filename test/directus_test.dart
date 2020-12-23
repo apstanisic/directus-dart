@@ -9,6 +9,6 @@ void main() {
       expect(directus, isA<Directus>());
       final sdk = await directus.init();
       expect(sdk, isA<DirectusSdk>());
-    }, skip: true);
+    });
   });
 }
