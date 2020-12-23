@@ -20,9 +20,6 @@ class AuthHandler {
   /// If there is no data, then user is not logged in
   AuthResponse? _loginData;
 
-  /// Interceptor that will fetch new access token when current is expired
-  InterceptorsWrapper? interceptor;
-
   /// Storage used for data returned from login.
   AuthStorage storage;
 
@@ -44,13 +41,9 @@ class AuthHandler {
     Dio? tokenClient,
   }) : storage = AuthStorage(storage) {
     // Get new access token if current is expired.
-    interceptor = InterceptorsWrapper(onRequest: getNewTokenInInterceptor);
-    client.interceptors.add(interceptor);
-    if (tokenClient != null) {
-      _tokenClient = tokenClient;
-    } else {
-      _tokenClient = Dio(BaseOptions(baseUrl: client.options.baseUrl));
-    }
+    _tokenClient = tokenClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
+
+    client.interceptors.add(InterceptorsWrapper(onRequest: getNewTokenInInterceptor));
   }
 
   /// Initializes [AuthHandler], by getting data from cold storage.
@@ -95,8 +88,6 @@ class AuthHandler {
     if (loginData != null) {
       await client.post('/auth/logout');
       loginData = null;
-      client.interceptors.remove(interceptor);
-      interceptor = null;
       currentUser = null;
       tfa = null;
     }

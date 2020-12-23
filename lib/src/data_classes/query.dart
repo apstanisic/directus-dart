@@ -68,6 +68,8 @@ class Query {
       'offset': offset,
       'sort': sort?.join(','),
       'deep': deep?.map((key, value) => MapEntry(key, value.toMap())),
-    }..removeWhere((key, value) => value == null);
+    }..removeWhere(
+        (key, value) => value == null,
+      );
   }
 }

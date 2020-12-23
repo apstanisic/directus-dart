@@ -4,18 +4,14 @@ import 'package:directus/src/stores/store.dart';
 
 import 'handlers/handlers.dart';
 
-class DirectusSDK {
+class DirectusSdk {
   Dio client;
   late DirectusStorage storage;
-  final String _storagePath;
 
-  DirectusSDK(String url, {required String storagePath, Dio? client})
-      : client = client ?? Dio(BaseOptions(baseUrl: url)),
-        _storagePath = storagePath;
+  DirectusSdk(String url, {required this.storage, Dio? client})
+      : client = client ?? Dio(BaseOptions(baseUrl: url));
 
-  Future<DirectusSDK> init() async {
-    final storage = await SembastStorage(path: _storagePath).init();
-    auth = AuthHandler(client: client, storage: storage);
+  Future<DirectusSdk> init() async {
     await auth.init();
     return this;
   }
@@ -27,7 +23,7 @@ class DirectusSDK {
   set url(String url) => client.options.baseUrl = url;
 
   /// Auth
-  late AuthHandler auth;
+  late AuthHandler auth = AuthHandler(client: client, storage: storage);
 
   /// Items
   ItemsHandler items(String collection) {

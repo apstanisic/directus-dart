@@ -1,8 +1,7 @@
 import 'package:directus/directus.dart';
 
 void main() async {
-  final sdk = DirectusSDK('http://localhost:8055', storagePath: 'storage');
-  await sdk.init();
+  final sdk = await Directus('http://localhost:8055', storagePath: 'storage').init();
 
   await sdk.auth.login(email: 'admin@example.com', password: 'password');
 
