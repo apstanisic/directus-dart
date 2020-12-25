@@ -21,19 +21,22 @@ class ActivityHandler {
   /// Create comment
   Future<DirectusResponse<Map>> createComment({
     required String collection,
-    required String item,
+    required String itemId,
     required String comment,
   }) async {
     final response = await client.post(
       '/activity/comments',
-      data: {'collection': collection, 'item': item, 'comment': comment},
+      data: {'collection': collection, 'item': itemId, 'comment': comment},
     );
     return DirectusResponse(response);
   }
 
   /// Update existing comment
-  Future<DirectusResponse<Map>> updateComment(String key, Map data) async {
-    final response = await client.patch('/activity/comments/$key', data: data);
+  Future<DirectusResponse<Map>> updateComment({
+    required String id,
+    required String comment,
+  }) async {
+    final response = await client.patch('/activity/comments/$id', data: {'comment': comment});
     return DirectusResponse(response);
   }
 

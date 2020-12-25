@@ -4,8 +4,8 @@ import 'package:directus/src/handlers/items_handler.dart';
 class UsersHandler extends ItemsHandler {
   UsersHandler({required Dio client}) : super('directus_users', client: client);
 
-  Future<void> invite({required String email, required String role}) async {
-    await client.post('/users/invite', data: {'email': email, 'role': role});
+  Future<void> invite({required String email, required String roleId}) async {
+    await client.post('/users/invite', data: {'email': email, 'role': roleId});
   }
 
   Future<void> inviteMany({required List<String> emails, required String role}) async {

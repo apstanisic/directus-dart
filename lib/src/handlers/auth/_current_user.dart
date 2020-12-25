@@ -5,7 +5,7 @@ class CurrentUser {
   Dio client;
   CurrentUser({required this.client});
 // Get current user
-  Future<DirectusResponse<Map<String, dynamic>>> info() async {
+  Future<DirectusResponse<Map<String, dynamic>>> read() async {
     final response = await client.get('/users/me');
     return DirectusResponse(response);
   }

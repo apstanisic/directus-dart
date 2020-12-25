@@ -22,7 +22,7 @@ void main() {
         }),
       );
 
-      final response = await currentUser.info();
+      final response = await currentUser.read();
 
       expect(response, isA<DirectusResponse>());
       expect(response.data, {'id': 1});

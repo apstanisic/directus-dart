@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:directus/src/handlers/auth/_auth_storage.dart';
 import 'package:directus/src/handlers/auth/_current_user.dart';
+import 'package:directus/src/handlers/auth/_forgotten_password.dart';
 import 'package:directus/src/handlers/auth/_tfa.dart';
 import 'package:directus/src/stores/directus_store.dart';
 
@@ -35,11 +36,15 @@ class AuthHandler {
   /// and [null] when user is not logged in.
   Tfa? tfa;
 
+  /// Forgotten password.
+  late ForgottenPassword forgottenPassword;
+
   AuthHandler({
     required this.client,
     required DirectusStorage storage,
     Dio? tokenClient,
   }) : storage = AuthStorage(storage) {
+    forgottenPassword = ForgottenPassword(client: client);
     // Get new access token if current is expired.
     _tokenClient = tokenClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
 
@@ -91,18 +96,6 @@ class AuthHandler {
       currentUser = null;
       tfa = null;
     }
-  }
-
-  /// Request password to be sent to your email
-  Future<void> requestPassword(String email) async {
-    await client.post('/auth/password/request', data: {'email': email});
-  }
-
-  /// Reset password
-  ///
-  /// Provide [token] and new [password] that you want to set.
-  Future<void> resetPassword({required String token, required String password}) async {
-    await client.post('/auth/password/reset', data: {'token': token, 'password': password});
   }
 
   /// Get login data

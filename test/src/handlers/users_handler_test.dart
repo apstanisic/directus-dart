@@ -24,7 +24,7 @@ void main() {
       when(client.post('/users/invite', data: anyNamed('data')))
           .thenAnswer((realInvocation) async => Response());
 
-      await users.invite(email: 'test@email.com', role: 'some-uuid');
+      await users.invite(email: 'test@email.com', roleId: 'some-uuid');
 
       verify(client.post(
         '/users/invite',

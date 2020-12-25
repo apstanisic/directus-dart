@@ -69,23 +69,6 @@ void main() {
       expect(auth.isLoggedIn, true);
     });
 
-    test('requestPassword', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
-      await auth.requestPassword('email@test.com');
-      verify(client.post('/auth/password/request', data: {'email': 'email@test.com'})).called(1);
-    });
-
-    test('requestPassword', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
-
-      await auth.resetPassword(token: 'token1', password: 'password1');
-
-      verify(client.post('/auth/password/reset',
-          data: {'token': 'token1', 'password': 'password1'})).called(1);
-    });
-
     test('login', () async {
       when(client.post(any, data: anyNamed('data'))).thenAnswer(
         (realInvocation) async => Response(data: {

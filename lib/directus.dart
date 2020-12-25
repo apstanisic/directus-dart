@@ -1,6 +1,6 @@
 /// Directus SDK that provides all needed APIs for using Directus server
 ///
-/// It provides api for reading, creating, updating and deleting user and system data,
+/// It provides APIs for reading, creating, updating and deleting user and system data,
 /// authentication, and access to activity.
 ///
 /// ```dart
@@ -8,7 +8,6 @@
 /// ```
 library directus;
 
-import 'package:dio/dio.dart';
 import 'package:directus/src/directus_sdk.dart';
 
 export 'src/data_classes/data_classes.dart';

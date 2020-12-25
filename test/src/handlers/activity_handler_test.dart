@@ -58,7 +58,8 @@ void main() {
         }),
       );
 
-      final response = await activity.createComment(collection: 'col', comment: 'comm', item: '5');
+      final response =
+          await activity.createComment(collection: 'col', comment: 'comm', itemId: '5');
       expect(response.data, {'id': 5});
 
       verify(client.post('/activity/comments',
@@ -70,10 +71,10 @@ void main() {
         (realInvocation) async => Response(data: {'data': {}}),
       );
 
-      final response = await activity.updateComment('key', {'name': 'test'});
+      final response = await activity.updateComment(id: 'key', comment: 'newComment');
       expect(response.data, {});
 
-      verify(client.patch('/activity/comments/key', data: {'name': 'test'})).called(1);
+      verify(client.patch('/activity/comments/key', data: {'comment': 'newComment'})).called(1);
     });
 
     test('deleteComment', () async {
