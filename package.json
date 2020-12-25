@@ -15,7 +15,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "flutter test; return 1"
+      "pre-commit": "flutter format"
     }
   }
 }
