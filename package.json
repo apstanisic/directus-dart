@@ -1,0 +1,21 @@
+{
+  "name": "directus-dart",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apstanisic/directus-dart.git"
+  },
+  "author": "Aleksandar Stanisic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apstanisic/directus-dart/issues"
+  },
+  "homepage": "https://github.com/apstanisic/directus-dart#readme",
+  "devDependencies": {
+    "husky": "^4.3.6"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "flutter test; return 1"
+    }
+  }
+}

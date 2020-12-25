@@ -17,3 +17,6 @@ storage/
 
 # Coverage
 coverage/
+
+# Used for Husky
+node_modules
