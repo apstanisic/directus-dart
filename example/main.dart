@@ -1,15 +1,25 @@
+// @dart=2.9
+
 import 'package:directus/directus.dart';
+import 'package:directus/src/data_classes/directus_error.dart';
+import 'package:directus/src/stores/directus_store.dart';
+
+class Storage extends DirectusStorage {
+  @override
+  Future getItem(String key) async {}
+
+  @override
+  Future<void> setItem(String key, value) async {}
+}
 
 void main() async {
   final sdk = await Directus('http://localhost:8055').init();
 
-  await sdk.auth.login(email: 'admin@example.com', password: 'password');
+  try {
+    final response = await sdk.items('posts').readMany();
 
-  final items = await sdk.items('posts').readMany(
-        query: Query(
-          filter: {
-            'id': Filter.gte(4),
-          },
-        ),
-      );
+    print(response.data);
+  } on DirectusError catch (error) {
+    print(error.message);
+  }
 }

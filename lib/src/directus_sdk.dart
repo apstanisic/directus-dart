@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/directus_error.dart';
+import 'package:directus/src/data_classes/response.dart';
 import 'package:directus/src/stores/directus_store.dart';
 import 'package:directus/src/stores/store.dart';
 
 import 'handlers/handlers.dart';
 
 class DirectusSdk {
-  Dio client;
+  final Dio client;
   late DirectusStorage storage;
 
   DirectusSdk(String url, {required this.storage, Dio? client})
@@ -42,6 +44,9 @@ class DirectusSdk {
   CollectionsHandler get collections {
     return CollectionsHandler(client: client);
   }
+
+  /// HTTP client that can be used for accessing custom extensions.
+  Dio get custom => client;
 
   /// Fields
   FieldsHandler get fields {

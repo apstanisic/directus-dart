@@ -1,10 +1,28 @@
 import 'data_classes.dart';
 
+/// All options that can be passed to [DirectusSdk.readOne], and [DirectusSdk.readMany].
+///
+/// Every field is optional.
+///
+/// ```dart
+/// final query = Query(
+///   limit: 5,
+///   offset: 3,
+///   fields: ['id', 'name'],
+///   sort: ['name'],
+///   filter: {
+///     'name': Filter.eq('Aleksandar'),
+///   },
+/// );
+///
+/// ```
 class Query {
   /// List of all fields that should be returned.
   ///
-  ///
-  /// It defaults to all fields.
+  /// If value is null, server will default to `['*']`. You can do joins by
+  /// calling fields with `.*` after column name.
+  /// For example `['*', 'user_id.*']` will get all data from current item, and join
+  /// `user_id` field with proper table, and get all data.
   ///
   /// Example:
   /// ```dart
@@ -17,7 +35,8 @@ class Query {
 
   /// List of fields used to sort the fetched items.
   ///
-  /// You can add `-` before field to reverse sort from ASC to DESC
+  /// It's sorted in orded in which columns are provided.
+  /// You can prefix column name with `-` to reverse sort from ASC to DESC.
   /// ```dart
   /// sort = ['name', '-date_created'];
   /// ```
@@ -25,6 +44,21 @@ class Query {
   List<String>? sort;
 
   /// Object used for filtering items from collection.
+  ///
+  /// Provide [Map] in which key represent column name, and value is [Filter].
+  /// [Filter] provides named constructor for every comparisson available.
+  /// If you use `OR` or `AND`, [Map]'s key will be ignored.
+  /// ```dart
+  /// filter = {
+  ///   'name': Filter.eq('Aleksandar'),
+  ///   'email': Filter.contains('@gmail.com');
+  ///   'favorite_food': Filter.notNull(),
+  ///   'and': Filter.and([
+  ///     {'age': Filter.gte(20)},
+  ///     {'age': Filter.lte(70)},
+  ///   ]),
+  /// };
+  /// ```
   ///
   /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/filter.md)
   Map<String, Filter>? filter;
@@ -43,11 +77,18 @@ class Query {
   /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/offset.md)
   int? offset;
 
-  /// Used to apply any of the other query params to nested data sets
+  /// [deep] is used to apply any of the other query params to nested data sets.
   ///
+  ///```dart
+  /// deep = {
+  ///   'favorites': Query(limit: 5)
+  /// };
+  ///
+  ///```
   /// [Additional info](https://github.com/directus/directus/discussions/3424)
   Map<String, Query>? deep;
 
+  /// Constructor for query. All fields are optional.
   Query({
     this.deep,
     this.fields,
@@ -57,9 +98,9 @@ class Query {
     this.sort,
   });
 
-  /// Convert [Query] to [Map] so it can be passed to Dio for request
+  /// Convert [Query] to [Map] so it can be passed to Dio for request.
   ///
-  /// Fields where value is not set, will not be sent
+  /// Fields where value is not set, will not be sent.
   Map<String, dynamic> toMap() {
     return {
       'filter': filter?.map((field, value) => value.toMapEntry(field)),

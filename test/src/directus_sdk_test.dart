@@ -54,6 +54,7 @@ void main() {
     test('Getters return correct handler', () {
       expect(sdk.activity, isA<ActivityHandler>());
       expect(sdk.collections, isA<CollectionsHandler>());
+      expect(sdk.custom, isA<Dio>());
       expect(sdk.fields, isA<FieldsHandler>());
       expect(sdk.files, isA<FilesHandler>());
       expect(sdk.folders, isA<FoldersHandler>());

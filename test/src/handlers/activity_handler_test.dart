@@ -53,11 +53,13 @@ void main() {
 
     test('createComment', () async {
       when(client.post(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {'data': {}}),
+        (realInvocation) async => Response(data: {
+          'data': {'id': 5}
+        }),
       );
 
       final response = await activity.createComment(collection: 'col', comment: 'comm', item: '5');
-      expect(response.data, {});
+      expect(response.data, {'id': 5});
 
       verify(client.post('/activity/comments',
           data: {'collection': 'col', 'comment': 'comm', 'item': '5'})).called(1);
