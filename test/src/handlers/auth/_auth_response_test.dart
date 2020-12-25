@@ -44,12 +44,16 @@ void main() {
       expect(response.accessTokenExpiresAt, isA<DateTime>());
 
       expect(
-        now.add(Duration(milliseconds: 5000)).isBefore(response.accessTokenExpiresAt),
+        now
+            .add(Duration(milliseconds: 5000))
+            .isBefore(response.accessTokenExpiresAt),
         isTrue,
       );
 
       expect(
-        now.add(Duration(milliseconds: 5000, seconds: 1)).isAfter(response.accessTokenExpiresAt),
+        now
+            .add(Duration(milliseconds: 5000, seconds: 1))
+            .isAfter(response.accessTokenExpiresAt),
         isTrue,
       );
     });
@@ -60,17 +64,20 @@ void main() {
 
     test('Throws if access token does not exist', () {
       validResponse['data']?.remove('access_token');
-      expect(() => AuthResponse.fromResponse(Response(data: validResponse)), throwsException);
+      expect(() => AuthResponse.fromResponse(Response(data: validResponse)),
+          throwsException);
     });
 
     test('Throws if expires does not exist', () {
       validResponse['data']?.remove('expires');
-      expect(() => AuthResponse.fromResponse(Response(data: validResponse)), throwsException);
+      expect(() => AuthResponse.fromResponse(Response(data: validResponse)),
+          throwsException);
     });
 
     test('Throws if refresh token does not exist', () {
       validResponse['data']?.remove('refresh_token');
-      expect(() => AuthResponse.fromResponse(Response(data: validResponse)), throwsException);
+      expect(() => AuthResponse.fromResponse(Response(data: validResponse)),
+          throwsException);
     });
   });
 }

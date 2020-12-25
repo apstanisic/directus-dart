@@ -36,14 +36,16 @@ class SembastStorage extends DirectusStorage {
   @override
   Future<String> getItem(String key) {
     // ignore: unnecessary_null_comparison
-    if (store == null || storage == null) throw Exception('Storage not initialized');
+    if (store == null || storage == null)
+      throw Exception('Storage not initialized');
     return store.record(key).get(storage) as Future<String>;
   }
 
   @override
   Future<void> setItem(String key, dynamic value) async {
     // ignore: unnecessary_null_comparison
-    if (store == null || storage == null) throw Exception('Storage not initialized');
+    if (store == null || storage == null)
+      throw Exception('Storage not initialized');
     await store.record(key).put(storage, value);
   }
 }

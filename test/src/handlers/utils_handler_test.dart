@@ -15,19 +15,22 @@ void main() {
     });
     test('randomString', () async {
       when(client.get(any, queryParameters: anyNamed('queryParameters')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': 'some-string'}));
+          .thenAnswer((realInvocation) async =>
+              Response(data: {'data': 'some-string'}));
 
       var response = await utils.randomString();
 
       expect(response, isA<String>());
 
-      verify(client.get('/utils/random/string', queryParameters: {'length': 32})).called(1);
+      verify(client.get('/utils/random/string',
+          queryParameters: {'length': 32})).called(1);
 
       response = await utils.randomString(5);
 
       expect(response, isA<String>());
 
-      verify(client.get('/utils/random/string', queryParameters: {'length': 5})).called(1);
+      verify(client.get('/utils/random/string', queryParameters: {'length': 5}))
+          .called(1);
     });
 
     test('generateHash', () async {

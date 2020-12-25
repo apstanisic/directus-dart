@@ -11,7 +11,8 @@ class CurrentUser {
   }
 
 // Update current user
-  Future<DirectusResponse<Map<String, dynamic>>> update({required Map data}) async {
+  Future<DirectusResponse<Map<String, dynamic>>> update(
+      {required Map data}) async {
     final response = await client.patch('/users/me', data: data);
     return DirectusResponse(response);
   }

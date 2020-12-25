@@ -50,7 +50,8 @@ class ItemsHandler {
   /// await items.createOne({'name': 'Test'});
   /// ```
   Future<DirectusResponse<Map>> createOne(Map data) async {
-    return DirectusResponse.fromDio(() => client.post('$_endpoint', data: data));
+    return DirectusResponse.fromDio(
+        () => client.post('$_endpoint', data: data));
   }
 
   /// Create many items
@@ -59,7 +60,8 @@ class ItemsHandler {
   /// await items.createMany([{'name': 'Test'}, {'name': 'Test Two'}]);
   /// ```
   Future<DirectusResponse<List<Map>>> createMany(List<Map> data) async {
-    return DirectusResponse.fromDio(() => client.post('$_endpoint', data: data));
+    return DirectusResponse.fromDio(
+        () => client.post('$_endpoint', data: data));
   }
 
   /// Update single item
@@ -67,8 +69,10 @@ class ItemsHandler {
   /// ```dart
   /// await items.updateOne(id: '5', data: {'name': 'Test'});
   /// ```
-  Future<DirectusResponse<Map>> updateOne({required Map data, required String id}) async {
-    return DirectusResponse.fromDio(() => client.patch('$_endpoint/$id', data: data));
+  Future<DirectusResponse<Map>> updateOne(
+      {required Map data, required String id}) async {
+    return DirectusResponse.fromDio(
+        () => client.patch('$_endpoint/$id', data: data));
   }
 
   /// Update many items

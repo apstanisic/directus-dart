@@ -20,7 +20,8 @@ class AuthStorage {
   Future<void> storeLoginData(AuthResponse data) async {
     await storage.setItem(accessTokenField, data.accessToken);
     await storage.setItem(accessTokenDurationField, data.accessTokenMsValid);
-    await storage.setItem(expiresAtField, data.accessTokenExpiresAt.millisecondsSinceEpoch);
+    await storage.setItem(
+        expiresAtField, data.accessTokenExpiresAt.millisecondsSinceEpoch);
     await storage.setItem(refreshTokenField, data.refreshToken);
   }
 

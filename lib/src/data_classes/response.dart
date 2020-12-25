@@ -19,7 +19,8 @@ class DirectusResponse<T> {
     this.data = data;
   }
 
-  static Future<DirectusResponse<U>> fromDio<U>(Future<Response<dynamic>> Function() f) async {
+  static Future<DirectusResponse<U>> fromDio<U>(
+      Future<Response<dynamic>> Function() f) async {
     try {
       final response = await f();
       return DirectusResponse<U>(response);

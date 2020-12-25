@@ -49,7 +49,8 @@ class SettingsItem {
 
     final presets = data['storage_asset_presets'];
     if (presets is List) {
-      storage_asset_presets = presets.map((preset) => AssetPreset.fromMap(preset)).toList();
+      storage_asset_presets =
+          presets.map((preset) => AssetPreset.fromMap(preset)).toList();
     }
   }
 }

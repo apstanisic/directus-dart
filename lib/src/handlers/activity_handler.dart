@@ -36,7 +36,8 @@ class ActivityHandler {
     required String id,
     required String comment,
   }) async {
-    final response = await client.patch('/activity/comments/$id', data: {'comment': comment});
+    final response = await client
+        .patch('/activity/comments/$id', data: {'comment': comment});
     return DirectusResponse(response);
   }
 

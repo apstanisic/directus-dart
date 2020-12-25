@@ -46,9 +46,11 @@ class AuthHandler {
   }) : storage = AuthStorage(storage) {
     forgottenPassword = ForgottenPassword(client: client);
     // Get new access token if current is expired.
-    _tokenClient = tokenClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
+    _tokenClient =
+        tokenClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
 
-    client.interceptors.add(InterceptorsWrapper(onRequest: getNewTokenInInterceptor));
+    client.interceptors
+        .add(InterceptorsWrapper(onRequest: getNewTokenInInterceptor));
   }
 
   /// Initializes [AuthHandler], by getting data from cold storage.
@@ -114,12 +116,15 @@ class AuthHandler {
     }
   }
 
-  Future<RequestOptions> getNewTokenInInterceptor(RequestOptions options) async {
+  Future<RequestOptions> getNewTokenInInterceptor(
+      RequestOptions options) async {
     // If user is not logged in, just do request normally
     if (loginData == null) return options;
 
     // If there are less then 5 seconds in access token, get new token
-    if (!loginData!.accessTokenExpiresAt.subtract(Duration(seconds: 5)).isBefore(DateTime.now())) {
+    if (!loginData!.accessTokenExpiresAt
+        .subtract(Duration(seconds: 5))
+        .isBefore(DateTime.now())) {
       return options;
     }
 

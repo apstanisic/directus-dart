@@ -17,7 +17,8 @@ void main() {
     });
 
     test('ping', () async {
-      when(client.get('/server/ping')).thenAnswer((realInvocation) async => Response(data: 'pong'));
+      when(client.get('/server/ping'))
+          .thenAnswer((realInvocation) async => Response(data: 'pong'));
 
       final response = await server.ping();
       expect(response, 'pong');

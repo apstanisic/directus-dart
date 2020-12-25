@@ -32,7 +32,8 @@ void main() {
     });
 
     test('readMany', () async {
-      when(client.get(any, queryParameters: anyNamed('queryParameters'))).thenAnswer(
+      when(client.get(any, queryParameters: anyNamed('queryParameters')))
+          .thenAnswer(
         (realInvocation) async => Response(data: {
           'data': [
             {'id': 1},
@@ -48,13 +49,15 @@ void main() {
         {'id': 2}
       ]);
 
-      verify(client.get('/items/test', queryParameters: Query(limit: 5).toMap())).called(1);
+      verify(client.get('/items/test',
+              queryParameters: Query(limit: 5).toMap()))
+          .called(1);
     });
 
     test('createOne', () async {
       final itemData = {'name': 'Test'};
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': itemData}));
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(
+          (realInvocation) async => Response(data: {'data': itemData}));
 
       final response = await items.createOne(itemData);
       expect(response, isA<DirectusResponse>());
@@ -79,8 +82,8 @@ void main() {
 
     test('updateOne', () async {
       final itemData = {'name': 'Test'};
-      when(client.patch(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': itemData}));
+      when(client.patch(any, data: anyNamed('data'))).thenAnswer(
+          (realInvocation) async => Response(data: {'data': itemData}));
 
       final response = await items.updateOne(data: itemData, id: '5');
       expect(response, isA<DirectusResponse>());

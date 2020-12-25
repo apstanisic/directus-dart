@@ -28,7 +28,8 @@ void main() {
     test('readOne', () async {
       activity.handler = handler;
       when(handler.readOne('key')).thenAnswer(
-        (realInvocation) async => DirectusResponse(Response(data: {'data': {}})),
+        (realInvocation) async =>
+            DirectusResponse(Response(data: {'data': {}})),
       );
 
       final response = await activity.readOne('key');
@@ -58,12 +59,13 @@ void main() {
         }),
       );
 
-      final response =
-          await activity.createComment(collection: 'col', comment: 'comm', itemId: '5');
+      final response = await activity.createComment(
+          collection: 'col', comment: 'comm', itemId: '5');
       expect(response.data, {'id': 5});
 
       verify(client.post('/activity/comments',
-          data: {'collection': 'col', 'comment': 'comm', 'item': '5'})).called(1);
+              data: {'collection': 'col', 'comment': 'comm', 'item': '5'}))
+          .called(1);
     });
 
     test('updateComment', () async {
@@ -71,10 +73,12 @@ void main() {
         (realInvocation) async => Response(data: {'data': {}}),
       );
 
-      final response = await activity.updateComment(id: 'key', comment: 'newComment');
+      final response =
+          await activity.updateComment(id: 'key', comment: 'newComment');
       expect(response.data, {});
 
-      verify(client.patch('/activity/comments/key', data: {'comment': 'newComment'})).called(1);
+      verify(client.patch('/activity/comments/key',
+          data: {'comment': 'newComment'})).called(1);
     });
 
     test('deleteComment', () async {

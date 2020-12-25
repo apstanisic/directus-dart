@@ -13,7 +13,8 @@ class DirectusError {
   /// HTTP code.
   int code;
 
-  DirectusError({required this.message, required this.code, required this.codeMessage});
+  DirectusError(
+      {required this.message, required this.code, required this.codeMessage});
 
   factory DirectusError.fromDio(dynamic error) {
     if (!(error is DioError)) {
@@ -25,7 +26,8 @@ class DirectusError {
     }
     // final Map<String, List<Map<String, dynamic>?>?>? apiErrors = error.response.data;
     final apiErrors = Map.from(error.response.data);
-    final errorMessage = apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
+    final errorMessage =
+        apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
     // final errorMessage = apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
 
     return DirectusError(

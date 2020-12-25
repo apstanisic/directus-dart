@@ -18,7 +18,8 @@ void main() {
       when(client.post(any, data: anyNamed('data')))
           .thenAnswer((realInvocation) async => Response());
       await fp.request('email@test.com');
-      verify(client.post('/auth/password/request', data: {'email': 'email@test.com'})).called(1);
+      verify(client.post('/auth/password/request',
+          data: {'email': 'email@test.com'})).called(1);
     });
 
     test('requestPassword', () async {

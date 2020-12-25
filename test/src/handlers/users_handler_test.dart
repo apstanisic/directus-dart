@@ -36,7 +36,8 @@ void main() {
       when(client.post('/users/invite', data: anyNamed('data')))
           .thenAnswer((realInvocation) async => Response());
 
-      await users.inviteMany(emails: ['test@example.com', 'test2@example.com'], role: 'some-uuid');
+      await users.inviteMany(
+          emails: ['test@example.com', 'test2@example.com'], role: 'some-uuid');
 
       verify(client.post(
         '/users/invite',

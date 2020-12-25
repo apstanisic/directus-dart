@@ -20,14 +20,17 @@ class AuthResponse {
     final refreshToken = data[_refreshTokenField];
     final accessTokenMsValid = data[_accessTokenExpiresField];
 
-    if (accessToken == null || accessTokenMsValid == null || refreshToken == null) {
+    if (accessToken == null ||
+        accessTokenMsValid == null ||
+        refreshToken == null) {
       throw Exception('Login response is invalid.');
     }
 
     this.refreshToken = refreshToken;
     this.accessToken = accessToken;
     this.accessTokenMsValid = accessTokenMsValid;
-    accessTokenExpiresAt = DateTime.now().add(Duration(milliseconds: accessTokenMsValid));
+    accessTokenExpiresAt =
+        DateTime.now().add(Duration(milliseconds: accessTokenMsValid));
   }
 
   AuthResponse({
