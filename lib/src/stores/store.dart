@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-import 'directus_store.dart';
+import '../data_classes/directus_storage.dart';
 
 class HiveStore extends DirectusStorage {
   Box storage;

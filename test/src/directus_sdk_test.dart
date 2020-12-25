@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/directus_sdk.dart';
 import 'package:directus/src/handlers/handlers.dart';
-import 'package:directus/src/stores/directus_store.dart';
+import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:test/test.dart';
 
 import 'mock/mock_dio.dart';

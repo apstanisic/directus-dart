@@ -4,9 +4,7 @@
 
 Unofficial Directus SDK for Dart/Flutter that provides APIs for reading, creating, updating and deleting user and system data, authentication, and access to activity.
 
-## Examples
-
-### Getting started
+## Getting started
 
 Create instance and initialize.
 
@@ -15,6 +13,8 @@ import 'package:directus/directus.dart';
 
 final sdk = await Directus('http://localhost:8055').init();
 ```
+
+## Examples
 
 ### Using collections
 

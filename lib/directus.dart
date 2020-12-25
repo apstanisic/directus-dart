@@ -8,7 +8,9 @@
 /// ```
 library directus;
 
+import 'package:dio/dio.dart';
 import 'package:directus/src/directus_sdk.dart';
+import 'package:directus/src/data_classes/directus_storage.dart';
 
 export 'src/data_classes/data_classes.dart';
 
@@ -24,5 +26,13 @@ class Directus {
   Future<DirectusSdk> init() async {
     await _sdk.init();
     return _sdk;
+  }
+
+  static DirectusSdk custom(
+    String url, {
+    required DirectusStorage storage,
+    required Dio client,
+  }) {
+    return DirectusSdk(url, storage: storage, client: client);
   }
 }

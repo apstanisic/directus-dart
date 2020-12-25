@@ -2,7 +2,7 @@
 
 import 'package:directus/directus.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
-import 'package:directus/src/stores/directus_store.dart';
+import 'package:directus/src/data_classes/directus_storage.dart';
 
 class Storage extends DirectusStorage {
   @override
