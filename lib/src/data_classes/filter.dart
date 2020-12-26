@@ -91,11 +91,13 @@ class Filter {
       : comparisson = '_nbetween',
         value = [from, to];
 
-  List<Map<String, dynamic>> filterListToMapList(List<Map<String, Filter>> filters) {
+  List<Map<String, dynamic>> filterListToMapList(
+      List<Map<String, Filter>> filters) {
     // For every item in List
     // Convert value from Filter to Map
     return filters
-        .map((filterMap) => filterMap.map((field, value) => value.toMapEntry(field)))
+        .map((filterMap) =>
+            filterMap.map((field, value) => value.toMapEntry(field)))
         .toList();
   }
 

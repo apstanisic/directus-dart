@@ -10,5 +10,9 @@ include: package:pedantic/analysis_options.yaml
 #     - camel_case_types
 
 analyzer:
+  ## TODO Remove next 2 lines
+  ## Bug https://stackoverflow.com/questions/62630553/analysis-options-yaml-the-included-file-not-found
+  exclude:
+    - "example/**"
 #   exclude:
 #     - path/to/excluded/files/**

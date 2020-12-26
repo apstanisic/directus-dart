@@ -6,3 +6,5 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  directus:
+    path: ../
