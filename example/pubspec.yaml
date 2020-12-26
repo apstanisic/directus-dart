@@ -1,9 +1,4 @@
-name: directus
-description: The unofficial SDK for Directus, with REST API and auth. Compatible with Flutter.
-version: 0.2.0
-homepage: https://www.directus.io
-repository: https://github.com/apstanisic/directus-dart
-issue_tracker: https://github.com/apstanisic/directus-dart/issues
+name: directus_example
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
