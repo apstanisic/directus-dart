@@ -4,35 +4,28 @@
 /// authentication, and access to activity.
 ///
 /// ```dart
-/// final sdk = await Directus('http://localhost:8055', storagePath: 'storage').init();
+/// final sdk = await Directus('http://localhost:8055').init();
 /// ```
 library directus;
 
 import 'package:dio/dio.dart';
-import 'package:directus/src/directus_sdk.dart';
+import 'package:directus/src/adapters/shared_preferences_storage.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
+import 'package:directus/src/directus_sdk.dart';
 
 export 'src/data_classes/data_classes.dart';
 
 class Directus {
   final DirectusSdk _sdk;
-  Directus(String url)
+  Directus(String url, {DirectusStorage? storage, Dio? client})
       : _sdk = DirectusSdk(
           url,
-          // TODO Decide on storage
-          storage: {} as dynamic,
+          storage: storage ?? SharedPreferencesStorage(),
+          client: client,
         );
 
   Future<DirectusSdk> init() async {
     await _sdk.init();
     return _sdk;
-  }
-
-  static DirectusSdk custom(
-    String url, {
-    required DirectusStorage storage,
-    required Dio client,
-  }) {
-    return DirectusSdk(url, storage: storage, client: client);
   }
 }

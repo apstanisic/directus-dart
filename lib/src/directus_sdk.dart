@@ -1,8 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:directus/src/data_classes/directus_error.dart';
-import 'package:directus/src/data_classes/response.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
-import 'package:directus/src/stores/store.dart';
 
 import 'handlers/handlers.dart';
 
