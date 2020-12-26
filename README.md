@@ -1,18 +1,12 @@
 # Direcuts SDK for Dart/Flutter
 
----
-
 Unofficial Directus SDK for Dart/Flutter that provides APIs for reading, creating, updating and deleting user and system data, authentication, and access to activity. This package is port of SDK for JS from [here](https://github.com/directus/directus/tree/main/packages/sdk-js). Most methods are same as in JS, but there are some differences because of Dart type
 system.
-
----
 
 ## Installation
 
 Add `directus` to `dependencies` in `pubspec.yaml` and run `pub get` or `flutter pub get`.
 More info can be found [here](https://pub.dev/packages/directus/install).
-
----
 
 ## Getting started
 
@@ -24,8 +18,6 @@ import 'package:directus/directus.dart';
 final sdk = await Directus('http://localhost:8055')
                     .init();
 ```
-
----
 
 ## Examples
 
