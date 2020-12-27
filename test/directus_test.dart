@@ -1,6 +1,7 @@
 import 'package:directus/directus.dart';
 import 'package:directus/src/directus_sdk.dart';
 import 'package:mockito/mockito.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test/test.dart';
 

@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/handlers/auth/_tfa.dart';
 import 'package:mockito/mockito.dart';
@@ -20,8 +21,7 @@ void main() {
 
       await tfa.enable('some-password');
 
-      verify(client.post('/users/tfa/enable',
-          data: {'password': 'some-password'})).called(1);
+      verify(client.post('/users/tfa/enable', data: {'password': 'some-password'})).called(1);
     });
 
     test('disable', () async {
@@ -29,8 +29,7 @@ void main() {
           .thenAnswer((realInvocation) async => Response());
       await tfa.disable('some-otp');
 
-      verify(client.post('/users/tfa/disable', data: {'otp': 'some-otp'}))
-          .called(1);
+      verify(client.post('/users/tfa/disable', data: {'otp': 'some-otp'})).called(1);
     });
   });
 }

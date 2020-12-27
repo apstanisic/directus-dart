@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/handlers/auth/_auth_response.dart';
 import 'package:directus/src/handlers/auth/_auth_storage.dart';
@@ -43,7 +44,7 @@ void main() {
     });
 
     test('init', () async {
-      when(storage.getItem(any as dynamic)).thenAnswer((realInvocation) => null);
+      when(storage.getItem(any as dynamic)).thenAnswer((realInvocation) async => null);
       final auth = AuthHandler(client: client, storage: storage);
       await auth.init();
       expect(auth.loginData, isNull);

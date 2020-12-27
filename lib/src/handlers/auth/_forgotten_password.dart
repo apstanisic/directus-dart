@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 
 class ForgottenPassword {
@@ -13,7 +14,6 @@ class ForgottenPassword {
   ///
   /// Provide [token] and new [password] that you want to set.
   Future<void> reset({required String token, required String password}) async {
-    await client.post('/auth/password/reset',
-        data: {'token': token, 'password': password});
+    await client.post('/auth/password/reset', data: {'token': token, 'password': password});
   }
 }

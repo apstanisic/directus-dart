@@ -8,6 +8,7 @@
 /// ```
 library directus;
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/adapters/shared_preferences_storage.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';

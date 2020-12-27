@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/handlers/utils_handler.dart';
 import 'package:mockito/mockito.dart';
@@ -17,20 +18,17 @@ void main() {
 
     test('that `randomString` works.', () async {
       when(client.get(any, queryParameters: anyNamed('queryParameters')))
-          .thenAnswer((realInvocation) async =>
-              Response(data: {'data': 'some-string'}));
+          .thenAnswer((realInvocation) async => Response(data: {'data': 'some-string'}));
 
       final response = await utils.randomString();
 
       expect(response, isA<String>());
-      verify(client.get('/utils/random/string',
-          queryParameters: {'length': 32})).called(1);
+      verify(client.get('/utils/random/string', queryParameters: {'length': 32})).called(1);
     });
 
     test('that user can change `randomString` length.', () async {
       when(client.get(any, queryParameters: anyNamed('queryParameters')))
-          .thenAnswer((realInvocation) async =>
-              Response(data: {'data': 'some-string'}));
+          .thenAnswer((realInvocation) async => Response(data: {'data': 'some-string'}));
 
       final response = await utils.randomString(5);
 
@@ -41,8 +39,8 @@ void main() {
     });
 
     test('that `generateHash` works.', () async {
-      when(client.post(any, data: anyNamed('data'))).thenAnswer(
-          (realInvocation) async => Response(data: {'data': 'some-hash'}));
+      when(client.post(any, data: anyNamed('data')))
+          .thenAnswer((realInvocation) async => Response(data: {'data': 'some-hash'}));
 
       var response = await utils.generateHash('some-string');
 
