@@ -2,10 +2,13 @@ import 'package:directus/src/data_classes/directus_storage.dart';
 
 import '_auth_response.dart';
 
-const accessTokenField = 'access_token';
-const refreshTokenField = 'refresh_token';
-const accessTokenDurationField = 'access_token_duration';
-const expiresAtField = 'access_token_expires_at';
+/// Field names that are used to store data
+class _Fields {
+  static const accessToken = 'access_token';
+  static const refreshToken = 'refresh_token';
+  static const accessTokenTtlInSeconds = 'access_token_ttl_in_seconds';
+  static const expiresAt = 'access_token_expires_at';
+}
 
 class AuthStorage {
   DirectusStorage storage;
@@ -15,28 +18,25 @@ class AuthStorage {
   /// Store login data to cold storage, and set it in memory.
   ///
   /// This method is used after fetching new data from server,
-  /// this will store data to both cold storage and memory.
-  /// For checking if the user is logged in, use [loginData].
   Future<void> storeLoginData(AuthResponse data) async {
-    await storage.setItem(accessTokenField, data.accessToken);
-    await storage.setItem(accessTokenDurationField, data.accessTokenMsValid);
-    await storage.setItem(
-        expiresAtField, data.accessTokenExpiresAt.millisecondsSinceEpoch);
-    await storage.setItem(refreshTokenField, data.refreshToken);
+    await storage.setItem(_Fields.accessToken, data.accessToken);
+    await storage.setItem(_Fields.accessTokenTtlInSeconds, data.accessTokenTtlInSeconds);
+    await storage.setItem(_Fields.expiresAt, data.accessTokenExpiresAt.toString());
+    await storage.setItem(_Fields.refreshToken, data.refreshToken);
   }
 
   /// Store login data to both cold storage and in memory.
   ///
   /// This method should only be called in [init], this will fetch data
-  /// from cold storage, and if exist set it as [loginData].
+  /// from cold storage and return it.
   Future<AuthResponse?> getLoginData() async {
-    final accessToken = await storage.getItem(accessTokenField);
-    final accessTokenMsValid = await storage.getItem(accessTokenDurationField);
-    final expiresAt = await storage.getItem(expiresAtField);
-    final refreshToken = await storage.getItem(refreshTokenField);
+    final accessToken = await storage.getItem(_Fields.accessToken);
+    final accessTokenMsValid = await storage.getItem(_Fields.accessTokenTtlInSeconds);
+    final expiresAtString = await storage.getItem(_Fields.expiresAt);
+    final refreshToken = await storage.getItem(_Fields.refreshToken);
 
     if (accessToken == null ||
-        expiresAt == null ||
+        expiresAtString == null ||
         accessTokenMsValid == null ||
         refreshToken == null) {
       return null;
@@ -44,8 +44,8 @@ class AuthStorage {
 
     final loginData = AuthResponse(
       accessToken: accessToken,
-      accessTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(expiresAt),
-      accessTokenMsValid: accessTokenMsValid,
+      accessTokenExpiresAt: DateTime.parse(expiresAtString),
+      accessTokenTtlInSeconds: accessTokenMsValid,
       refreshToken: refreshToken,
     );
 

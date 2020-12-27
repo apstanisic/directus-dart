@@ -25,15 +25,13 @@ void main() {
       storage = MockDirectusStorage();
       client = MockDio();
       tokenClient = MockDio();
-      auth = AuthHandler(
-          client: client, storage: storage, tokenClient: tokenClient);
+      auth = AuthHandler(client: client, storage: storage, tokenClient: tokenClient);
       authStorage = MockAuthStorage();
       await auth.init();
     });
 
     test('logout', () async {
-      when(client.post('/auth/logout'))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post('/auth/logout')).thenAnswer((realInvocation) async => Response());
 
       auth.loginData = getAuthRespones();
 
@@ -45,8 +43,7 @@ void main() {
     });
 
     test('init', () async {
-      when(storage.getItem(any as dynamic))
-          .thenAnswer((realInvocation) => null);
+      when(storage.getItem(any as dynamic)).thenAnswer((realInvocation) => null);
       final auth = AuthHandler(client: client, storage: storage);
       await auth.init();
       expect(auth.loginData, isNull);
@@ -55,8 +52,7 @@ void main() {
     });
 
     test('Init properties when user is logged in', () async {
-      when(authStorage.getLoginData())
-          .thenAnswer((realInvocation) async => getAuthRespones());
+      when(authStorage.getLoginData()).thenAnswer((realInvocation) async => getAuthRespones());
 
       final auth = AuthHandler(client: client, storage: storage);
       auth.storage = authStorage;
@@ -88,8 +84,7 @@ void main() {
       expect(auth.currentUser, isNull);
       expect(auth.tfa, isNull);
 
-      await auth.login(
-          email: 'email@email', password: 'password1', otp: 'otp1');
+      await auth.login(email: 'email@email', password: 'password1', otp: 'otp1');
 
       expect(auth.loginData, isA<AuthResponse>());
       expect(auth.currentUser, isA<CurrentUser>());
@@ -105,7 +100,7 @@ void main() {
       })).called(1);
     });
 
-    test('Do not get new access token if user is not logge in.', () async {
+    test('Do not get new access token if user is not logged in.', () async {
       auth.loginData = null;
       await auth.getNewTokenInInterceptor(RequestOptions());
 
@@ -113,33 +108,29 @@ void main() {
       //
     });
 
-    test('Do not get new access token if AT is valid for more then 5 seconds.',
-        () async {
+    test('Do not get new access token if AT is valid for more then 5 seconds.', () async {
       auth.loginData = getAuthRespones();
-      auth.loginData?.accessTokenExpiresAt =
-          DateTime.now().add(Duration(seconds: 10));
+      auth.loginData?.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 10));
       await auth.getNewTokenInInterceptor(RequestOptions());
 
       verifyZeroInteractions(tokenClient);
       //
     });
 
-    test('Get new access token if AT is valid for less then 5 seconds.',
-        () async {
+    test('Get new access token if AT is valid for less then 5 seconds.', () async {
       when(tokenClient.post(any, data: anyNamed('data'))).thenAnswer(
         (realInvocation) async => Response(data: {
           'data': {
             'refresh_token': 'rt',
             'access_token': 'at',
-            'expires': 100,
+            'expires': 2000,
           }
         }),
       );
       auth.storage = authStorage;
       final loginData = getAuthRespones();
       auth.loginData = loginData;
-      auth.loginData!.accessTokenExpiresAt =
-          DateTime.now().add(Duration(seconds: 4));
+      auth.loginData!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));
       await auth.getNewTokenInInterceptor(RequestOptions());
 
       verify(tokenClient.post('/auth/refresh', data: {

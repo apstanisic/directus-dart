@@ -4,7 +4,7 @@ AuthResponse getAuthRespones() {
   return AuthResponse(
     accessToken: 'accessToken',
     accessTokenExpiresAt: DateTime.now(),
-    accessTokenMsValid: 1000,
+    accessTokenTtlInSeconds: 1000,
     refreshToken: 'refreshToken',
   );
 }
