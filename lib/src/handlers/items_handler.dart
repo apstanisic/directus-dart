@@ -1,8 +1,10 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/base_query.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
 
 /// Handler for fetching data from Directus API
+///
 /// Provides CRUD API
 class ItemsHandler {
   /// HTTP Client
@@ -19,9 +21,15 @@ class ItemsHandler {
 
   /// Get item by ID
   ///
-  /// [id] is [String] or [int], but Dart does not allow union types
-  Future<DirectusResponse<Map>> readOne(String id) async {
-    return DirectusResponse.fromRequest<Map>(() => client.get('$_endpoint/$id'));
+  /// [id] is [String] or [int], but Dart does not allow union types.
+  /// You can pass optional query that can be to get additional data.
+  Future<DirectusResponse<Map>> readOne(String id, {BaseQuery? query}) async {
+    return DirectusResponse.fromRequest<Map>(
+      () => client.get(
+        '$_endpoint/$id',
+        queryParameters: query?.toMap(),
+      ),
+    );
   }
 
   /// Get many items

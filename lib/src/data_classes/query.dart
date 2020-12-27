@@ -1,3 +1,4 @@
+import 'base_query.dart';
 import 'data_classes.dart';
 
 /// All options that can be passed to [DirectusSdk.readOne], and [DirectusSdk.readMany].
@@ -16,23 +17,7 @@ import 'data_classes.dart';
 /// );
 ///
 /// ```
-class Query {
-  /// List of all fields that should be returned.
-  ///
-  /// If value is null, server will default to `['*']`. You can do joins by
-  /// calling fields with `.*` after column name.
-  /// For example `['*', 'user_id.*']` will get all data from current item, and join
-  /// `user_id` field with proper table, and get all data.
-  ///
-  /// Example:
-  /// ```dart
-  /// fields = ['*'];
-  /// fields = ['id', 'title'];
-  /// fields = ['id', 'user.*'];
-  /// ```
-  /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/fields.md)
-  List<String>? fields;
-
+class Query extends BaseQuery {
   /// List of fields used to sort the fetched items.
   ///
   /// It's sorted in orded in which columns are provided.
@@ -77,30 +62,20 @@ class Query {
   /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/offset.md)
   int? offset;
 
-  /// [deep] is used to apply any of the other query params to nested data sets.
-  ///
-  ///```dart
-  /// deep = {
-  ///   'favorites': Query(limit: 5)
-  /// };
-  ///
-  ///```
-  /// [Additional info](https://github.com/directus/directus/discussions/3424)
-  Map<String, Query>? deep;
-
   /// Constructor for query. All fields are optional.
   Query({
-    this.deep,
-    this.fields,
     this.filter,
     this.limit,
     this.offset,
     this.sort,
-  });
+    Map<String, Query>? deep,
+    List<String>? fields,
+  }) : super(deep: deep, fields: fields);
 
   /// Convert [Query] to [Map] so it can be passed to Dio for request.
   ///
   /// Fields where value is not set, will not be sent.
+  @override
   Map<String, dynamic> toMap() {
     return {
       'filter': filter?.map((field, value) => value.toMapEntry(field)),
