@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:directus/src/data_classes/response.dart';
+import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/handlers/auth/_current_user.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';

@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 import '../mock/mock_dio.dart';
 
 void main() {
-  test('PermissionsHandler have all methods of ItemsHandler', () async {
+  test('that PermissionsHandler extends ItemsHandler.', () async {
     final permissions = PermissionsHandler(client: MockDio());
 
     expect(permissions, isA<ItemsHandler>());

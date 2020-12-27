@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/query.dart';
-import 'package:directus/src/data_classes/response.dart';
+import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/handlers/activity_handler.dart';
 import 'package:directus/src/handlers/items_handler.dart';
 import 'package:mockito/mockito.dart';
@@ -25,68 +25,62 @@ void main() {
       expect(activity.handler, isA<ItemsHandler>());
     });
 
-    test('readOne', () async {
+    test('that `readOne` works.', () async {
       activity.handler = handler;
-      when(handler.readOne('key')).thenAnswer(
-        (realInvocation) async =>
-            DirectusResponse(Response(data: {'data': {}})),
-      );
+      when(handler.readOne(any as dynamic))
+          .thenAnswer((realInvocation) async => DirectusResponse.manually({}));
 
       final response = await activity.readOne('key');
+
       expect(response.data, {});
       verify(handler.readOne('key')).called(1);
     });
 
-    test('readMany', () async {
+    test('that `readMany` works.', () async {
       activity.handler = handler;
-      when(handler.readMany(query: anyNamed('query'))).thenAnswer(
-        (realInvocation) async => DirectusResponse(Response(data: {
-          'data': [{}]
-        })),
-      );
+      when(handler.readMany(query: anyNamed('query')))
+          .thenAnswer((realInvocation) async => DirectusResponse.manually([{}]));
 
       final query = Query(limit: 5, offset: 5);
-
       final response = await activity.readMany(query: query);
+
       expect(response.data, [{}]);
       verify(handler.readMany(query: query)).called(1);
     });
 
-    test('createComment', () async {
-      when(client.post(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': {'id': 5}
-        }),
-      );
+    test('that `createComment` works', () async {
+      when(client.post(any, data: anyNamed('data')))
+          .thenAnswer((realInvocation) async => Response(data: {
+                'data': {'id': 5}
+              }));
 
       final response = await activity.createComment(
-          collection: 'col', comment: 'comm', itemId: '5');
-      expect(response.data, {'id': 5});
-
-      verify(client.post('/activity/comments',
-              data: {'collection': 'col', 'comment': 'comm', 'item': '5'}))
-          .called(1);
-    });
-
-    test('updateComment', () async {
-      when(client.patch(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {'data': {}}),
+        collection: 'col',
+        comment: 'comm',
+        itemId: '5',
       );
 
-      final response =
-          await activity.updateComment(id: 'key', comment: 'newComment');
-      expect(response.data, {});
-
-      verify(client.patch('/activity/comments/key',
-          data: {'comment': 'newComment'})).called(1);
+      expect(response.data, {'id': 5});
+      verify(client.post('/activity/comments',
+          data: {'collection': 'col', 'comment': 'comm', 'item': '5'})).called(1);
     });
 
-    test('deleteComment', () async {
+    test('that `updateComment` works.', () async {
+      when(client.patch(any, data: anyNamed('data')))
+          .thenAnswer((realInvocation) async => Response(data: {'data': {}}));
+
+      final response = await activity.updateComment(id: 'key', comment: 'newComment');
+      expect(response.data, {});
+
+      verify(client.patch('/activity/comments/key', data: {'comment': 'newComment'})).called(1);
+    });
+
+    test('that `deleteComment` works.', () async {
       when(client.delete(any)).thenAnswer((realInvocation) async => Response());
 
-      final response = await activity.deleteComment('key');
+      await activity.deleteComment('some-id');
 
-      verify(client.delete('/activity/comments/key')).called(1);
+      verify(client.delete('/activity/comments/some-id')).called(1);
     });
   });
 }

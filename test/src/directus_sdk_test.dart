@@ -19,39 +19,41 @@ void main() {
       sdk = DirectusSdk('url', client: client, storage: storage);
       await sdk.init();
     });
-    test('SDK is succesfully created.', () async {
-      expect(sdk.url, '');
+
+    test('that SDK is succesfully created.', () async {
+      expect(sdk, isA<DirectusSdk>());
     });
 
-    test('Create Dio client if only url is passed.', () {
-      final newClient = MockDio();
+    test('that client will be created if one isn\'t provided.', () {
       sdk = DirectusSdk('url', storage: storage);
       expect(sdk.client, isA<Dio>());
+    });
 
+    test('that sdk will use provided client.', () {
+      final newClient = MockDio();
       sdk = DirectusSdk('url', storage: storage, client: newClient);
       expect(sdk.client, newClient);
     });
 
-    test('Set url as base url in client.', () {
+    test('that settings url sets base url for Dio.', () {
       final url = 'http://localhost:8055';
       final sdk = DirectusSdk(url, storage: storage);
 
       expect(sdk.client.options.baseUrl, url);
+      expect(sdk.url, url);
     });
 
-    test('Change url with setter.', () {
+    test('that url can be changed with setter.', () {
       final url = 'http://localhost:8055';
       final sdk = DirectusSdk(url, storage: storage);
-      expect(sdk.client.options.baseUrl, url);
 
       final newUrl = 'http://example.com';
       sdk.url = newUrl;
       expect(sdk.client.options.baseUrl, newUrl);
+      expect(sdk.url, newUrl);
     });
 
-    test('Throws error if sdk is not initialized before using auth', () {});
-
-    test('Getters return correct handler', () {
+    test('that getters return correct handlers.', () {
       expect(sdk.activity, isA<ActivityHandler>());
       expect(sdk.collections, isA<CollectionsHandler>());
       expect(sdk.custom, isA<Dio>());
@@ -70,7 +72,7 @@ void main() {
       expect(sdk.utils, isA<UtilsHandler>());
     });
 
-    test('items throws if collection starts with directus', () {
+    test('that items throws if collection starts with `directus`.', () {
       expect(() => sdk.items('directus'), throwsException);
       expect(sdk.items('some_directus'), isA<ItemsHandler>());
     });

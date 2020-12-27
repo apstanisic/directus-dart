@@ -15,13 +15,14 @@ void main() {
       users = UsersHandler(client: client);
     });
 
-    test('PresetsHandler have all methods of ItemsHandler', () async {
-      final presets = UsersHandler(client: MockDio());
+    test('that UsersHandler extends  ItemsHandler.', () async {
+      final users = UsersHandler(client: MockDio());
 
-      expect(presets, isA<ItemsHandler>());
+      expect(users, isA<ItemsHandler>());
     });
-    test('invite', () async {
-      when(client.post('/users/invite', data: anyNamed('data')))
+
+    test('that `invite` works.', () async {
+      when(client.post(any, data: anyNamed('data')))
           .thenAnswer((realInvocation) async => Response());
 
       await users.invite(email: 'test@email.com', roleId: 'some-uuid');
@@ -32,24 +33,21 @@ void main() {
       )).called(1);
     });
 
-    test('inviteMany', () async {
-      when(client.post('/users/invite', data: anyNamed('data')))
+    test('that `inviteMany` works.', () async {
+      when(client.post(any, data: anyNamed('data')))
           .thenAnswer((realInvocation) async => Response());
 
       await users.inviteMany(
           emails: ['test@example.com', 'test2@example.com'], role: 'some-uuid');
 
-      verify(client.post(
-        '/users/invite',
-        data: {
-          'email': ['test@example.com', 'test2@example.com'],
-          'role': 'some-uuid'
-        },
-      )).called(1);
+      verify(client.post('/users/invite', data: {
+        'email': ['test@example.com', 'test2@example.com'],
+        'role': 'some-uuid'
+      })).called(1);
     });
 
-    test('invite', () async {
-      when(client.post('/users/invite/accept', data: anyNamed('data')))
+    test('that `acceptInvite` works.', () async {
+      when(client.post(any, data: anyNamed('data')))
           .thenAnswer((realInvocation) async => Response());
 
       await users.acceptInvite(password: 'some-password', token: 'some-token');

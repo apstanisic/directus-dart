@@ -6,7 +6,7 @@ import '../mock/mock_dio.dart';
 import '../mock/mock_directus_storage.dart';
 
 void main() {
-  test('handlers.dart exports all handlers', () async {
+  test('that `handlers.dart` exports all handlers.', () async {
     final client = MockDio();
     final storage = MockDirectusStorage();
 

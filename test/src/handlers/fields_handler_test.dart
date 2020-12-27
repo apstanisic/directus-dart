@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 import '../mock/mock_dio.dart';
 
 void main() {
-  test('FieldsHandler have all methods of ItemsHandler', () async {
+  test('that FieldsHandler extends ItemsHandler.', () async {
     final fields = FieldsHandler(client: MockDio());
 
     expect(fields, isA<ItemsHandler>());

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
 
 import 'handlers/handlers.dart';
@@ -27,7 +28,11 @@ class DirectusSdk {
   /// Items
   ItemsHandler items(String collection) {
     if (collection.startsWith('directus')) {
-      throw Exception('You can\t read $collection collection directly.');
+      throw DirectusError(
+        message: 'You can\t read $collection collection directly.',
+        code: 1000,
+        codeMessage: 'You can\t read $collection collection directly.',
+      );
     }
     return ItemsHandler(collection, client: client);
   }

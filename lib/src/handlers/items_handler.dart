@@ -20,7 +20,7 @@ class ItemsHandler {
   ///
   /// [id] is [String] or [int], but Dart does not allow union types
   Future<DirectusResponse<Map>> readOne(String id) async {
-    return DirectusResponse.fromDio<Map>(() => client.get('$_endpoint/$id'));
+    return DirectusResponse.fromRequest<Map>(() => client.get('$_endpoint/$id'));
   }
 
   /// Get many items
@@ -36,7 +36,7 @@ class ItemsHandler {
   /// ));
   /// ```
   Future<DirectusResponse<List<Map>>> readMany({Query? query}) async {
-    return DirectusResponse.fromDio(
+    return DirectusResponse.fromRequest(
       () => client.get(
         '$_endpoint',
         queryParameters: query?.toMap(),
@@ -50,8 +50,7 @@ class ItemsHandler {
   /// await items.createOne({'name': 'Test'});
   /// ```
   Future<DirectusResponse<Map>> createOne(Map data) async {
-    return DirectusResponse.fromDio(
-        () => client.post('$_endpoint', data: data));
+    return DirectusResponse.fromRequest(() => client.post('$_endpoint', data: data));
   }
 
   /// Create many items
@@ -60,8 +59,7 @@ class ItemsHandler {
   /// await items.createMany([{'name': 'Test'}, {'name': 'Test Two'}]);
   /// ```
   Future<DirectusResponse<List<Map>>> createMany(List<Map> data) async {
-    return DirectusResponse.fromDio(
-        () => client.post('$_endpoint', data: data));
+    return DirectusResponse.fromRequest(() => client.post('$_endpoint', data: data));
   }
 
   /// Update single item
@@ -69,10 +67,8 @@ class ItemsHandler {
   /// ```dart
   /// await items.updateOne(id: '5', data: {'name': 'Test'});
   /// ```
-  Future<DirectusResponse<Map>> updateOne(
-      {required Map data, required String id}) async {
-    return DirectusResponse.fromDio(
-        () => client.patch('$_endpoint/$id', data: data));
+  Future<DirectusResponse<Map>> updateOne({required Map data, required String id}) async {
+    return DirectusResponse.fromRequest(() => client.patch('$_endpoint/$id', data: data));
   }
 
   /// Update many items
@@ -82,7 +78,7 @@ class ItemsHandler {
   /// ```
   Future<DirectusResponse<List<Map>>> updateMany(
       {required List<String> ids, required Map data}) async {
-    return DirectusResponse.fromDio(
+    return DirectusResponse.fromRequest(
       () => client.patch(
         '$_endpoint/${ids.join(',')}',
         data: data,
@@ -96,7 +92,11 @@ class ItemsHandler {
   /// await items.deleteOne('5');
   /// ```
   Future<void> deleteOne(String id) async {
-    await client.delete('$_endpoint/$id');
+    try {
+      await client.delete('$_endpoint/$id');
+    } catch (e) {
+      throw DirectusError.fromDio(e);
+    }
   }
 
   /// Delete many items
@@ -105,7 +105,11 @@ class ItemsHandler {
   /// await items.deleteMany(['1', '2']);
   /// ```
   Future<void> deleteMany(List<String> ids) async {
-    final csvKeys = ids.join(',');
-    await client.delete('$_endpoint/$csvKeys');
+    try {
+      final csvKeys = ids.join(',');
+      await client.delete('$_endpoint/$csvKeys');
+    } catch (e) {
+      throw DirectusError.fromDio(e);
+    }
   }
 }

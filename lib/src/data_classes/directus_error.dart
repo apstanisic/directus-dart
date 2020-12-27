@@ -3,32 +3,34 @@ import 'package:dio/dio.dart';
 /// Error that SDK throws when API request returns 400+ status code.
 ///
 ///
-class DirectusError {
+class DirectusError implements Exception {
   /// Directus message.
   String message;
 
   /// HTTP message.
-  String codeMessage;
+  String? codeMessage;
 
-  /// HTTP code.
+  /// HTTP code. If there is non HTTP error [code] will be 1000
   int code;
 
-  DirectusError(
-      {required this.message, required this.code, required this.codeMessage});
+  DirectusError({required this.message, required this.code, required this.codeMessage});
 
   factory DirectusError.fromDio(dynamic error) {
     if (!(error is DioError)) {
       return DirectusError(
         message: 'Error should come from Dio.',
         code: 500,
-        codeMessage: 'Internal server error.',
+        codeMessage: 'Internal server error',
       );
     }
     // final Map<String, List<Map<String, dynamic>?>?>? apiErrors = error.response.data;
-    final apiErrors = Map.from(error.response.data);
-    final errorMessage =
-        apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
-    // final errorMessage = apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
+    var errorMessage;
+    try {
+      final apiErrors = Map.from(error.response.data);
+      errorMessage = apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
+    } catch (e) {
+      errorMessage = 'Problem with Directus.';
+    }
 
     return DirectusError(
       message: errorMessage.toString(),

@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 import '../mock/mock_dio.dart';
 
 void main() {
-  test('SettingsHandler have all methods of ItemsHandler', () async {
+  test('that SettingsHandler extends ItemsHandler.', () async {
     final settings = SettingsHandler(client: MockDio());
 
     expect(settings, isA<ItemsHandler>());

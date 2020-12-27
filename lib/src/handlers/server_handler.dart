@@ -8,17 +8,19 @@ class ServerHandler {
   ServerHandler({required this.client});
 
   Future<String> ping() async {
-    await client.get('/server/ping');
-    return 'pong';
+    try {
+      await client.get('/server/ping');
+      return 'pong';
+    } catch (e) {
+      throw DirectusError.fromDio(e);
+    }
   }
 
   Future<DirectusResponse<Map>> info() async {
-    final response = await client.get('/server/info');
-    return DirectusResponse(response);
+    return DirectusResponse.fromRequest(() => client.get('/server/info'));
   }
 
   Future<DirectusResponse<Map>> oas() async {
-    final response = await client.get('/server/specs/oas');
-    return DirectusResponse(response);
+    return DirectusResponse.fromRequest(() => client.get('/server/specs/oas'));
   }
 }
