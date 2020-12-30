@@ -2,16 +2,25 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
+import 'package:meta/meta.dart';
 
 import 'handlers/handlers.dart';
 
 class DirectusSdk {
+  /// [Dio] client used for HTTP requests.
+  @protected
+  @visibleForTesting
   final Dio client;
-  late DirectusStorage storage;
 
-  DirectusSdk(String url, {required this.storage, Dio? client})
-      : client = client ?? Dio(BaseOptions(baseUrl: url));
+  /// Storage used for persisting data.
+  late final DirectusStorage _storage;
 
+  /// Constructor with all provided services.
+  DirectusSdk(String url, {required DirectusStorage storage, Dio? client})
+      : _storage = storage,
+        client = client ?? Dio(BaseOptions(baseUrl: url));
+
+  /// Initialize SDK.
   Future<DirectusSdk> init() async {
     await auth.init();
     return this;
@@ -24,7 +33,7 @@ class DirectusSdk {
   set url(String url) => client.options.baseUrl = url;
 
   /// Auth
-  late AuthHandler auth = AuthHandler(client: client, storage: storage);
+  late AuthHandler auth = AuthHandler(client: client, storage: _storage);
 
   /// Items
   ItemsHandler items(String collection) {
@@ -32,7 +41,6 @@ class DirectusSdk {
       throw DirectusError(
         message: 'You can\t read $collection collection directly.',
         code: 1000,
-        codeMessage: 'You can\t read $collection collection directly.',
       );
     }
     return ItemsHandler(collection, client: client);

@@ -1,7 +1,7 @@
-import 'base_query.dart';
+import 'one_query.dart';
 import 'data_classes.dart';
 
-/// All options that can be passed to [DirectusSdk.readOne], and [DirectusSdk.readMany].
+/// All options that can be passed to and [ItemsHandler.readMany].
 ///
 /// Every field is optional.
 ///
@@ -17,7 +17,7 @@ import 'data_classes.dart';
 /// );
 ///
 /// ```
-class Query extends BaseQuery {
+class Query extends OneQuery {
   /// List of fields used to sort the fetched items.
   ///
   /// It's sorted in orded in which columns are provided.
@@ -27,26 +27,6 @@ class Query extends BaseQuery {
   /// ```
   /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/sort.md)
   List<String>? sort;
-
-  /// Object used for filtering items from collection.
-  ///
-  /// Provide [Map] in which key represent column name, and value is [Filter].
-  /// [Filter] provides named constructor for every comparisson available.
-  /// If you use `OR` or `AND`, [Map]'s key will be ignored.
-  /// ```dart
-  /// filter = {
-  ///   'name': Filter.eq('Aleksandar'),
-  ///   'email': Filter.contains('@gmail.com');
-  ///   'favorite_food': Filter.notNull(),
-  ///   'and': Filter.and([
-  ///     {'age': Filter.gte(20)},
-  ///     {'age': Filter.lte(70)},
-  ///   ]),
-  /// };
-  /// ```
-  ///
-  /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/filter.md)
-  Map<String, Filter>? filter;
 
   /// Limit amount of items to be returned.
   ///
@@ -64,7 +44,6 @@ class Query extends BaseQuery {
 
   /// Constructor for query. All fields are optional.
   Query({
-    this.filter,
     this.limit,
     this.offset,
     this.sort,
@@ -74,11 +53,13 @@ class Query extends BaseQuery {
 
   /// Convert [Query] to [Map] so it can be passed to Dio for request.
   ///
+  /// It accepts optional filter param that can be added to query to be sent
+  /// with. [Filters] have seperate class and should be passed seperatly in methods.
   /// Fields where value is not set, will not be sent.
   @override
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({Filters? filters}) {
     return {
-      'filter': filter?.map((field, value) => value.toMapEntry(field)),
+      'filter': filters,
       'fields': fields?.join(','),
       'limit': limit,
       'offset': offset,

@@ -91,13 +91,11 @@ class Filter {
       : comparisson = '_nbetween',
         value = [from, to];
 
-  List<Map<String, dynamic>> filterListToMapList(
-      List<Map<String, Filter>> filters) {
+  List<Map<String, dynamic>> filterListToMapList(List<Map<String, Filter>> filters) {
     // For every item in List
     // Convert value from Filter to Map
     return filters
-        .map((filterMap) =>
-            filterMap.map((field, value) => value.toMapEntry(field)))
+        .map((filterMap) => filterMap.map((field, value) => value.toMapEntry(field)))
         .toList();
   }
 
@@ -109,3 +107,9 @@ class Filter {
     return MapEntry(field, {comparisson: value});
   }
 }
+
+/// Needed because of Dart limitation.
+mixin _Filter {}
+
+/// Alias for [Filters]
+class F = Filter with _Filter;

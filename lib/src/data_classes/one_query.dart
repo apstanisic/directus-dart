@@ -1,8 +1,11 @@
 import 'data_classes.dart';
 
-/// This query can be used for `readOne` or `readMany` methods.
-class BaseQuery {
-  BaseQuery({this.deep, this.fields});
+/// Query that can be used when fetching data to specify needed data.
+///
+/// This query can be used for both [ItemsHandler.readOne] and [ItemsHandler.readMany] methods,
+/// but [Query] is offering more options for `readMany`.
+class OneQuery {
+  OneQuery({this.deep, this.fields});
 
   /// List of all fields that should be returned.
   ///
@@ -31,7 +34,7 @@ class BaseQuery {
   /// [Additional info](https://github.com/directus/directus/discussions/3424)
   Map<String, Query>? deep;
 
-  /// Convert [BaseQuery] to [Map] so it can be sent in HTTP request.
+  /// Convert [OneQuery] to [Map] so it can be sent in HTTP request.
   Map<String, dynamic> toMap() {
     return {
       'fields': fields?.join(','),

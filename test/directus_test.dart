@@ -1,8 +1,6 @@
 import 'package:directus/directus.dart';
 import 'package:directus/src/directus_sdk.dart';
 import 'package:mockito/mockito.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test/test.dart';
 
 import 'src/mock/mock_directus_storage.dart';
@@ -27,10 +25,10 @@ void main() {
       verify(storage.getItem(any as dynamic)).called(greaterThan(0));
     });
 
-    test('that user default storage will be used if user does not provide one.', () async {
-      SharedPreferences.setMockInitialValues({});
-      final sdk = await Directus('url').init();
-      expect(sdk.storage, isA<DirectusStorage>());
-    });
+    // test('that user default storage will be used if user does not provide one.', () async {
+    //   SharedPreferences.setMockInitialValues({});
+    //   final sdk = await Directus('url').init();
+    //   expect(sdk.storage, isA<DirectusStorage>());
+    // });
   });
 }

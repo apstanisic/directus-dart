@@ -10,13 +10,11 @@ class ActivityHandler {
   ActivityHandler({required this.client})
       : handler = ItemsHandler('directus_activity', client: client);
 
-  Future<DirectusResponse<Map>> readOne(String key) async {
-    return handler.readOne(key);
-  }
+  /// Same method as [ItemsHandler.readOne]
+  late final readOne = handler.readOne;
 
-  Future<DirectusResponse<List<Map>>> readMany({Query? query}) async {
-    return handler.readMany(query: query);
-  }
+  /// Same method as [ItemsHandler.readMany]
+  late final readMany = handler.readMany;
 
   /// Create comment
   Future<DirectusResponse<Map>> createComment({

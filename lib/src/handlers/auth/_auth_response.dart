@@ -43,7 +43,6 @@ class AuthResponse {
       throw DirectusError(
         message: 'Login response is invalid.',
         code: 1000,
-        codeMessage: 'Login response is invalid.',
       );
     }
     // accessTokenTtlInMs

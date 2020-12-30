@@ -1,10 +1,11 @@
+import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/data_classes/filter.dart';
 import 'package:directus/src/data_classes/query.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('Filter constructors set correct values', () async {
-    final query = Query(filter: {
+    final filters = Filters({
       'zero': Filter('value'),
       'one': Filter.eq('value'),
       'two': Filter.notEq('value'),
@@ -24,29 +25,29 @@ void main() {
       'sixteen': Filter.notIn(['value']),
     }).toMap();
 
-    expect(query['filter']['zero'], {'_eq': 'value'});
-    expect(query['filter']['one'], {'_eq': 'value'});
-    expect(query['filter']['two'], {'_neq': 'value'});
-    expect(query['filter']['three'], {'_gt': 'value'});
-    expect(query['filter']['four'], {'_gte': 'value'});
-    expect(query['filter']['five'], {'_lt': 'value'});
-    expect(query['filter']['six'], {'_lte': 'value'});
-    expect(query['filter']['seven'], {'_contains': 'value'});
-    expect(query['filter']['eight'], {'_ncontains': 'value'});
-    expect(query['filter']['nine'], {'_empty': true});
-    expect(query['filter']['ten'], {'_nempty': true});
-    expect(query['filter']['eleven'], {'_null': true});
-    expect(query['filter']['twelve'], {'_nnull': true});
-    expect(query['filter']['thirteen'], {
+    expect(filters['zero'], {'_eq': 'value'});
+    expect(filters['one'], {'_eq': 'value'});
+    expect(filters['two'], {'_neq': 'value'});
+    expect(filters['three'], {'_gt': 'value'});
+    expect(filters['four'], {'_gte': 'value'});
+    expect(filters['five'], {'_lt': 'value'});
+    expect(filters['six'], {'_lte': 'value'});
+    expect(filters['seven'], {'_contains': 'value'});
+    expect(filters['eight'], {'_ncontains': 'value'});
+    expect(filters['nine'], {'_empty': true});
+    expect(filters['ten'], {'_nempty': true});
+    expect(filters['eleven'], {'_null': true});
+    expect(filters['twelve'], {'_nnull': true});
+    expect(filters['thirteen'], {
       '_between': [1, 5]
     });
-    expect(query['filter']['fourteen'], {
+    expect(filters['fourteen'], {
       '_nbetween': [2, 6]
     });
-    expect(query['filter']['fiveteen'], {
+    expect(filters['fiveteen'], {
       '_in': ['value']
     });
-    expect(query['filter']['sixteen'], {
+    expect(filters['sixteen'], {
       '_nin': ['value']
     });
   });

@@ -31,7 +31,6 @@ class SharedPreferencesStorage extends DirectusStorage {
       throw DirectusError(
         message: 'You can only store strings, numbers and booleans.',
         code: 1000,
-        codeMessage: 'You can only store strings, numbers and booleans.',
       );
     }
   }

@@ -5,27 +5,31 @@ import 'package:dio/dio.dart';
 ///
 ///
 class DirectusError implements Exception {
-  /// Directus message.
-  String message;
+  /// Message explaining error.
+  late final String message;
 
-  /// HTTP message.
-  String? codeMessage;
+  /// HTTP code. If there is non HTTP error (not problem with an API) [code] will be 1000.
+  late final int code;
 
-  /// HTTP code. If there is non HTTP error [code] will be 1000
-  int code;
+  Map<String, dynamic>? additionalInfo;
 
-  DirectusError({required this.message, required this.code, required this.codeMessage});
+  DirectusError({
+    required this.message,
+    required this.code,
+    this.additionalInfo,
+  });
 
-  factory DirectusError.fromDio(dynamic error) {
+  /// Convert [DioError] to [DirectusError].
+  DirectusError.fromDio(dynamic error) {
+    assert(error is DioError, 'This should only be called when Dio throws an error.');
+
     if (!(error is DioError)) {
-      return DirectusError(
-        message: 'Error should come from Dio.',
-        code: 500,
-        codeMessage: 'Internal server error',
-      );
+      message = 'Error should came from Dio.';
+      code = 1000;
     }
-    // final Map<String, List<Map<String, dynamic>?>?>? apiErrors = error.response.data;
+
     var errorMessage;
+
     try {
       final apiErrors = Map.from(error.response.data);
       errorMessage = apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
@@ -33,10 +37,8 @@ class DirectusError implements Exception {
       errorMessage = 'Problem with Directus.';
     }
 
-    return DirectusError(
-      message: errorMessage.toString(),
-      code: error.response.statusCode,
-      codeMessage: error.response.statusMessage,
-    );
+    message = errorMessage.toString();
+    code = error.response.statusCode;
+    additionalInfo = {'codeMessage': error.response.statusMessage, 'response': error.response};
   }
 }

@@ -1,7 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
-
-import '../../directus.dart';
+import 'package:directus/src/data_classes/data_classes.dart';
 
 class ServerHandler {
   Dio client;
