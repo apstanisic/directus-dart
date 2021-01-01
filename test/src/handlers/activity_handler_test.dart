@@ -1,5 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/items/directus_activity.dart';
 import 'package:directus/src/data_classes/query.dart';
 import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/handlers/activity_handler.dart';
@@ -14,12 +15,12 @@ void main() {
   group('ActivityHandler', () {
     late Dio client;
     late ActivityHandler activity;
-    late ItemsHandler handler;
+    late ItemsHandler<DirectusActivity> handler;
 
     setUp(() {
       client = MockDio();
       activity = ActivityHandler(client: client);
-      handler = MockItemHandler();
+      handler = MockItemHandler<DirectusActivity>();
     });
 
     test('handler is set up corectly', () {
@@ -29,23 +30,24 @@ void main() {
     test('that `readOne` works.', () async {
       activity.handler = handler;
       when(handler.readOne(any as dynamic))
-          .thenAnswer((realInvocation) async => DirectusResponse.manually({}));
+          .thenAnswer((realInvocation) async => DirectusResponse.manually(DirectusActivity()));
 
       final response = await activity.readOne('key');
 
-      expect(response.data, {});
+      expect(response.data, isA<DirectusActivity>());
       verify(handler.readOne('key')).called(1);
     });
 
     test('that `readMany` works.', () async {
       activity.handler = handler;
+      final activityItem = DirectusActivity();
       when(handler.readMany(query: anyNamed('query')))
-          .thenAnswer((realInvocation) async => DirectusResponse.manually([{}]));
+          .thenAnswer((realInvocation) async => DirectusListResponse.manually([activityItem]));
 
       final query = Query(limit: 5, offset: 5);
       final response = await activity.readMany(query: query);
 
-      expect(response.data, [{}]);
+      expect(response.data, [activityItem]);
       verify(handler.readMany(query: query)).called(1);
     });
 
@@ -68,10 +70,12 @@ void main() {
 
     test('that `updateComment` works.', () async {
       when(client.patch(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': {}}));
+          .thenAnswer((realInvocation) async => Response(data: {
+                'data': {'hello': 'world'}
+              }));
 
       final response = await activity.updateComment(id: 'key', comment: 'newComment');
-      expect(response.data, {});
+      expect(response.data, {'hello': 'world'});
 
       verify(client.patch('/activity/comments/key', data: {'comment': 'newComment'})).called(1);
     });

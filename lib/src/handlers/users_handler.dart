@@ -1,10 +1,16 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
+import 'package:directus/src/data_classes/items/directus_user.dart';
 import 'package:directus/src/handlers/items_handler.dart';
 
-class UsersHandler extends ItemsHandler {
-  UsersHandler({required Dio client}) : super('directus_users', client: client);
+class UsersHandler extends ItemsHandler<DirectusUser> {
+  UsersHandler({required Dio client})
+      : super(
+          'directus_users',
+          client: client,
+          converter: UserConverter(),
+        );
 
   Future<void> invite({required String email, required String roleId}) async {
     try {

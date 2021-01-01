@@ -2,22 +2,28 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/one_query.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
+import 'package:directus/src/utils/items_converter.dart';
+import 'package:directus/src/utils/map_items_converter.dart';
 import 'package:meta/meta.dart';
 
 /// Handler for fetching data from Directus API
 ///
 /// Provides CRUD API
-class ItemsHandler {
+class ItemsHandler<T> {
   /// HTTP Client
   @protected
   Dio client;
+
+  /// Used to convert object from and to [Map].
+  ItemsConverter converter;
 
   /// Collection endpoint
   /// It's `/items/$collection` for normal collections and `/$collection` for system collection
   final String _endpoint;
 
-  ItemsHandler(String collection, {required Dio client})
+  ItemsHandler(String collection, {required Dio client, ItemsConverter? converter})
       : client = client,
+        converter = converter ?? MapItemsConverter(),
         _endpoint = collection.startsWith('directus_')
             ? '/${collection.substring(9)}'
             : '/items/${collection}';
@@ -27,12 +33,13 @@ class ItemsHandler {
   /// [id] is [String] or [int], but Dart does not allow union types.
   /// You can pass optional query that can be to get additional data.
   /// You can pass optional [OneQuery] for specifying response.
-  Future<DirectusResponse<Map>> readOne(String id, {OneQuery? query}) async {
-    return DirectusResponse.fromRequest<Map>(
+  Future<DirectusResponse<T>> readOne(String id, {OneQuery? query}) async {
+    return DirectusResponse.fromRequest<T>(
       () => client.get(
         '$_endpoint/$id',
         queryParameters: query?.toMap(),
       ),
+      converter: converter,
     );
   }
 
@@ -52,15 +59,16 @@ class ItemsHandler {
   ///   }),
   /// );
   /// ```
-  Future<DirectusResponse<List<Map>>> readMany({
+  Future<DirectusListResponse<T>> readMany({
     Query? query,
     Filters? filters,
   }) async {
-    return DirectusResponse.fromRequest(
+    return DirectusListResponse.fromRequest(
       () => client.get(
         '$_endpoint',
         queryParameters: query?.toMap(filters: filters),
       ),
+      converter: converter,
     );
   }
 
@@ -69,8 +77,12 @@ class ItemsHandler {
   /// ```dart
   /// await items.createOne({'name': 'Test'});
   /// ```
-  Future<DirectusResponse<Map>> createOne(Map data) async {
-    return DirectusResponse.fromRequest(() => client.post(_endpoint, data: data));
+  Future<DirectusResponse<T>> createOne(T data) async {
+    final mapData = converter.toJson(data);
+    return DirectusResponse.fromRequest(
+      () => client.post(_endpoint, data: mapData),
+      converter: converter,
+    );
   }
 
   /// Create many items
@@ -78,8 +90,12 @@ class ItemsHandler {
   /// ```dart
   /// await items.createMany([{'name': 'Test One'}, {'name': 'Test Two'}]);
   /// ```
-  Future<DirectusResponse<List<Map>>> createMany(List<Map> data) async {
-    return DirectusResponse.fromRequest(() => client.post(_endpoint, data: data));
+  Future<DirectusListResponse<T>> createMany(List<T> data) async {
+    final mapData = data.map((item) => converter.toJson(item));
+    return DirectusListResponse.fromRequest<T>(
+      () => client.post(_endpoint, data: mapData),
+      converter: converter,
+    );
   }
 
   /// Update single item
@@ -87,8 +103,12 @@ class ItemsHandler {
   /// ```dart
   /// await items.updateOne(id: '5', data: {'name': 'Test'});
   /// ```
-  Future<DirectusResponse<Map>> updateOne({required Map data, required String id}) async {
-    return DirectusResponse.fromRequest(() => client.patch('$_endpoint/$id', data: data));
+  Future<DirectusResponse<T>> updateOne({required T data, required String id}) async {
+    final mapData = converter.toJson(data);
+    return DirectusResponse.fromRequest(
+      () => client.patch('$_endpoint/$id', data: mapData),
+      converter: converter,
+    );
   }
 
   /// Update many items
@@ -96,34 +116,37 @@ class ItemsHandler {
   /// ```dart
   /// await items.updateMany(ids: ['5', '6', '7'], data: {'name': 'Test'});
   /// ```
-  Future<DirectusResponse<List<Map>>> updateMany(
-      {required List<String> ids, required Map data}) async {
-    if (ids.isEmpty) return DirectusResponse.manually([]);
+  Future<DirectusListResponse<T>> updateMany({required List<String> ids, required T data}) async {
+    if (ids.isEmpty) return DirectusListResponse.manually([]);
 
-    return DirectusResponse.fromRequest(
+    final mapData = converter.toJson(data);
+
+    return DirectusListResponse.fromRequest(
       () => client.patch(
         '$_endpoint/${ids.join(',')}',
-        data: data,
+        data: mapData,
       ),
+      converter: converter,
     );
   }
 
-  /// Update many items
-  ///
-  /// ```dart
-  /// await items.updateMany(ids: ['5', '6', '7'], data: {'name': 'Test'});
-  /// ```
-  @Deprecated('This API is not stabilized, and might be deleted.')
-  Future<DirectusResponse<List<Map>>> updateWhere(
-      {required Filters filters, required Map data}) async {
-    return DirectusResponse.fromRequest(
-      () async {
-        final items = await readMany(filters: filters, query: Query(fields: ['id']));
-        final ids = items.data.map((e) => e['id']).join(',');
-        return client.patch('$_endpoint/${ids}', data: data);
-      },
-    );
-  }
+  // /// Update many items
+  // ///
+  // /// ```dart
+  // /// await items.updateMany(ids: ['5', '6', '7'], data: {'name': 'Test'});
+  // /// ```
+  // @Deprecated('This API is not stabilized, and might be deleted.')
+  // Future<DirectusResponse<List<T>>> updateWhere({required Filters filters, required T data}) async {
+  //   final mapData = converter.toJson(data);
+  //   return DirectusResponse.fromRequest(
+  //     () async {
+  //       final items = await readMany(filters: filters, query: Query(fields: ['id']));
+  //       final ids = items.data.map((e) => e['id']).join(',');
+  //       return client.patch('$_endpoint/${ids}', data: mapData);
+  //     },
+  //     converter: converter,
+  //   );
+  // }
 
   /// Delete item by ID
   ///

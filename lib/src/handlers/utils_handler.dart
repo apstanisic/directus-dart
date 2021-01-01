@@ -9,8 +9,10 @@ class UtilsHandler {
 
   Future<String> randomString([int length = 32]) async {
     try {
-      final response =
-          await client.get('/utils/random/string', queryParameters: {'length': length});
+      final response = await client.get(
+        '/utils/random/string',
+        queryParameters: {'length': length},
+      );
       return DirectusResponse(response).data;
     } catch (e) {
       throw DirectusError.fromDio(e);

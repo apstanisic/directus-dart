@@ -1,0 +1,49 @@
+import 'package:directus/src/utils/items_converter.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'directus_relation.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class DirectusRelation {
+  int? id;
+  String? manyCollection;
+  String? manyField;
+  String? manyPrimary;
+  String? oneCollection;
+  String? oneField;
+  String? onePrimary;
+  String? oneCollectionField;
+  String? oneAllowedCollections;
+  String? junctionField;
+
+  DirectusRelation({
+    this.id,
+    this.manyCollection,
+    this.manyField,
+    this.manyPrimary,
+    this.oneCollection,
+    this.oneField,
+    this.onePrimary,
+    this.oneCollectionField,
+    this.oneAllowedCollections,
+    this.junctionField,
+  });
+
+  /// Used for code generation
+  factory DirectusRelation.fromJson(Map<String, dynamic> json) => _$DirectusRelationFromJson(json);
+
+  /// Used for code generation
+  Map<String, dynamic> toJson() => _$DirectusRelationToJson(this);
+}
+
+class RelationConverter implements ItemsConverter<DirectusRelation> {
+  @override
+  Map<String, dynamic> toJson(data) {
+    return data.toJson();
+  }
+
+  @override
+  DirectusRelation fromJson(Map<String, dynamic> data) {
+    return DirectusRelation.fromJson(data);
+  }
+}

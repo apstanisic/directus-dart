@@ -1,14 +1,19 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
+import 'package:directus/src/data_classes/items/directus_activity.dart';
 import 'package:directus/src/handlers/items_handler.dart';
 
 class ActivityHandler {
   Dio client;
-  ItemsHandler handler;
+  ItemsHandler<DirectusActivity> handler;
 
   ActivityHandler({required this.client})
-      : handler = ItemsHandler('directus_activity', client: client);
+      : handler = ItemsHandler(
+          'directus_activity',
+          client: client,
+          converter: ActivityConverter(),
+        );
 
   /// Same method as [ItemsHandler.readOne]
   late final readOne = handler.readOne;

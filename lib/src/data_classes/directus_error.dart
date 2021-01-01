@@ -21,11 +21,12 @@ class DirectusError implements Exception {
 
   /// Convert [DioError] to [DirectusError].
   DirectusError.fromDio(dynamic error) {
-    assert(error is DioError, 'This should only be called when Dio throws an error.');
+    // assert(error is DioError, 'This should only be called when Dio throws an error.');
 
     if (!(error is DioError)) {
-      message = 'Error should came from Dio.';
+      message = 'Error should come from Dio.';
       code = 1000;
+      return;
     }
 
     var errorMessage;

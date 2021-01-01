@@ -2,6 +2,8 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
+import 'package:directus/src/utils/items_converter.dart';
+import 'package:directus/src/utils/map_items_converter.dart';
 import 'package:meta/meta.dart';
 
 import 'handlers/handlers.dart';
@@ -36,14 +38,18 @@ class DirectusSdk {
   late AuthHandler auth = AuthHandler(client: client, storage: _storage);
 
   /// Items
-  ItemsHandler items(String collection) {
+  ItemsHandler<Map<String, dynamic>> items(String collection) {
+    return typedItems(collection, converter: MapItemsConverter());
+  }
+
+  ItemsHandler<T> typedItems<T>(String collection, {required ItemsConverter<T> converter}) {
     if (collection.startsWith('directus')) {
       throw DirectusError(
         message: 'You can\t read $collection collection directly.',
         code: 1000,
       );
     }
-    return ItemsHandler(collection, client: client);
+    return ItemsHandler<T>(collection, client: client, converter: converter);
   }
 
   /// Activity

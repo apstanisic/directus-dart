@@ -5,7 +5,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('that `DirectusResponse.fromDio` works.', () async {
-    final response = await DirectusResponse.fromRequest(() async => Response(data: {'data': {}}));
+    final response = await DirectusResponse.fromRequest(() async => Response(
+          data: {
+            'data': {'hello': 'world'}
+          },
+        ));
     expect(response, isA<DirectusResponse>());
   });
 

@@ -43,7 +43,7 @@ void main() {
       final query = Query(limit: 5);
       final response = await items.readMany(query: query);
 
-      expect(response, isA<DirectusResponse>());
+      expect(response, isA<DirectusListResponse>());
       expect(response.data, [
         {'id': 1},
         {'id': 2}
@@ -73,7 +73,7 @@ void main() {
 
       final response = await items.createMany([itemData, itemData]);
 
-      expect(response, isA<DirectusResponse>());
+      expect(response, isA<DirectusListResponse>());
       expect(response.data, [itemData, itemData]);
       verify(client.post('/items/test', data: [itemData, itemData])).called(1);
     });
@@ -100,7 +100,7 @@ void main() {
 
       final response = await items.updateMany(data: itemData, ids: ['1', '2']);
 
-      expect(response, isA<DirectusResponse>());
+      expect(response, isA<DirectusListResponse>());
       expect(response.data, [itemData, itemData]);
       verify(client.patch('/items/test/1,2', data: itemData)).called(1);
     });
