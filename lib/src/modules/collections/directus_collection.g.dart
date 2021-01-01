@@ -18,9 +18,8 @@ DirectusCollection _$DirectusCollectionFromJson(Map<String, dynamic> json) {
     note: json['note'] as String?,
     singleton: json['singleton'] as bool?,
     sortField: json['sort_field'] as String?,
-    translations: (json['translations'] as List<dynamic>?)
-        ?.map((e) => e as Map<String, dynamic>)
-        .toList(),
+    translations:
+        (json['translations'] as List<dynamic>?)?.map((e) => e as Map<String, dynamic>).toList(),
     unarchiveValue: json['unarchive_value'] as String?,
   );
 }

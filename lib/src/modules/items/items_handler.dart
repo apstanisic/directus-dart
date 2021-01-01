@@ -27,7 +27,7 @@ class ItemsHandler<T> {
         converter = converter ?? MapItemsConverter(),
         _endpoint = collection.startsWith('directus_')
             ? '/${collection.substring(9)}'
-            : '/items/${collection}';
+            : '/items/$collection';
 
   /// Get item by ID
   ///

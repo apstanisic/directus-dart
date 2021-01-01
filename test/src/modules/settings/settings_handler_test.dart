@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_handler.dart';
 import 'package:directus/src/modules/settings/settings_handler.dart';
 import 'package:test/test.dart';
 

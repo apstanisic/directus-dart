@@ -1,5 +1,4 @@
 import 'package:directus/src/modules/folders/directus_folder.dart';
-import 'package:directus/src/modules/folders/directus_folder.dart';
 import 'package:test/test.dart';
 
 void main() {
