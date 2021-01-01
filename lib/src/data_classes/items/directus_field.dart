@@ -10,16 +10,16 @@ class DirectusField {
   String? field;
   String? special;
   String? interface;
-  Map? options;
+  Map<String, dynamic>? options;
   String? display;
-  Map? displayOptions;
+  Map<String, dynamic>? displayOptions;
   bool? lock;
   bool? readonly;
   bool? hidden;
   int? sort;
   String? width;
   int? group;
-  Map? translations;
+  List<Map<String, dynamic>>? translations;
   String? note;
 
   DirectusField({

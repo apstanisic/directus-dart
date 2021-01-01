@@ -9,9 +9,9 @@ class DirectusPermission {
   String? role;
   String? collection;
   String? action;
-  Map? permissions;
-  Map? validation;
-  Map? presets;
+  Map<String, dynamic>? permissions;
+  Map<String, dynamic>? validation;
+  Map<String, dynamic>? presets;
   String? fields;
   int? limit;
 

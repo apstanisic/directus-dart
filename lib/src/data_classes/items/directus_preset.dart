@@ -11,10 +11,10 @@ class DirectusPreset {
   String? role;
   String? collection;
   String? search;
-  Map? filters;
+  List<Map<String, dynamic>>? filters;
   String? layout;
-  Map? layoutQuery;
-  Map? layoutOptions;
+  Map<String, dynamic>? layoutQuery;
+  Map<String, dynamic>? layoutOptions;
 
   DirectusPreset({
     this.id,

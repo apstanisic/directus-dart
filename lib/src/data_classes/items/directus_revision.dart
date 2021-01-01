@@ -9,8 +9,8 @@ class DirectusRevision {
   int? activity;
   String? collection;
   String? item;
-  Map? data;
-  Map? delta;
+  Map<String, dynamic>? data;
+  Map<String, dynamic>? delta;
   int? parent;
 
   DirectusRevision({

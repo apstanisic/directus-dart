@@ -11,8 +11,8 @@ class DirectusRole {
   String? description;
   String? ipAccess;
   bool? enforceTfa;
-  Iterable? moduleList;
-  Iterable? collectionList;
+  List<Map<String, dynamic>>? moduleList;
+  List<Map<String, dynamic>>? collectionList;
   bool? adminAccess;
   bool? appAccess;
 

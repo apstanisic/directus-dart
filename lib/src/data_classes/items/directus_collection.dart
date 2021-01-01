@@ -11,7 +11,7 @@ class DirectusCollection {
   String? displayTemplate;
   bool? hidden;
   bool? singleton;
-  Map? translations;
+  List<Map<String, dynamic>>? translations;
   String? archiveField;
   bool? archiveAppFilter;
   String? archiveValue;

@@ -25,7 +25,7 @@ class DirectusFile {
   String? description;
   String? location;
   String? tags;
-  Map? metadata;
+  Map<String, dynamic>? metadata;
 
   DirectusFile({
     this.id,

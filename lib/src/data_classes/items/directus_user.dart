@@ -13,7 +13,7 @@ class DirectusUser {
   String? location;
   String? title;
   String? description;
-  Map? tags;
+  List<String>? tags;
   String? avatar;
   String? language;
   String? theme;

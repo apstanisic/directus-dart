@@ -14,8 +14,12 @@ DirectusRole _$DirectusRoleFromJson(Map<String, dynamic> json) {
     description: json['description'] as String?,
     ipAccess: json['ip_access'] as String?,
     enforceTfa: json['enforce_tfa'] as bool?,
-    moduleList: json['module_list'] as List<dynamic>?,
-    collectionList: json['collection_list'] as List<dynamic>?,
+    moduleList: (json['module_list'] as List<dynamic>?)
+        ?.map((e) => e as Map<String, dynamic>)
+        .toList(),
+    collectionList: (json['collection_list'] as List<dynamic>?)
+        ?.map((e) => e as Map<String, dynamic>)
+        .toList(),
     adminAccess: json['admin_access'] as bool?,
     appAccess: json['app_access'] as bool?,
   );
@@ -29,8 +33,8 @@ Map<String, dynamic> _$DirectusRoleToJson(DirectusRole instance) =>
       'description': instance.description,
       'ip_access': instance.ipAccess,
       'enforce_tfa': instance.enforceTfa,
-      'module_list': instance.moduleList?.toList(),
-      'collection_list': instance.collectionList?.toList(),
+      'module_list': instance.moduleList,
+      'collection_list': instance.collectionList,
       'admin_access': instance.adminAccess,
       'app_access': instance.appAccess,
     };
