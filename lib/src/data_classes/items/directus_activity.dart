@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_activity.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusActivity {
   int? id;
   String? action;
@@ -36,12 +36,8 @@ class DirectusActivity {
 
 class ActivityConverter implements ItemsConverter<DirectusActivity> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusActivity fromJson(Map<String, dynamic> data) {
-    return DirectusActivity.fromJson(data);
-  }
+  DirectusActivity fromJson(Map<String, dynamic> data) => DirectusActivity.fromJson(data);
 }

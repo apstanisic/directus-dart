@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_permission.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusPermission {
   int? id;
   String? role;
@@ -37,12 +37,8 @@ class DirectusPermission {
 
 class PermissionConverter implements ItemsConverter<DirectusPermission> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusPermission fromJson(Map<String, dynamic> data) {
-    return DirectusPermission.fromJson(data);
-  }
+  DirectusPermission fromJson(Map<String, dynamic> data) => DirectusPermission.fromJson(data);
 }

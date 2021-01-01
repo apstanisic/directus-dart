@@ -1,14 +1,10 @@
 import 'items_converter.dart';
 
-/// Default [ItemsConverter] that returns [Map]
+/// Default [ItemsConverter] that converts response to and from [Map].
 class MapItemsConverter extends ItemsConverter<Map<String, dynamic>> {
   @override
-  Map<String, dynamic> fromJson(Map data) {
-    return Map.from(data);
-  }
+  Map<String, dynamic> fromJson(Map data) => Map.from(data);
 
   @override
-  Map<String, dynamic> toJson(Map item) {
-    return Map.from(item);
-  }
+  Map<String, dynamic> toJson(Map item) => Map.from(item);
 }

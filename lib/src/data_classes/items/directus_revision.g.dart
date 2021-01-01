@@ -18,13 +18,21 @@ DirectusRevision _$DirectusRevisionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusRevisionToJson(DirectusRevision instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'activity': instance.activity,
-      'collection': instance.collection,
-      'item': instance.item,
-      'data': instance.data,
-      'delta': instance.delta,
-      'parent': instance.parent,
-    };
+Map<String, dynamic> _$DirectusRevisionToJson(DirectusRevision instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('activity', instance.activity);
+  writeNotNull('collection', instance.collection);
+  writeNotNull('item', instance.item);
+  writeNotNull('data', instance.data);
+  writeNotNull('delta', instance.delta);
+  writeNotNull('parent', instance.parent);
+  return val;
+}

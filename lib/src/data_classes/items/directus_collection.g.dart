@@ -25,18 +25,26 @@ DirectusCollection _$DirectusCollectionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusCollectionToJson(DirectusCollection instance) =>
-    <String, dynamic>{
-      'collection': instance.collection,
-      'icon': instance.icon,
-      'note': instance.note,
-      'display_template': instance.displayTemplate,
-      'hidden': instance.hidden,
-      'singleton': instance.singleton,
-      'translations': instance.translations,
-      'archive_field': instance.archiveField,
-      'archive_app_filter': instance.archiveAppFilter,
-      'archive_value': instance.archiveValue,
-      'unarchive_value': instance.unarchiveValue,
-      'sort_field': instance.sortField,
-    };
+Map<String, dynamic> _$DirectusCollectionToJson(DirectusCollection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('collection', instance.collection);
+  writeNotNull('icon', instance.icon);
+  writeNotNull('note', instance.note);
+  writeNotNull('display_template', instance.displayTemplate);
+  writeNotNull('hidden', instance.hidden);
+  writeNotNull('singleton', instance.singleton);
+  writeNotNull('translations', instance.translations);
+  writeNotNull('archive_field', instance.archiveField);
+  writeNotNull('archive_app_filter', instance.archiveAppFilter);
+  writeNotNull('archive_value', instance.archiveValue);
+  writeNotNull('unarchive_value', instance.unarchiveValue);
+  writeNotNull('sort_field', instance.sortField);
+  return val;
+}

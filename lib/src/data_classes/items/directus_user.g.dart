@@ -25,20 +25,28 @@ DirectusUser _$DirectusUserFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusUserToJson(DirectusUser instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'first_name': instance.firstName,
-      'last_name': instance.lastName,
-      'email': instance.email,
-      'password': instance.password,
-      'location': instance.location,
-      'title': instance.title,
-      'description': instance.description,
-      'tags': instance.tags,
-      'avatar': instance.avatar,
-      'language': instance.language,
-      'theme': instance.theme,
-      'status': instance.status,
-      'role': instance.role,
-    };
+Map<String, dynamic> _$DirectusUserToJson(DirectusUser instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('first_name', instance.firstName);
+  writeNotNull('last_name', instance.lastName);
+  writeNotNull('email', instance.email);
+  writeNotNull('password', instance.password);
+  writeNotNull('location', instance.location);
+  writeNotNull('title', instance.title);
+  writeNotNull('description', instance.description);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('avatar', instance.avatar);
+  writeNotNull('language', instance.language);
+  writeNotNull('theme', instance.theme);
+  writeNotNull('status', instance.status);
+  writeNotNull('role', instance.role);
+  return val;
+}

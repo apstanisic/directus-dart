@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_preset.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusPreset {
   int? id;
   String? bookmark;
@@ -38,12 +38,8 @@ class DirectusPreset {
 
 class PresetConverter implements ItemsConverter<DirectusPreset> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusPreset fromJson(Map<String, dynamic> data) {
-    return DirectusPreset.fromJson(data);
-  }
+  DirectusPreset fromJson(Map<String, dynamic> data) => DirectusPreset.fromJson(data);
 }

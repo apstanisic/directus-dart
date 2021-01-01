@@ -29,22 +29,30 @@ DirectusField _$DirectusFieldFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusFieldToJson(DirectusField instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'collection': instance.collection,
-      'field': instance.field,
-      'special': instance.special,
-      'interface': instance.interface,
-      'options': instance.options,
-      'display': instance.display,
-      'display_options': instance.displayOptions,
-      'lock': instance.lock,
-      'readonly': instance.readonly,
-      'hidden': instance.hidden,
-      'sort': instance.sort,
-      'width': instance.width,
-      'group': instance.group,
-      'translations': instance.translations,
-      'note': instance.note,
-    };
+Map<String, dynamic> _$DirectusFieldToJson(DirectusField instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('collection', instance.collection);
+  writeNotNull('field', instance.field);
+  writeNotNull('special', instance.special);
+  writeNotNull('interface', instance.interface);
+  writeNotNull('options', instance.options);
+  writeNotNull('display', instance.display);
+  writeNotNull('display_options', instance.displayOptions);
+  writeNotNull('lock', instance.lock);
+  writeNotNull('readonly', instance.readonly);
+  writeNotNull('hidden', instance.hidden);
+  writeNotNull('sort', instance.sort);
+  writeNotNull('width', instance.width);
+  writeNotNull('group', instance.group);
+  writeNotNull('translations', instance.translations);
+  writeNotNull('note', instance.note);
+  return val;
+}

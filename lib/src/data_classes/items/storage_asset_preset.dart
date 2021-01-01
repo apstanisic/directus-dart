@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'storage_asset_preset.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class StorageAssetPreset {
   String key;
   String fit;

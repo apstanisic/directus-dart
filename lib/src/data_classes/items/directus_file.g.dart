@@ -36,27 +36,35 @@ DirectusFile _$DirectusFileFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusFileToJson(DirectusFile instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'storage': instance.storage,
-      'filename_disk': instance.filenameDisk,
-      'filename_download': instance.filenameDownload,
-      'title': instance.title,
-      'type': instance.type,
-      'folder': instance.folder,
-      'uploaded_by': instance.uploadedBy,
-      'uploaded_on': instance.uploadedOn?.toIso8601String(),
-      'modified_by': instance.modifiedBy,
-      'modified_on': instance.modifiedOn?.toIso8601String(),
-      'charset': instance.charset,
-      'filesize': instance.filesize,
-      'width': instance.width,
-      'height': instance.height,
-      'duration': instance.duration,
-      'embed': instance.embed,
-      'description': instance.description,
-      'location': instance.location,
-      'tags': instance.tags,
-      'metadata': instance.metadata,
-    };
+Map<String, dynamic> _$DirectusFileToJson(DirectusFile instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('storage', instance.storage);
+  writeNotNull('filename_disk', instance.filenameDisk);
+  writeNotNull('filename_download', instance.filenameDownload);
+  writeNotNull('title', instance.title);
+  writeNotNull('type', instance.type);
+  writeNotNull('folder', instance.folder);
+  writeNotNull('uploaded_by', instance.uploadedBy);
+  writeNotNull('uploaded_on', instance.uploadedOn?.toIso8601String());
+  writeNotNull('modified_by', instance.modifiedBy);
+  writeNotNull('modified_on', instance.modifiedOn?.toIso8601String());
+  writeNotNull('charset', instance.charset);
+  writeNotNull('filesize', instance.filesize);
+  writeNotNull('width', instance.width);
+  writeNotNull('height', instance.height);
+  writeNotNull('duration', instance.duration);
+  writeNotNull('embed', instance.embed);
+  writeNotNull('description', instance.description);
+  writeNotNull('location', instance.location);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('metadata', instance.metadata);
+  return val;
+}

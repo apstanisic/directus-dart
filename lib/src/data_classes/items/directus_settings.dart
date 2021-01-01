@@ -22,7 +22,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_settings.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusSettings {
   int? id;
   String? projectName;
@@ -63,12 +63,8 @@ class DirectusSettings {
 
 class SettingsConverter implements ItemsConverter<DirectusSettings> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusSettings fromJson(Map<String, dynamic> data) {
-    return DirectusSettings.fromJson(data);
-  }
+  DirectusSettings fromJson(Map<String, dynamic> data) => DirectusSettings.fromJson(data);
 }

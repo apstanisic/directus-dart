@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_field.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusField {
   int? id;
   String? collection;
@@ -50,12 +50,8 @@ class DirectusField {
 
 class FieldConverter implements ItemsConverter<DirectusField> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusField fromJson(Map<String, dynamic> data) {
-    return DirectusField.fromJson(data);
-  }
+  DirectusField fromJson(Map<String, dynamic> data) => DirectusField.fromJson(data);
 }

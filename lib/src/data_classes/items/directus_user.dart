@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_user.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusUser {
   String? id;
   String? firstName;
@@ -46,12 +46,8 @@ class DirectusUser {
 
 class UserConverter implements ItemsConverter<DirectusUser> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusUser fromJson(Map<String, dynamic> data) {
-    return DirectusUser.fromJson(data);
-  }
+  DirectusUser fromJson(Map<String, dynamic> data) => DirectusUser.fromJson(data);
 }

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_relation.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusRelation {
   int? id;
   String? manyCollection;
@@ -38,12 +38,8 @@ class DirectusRelation {
 
 class RelationConverter implements ItemsConverter<DirectusRelation> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusRelation fromJson(Map<String, dynamic> data) {
-    return DirectusRelation.fromJson(data);
-  }
+  DirectusRelation fromJson(Map<String, dynamic> data) => DirectusRelation.fromJson(data);
 }

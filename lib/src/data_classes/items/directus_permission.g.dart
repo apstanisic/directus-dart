@@ -20,15 +20,23 @@ DirectusPermission _$DirectusPermissionFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusPermissionToJson(DirectusPermission instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'role': instance.role,
-      'collection': instance.collection,
-      'action': instance.action,
-      'permissions': instance.permissions,
-      'validation': instance.validation,
-      'presets': instance.presets,
-      'fields': instance.fields,
-      'limit': instance.limit,
-    };
+Map<String, dynamic> _$DirectusPermissionToJson(DirectusPermission instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('role', instance.role);
+  writeNotNull('collection', instance.collection);
+  writeNotNull('action', instance.action);
+  writeNotNull('permissions', instance.permissions);
+  writeNotNull('validation', instance.validation);
+  writeNotNull('presets', instance.presets);
+  writeNotNull('fields', instance.fields);
+  writeNotNull('limit', instance.limit);
+  return val;
+}

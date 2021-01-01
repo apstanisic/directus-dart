@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_collection.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusCollection {
   String? collection;
   String? icon;
@@ -43,12 +43,8 @@ class DirectusCollection {
 
 class CollectionConverter implements ItemsConverter<DirectusCollection> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusCollection fromJson(Map<String, dynamic> data) {
-    return DirectusCollection.fromJson(data);
-  }
+  DirectusCollection fromJson(Map<String, dynamic> data) => DirectusCollection.fromJson(data);
 }

@@ -13,7 +13,7 @@ StorageAssetPreset _$StorageAssetPresetFromJson(Map<String, dynamic> json) {
     width: json['width'] as int,
     height: json['height'] as int,
     quality: json['quality'] as int,
-    withoutEnlargement: json['withoutEnlargement'] as bool,
+    withoutEnlargement: json['without_enlargement'] as bool,
   );
 }
 
@@ -24,5 +24,5 @@ Map<String, dynamic> _$StorageAssetPresetToJson(StorageAssetPreset instance) =>
       'width': instance.width,
       'height': instance.height,
       'quality': instance.quality,
-      'withoutEnlargement': instance.withoutEnlargement,
+      'without_enlargement': instance.withoutEnlargement,
     };

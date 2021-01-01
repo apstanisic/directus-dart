@@ -25,16 +25,24 @@ DirectusRole _$DirectusRoleFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusRoleToJson(DirectusRole instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'icon': instance.icon,
-      'description': instance.description,
-      'ip_access': instance.ipAccess,
-      'enforce_tfa': instance.enforceTfa,
-      'module_list': instance.moduleList,
-      'collection_list': instance.collectionList,
-      'admin_access': instance.adminAccess,
-      'app_access': instance.appAccess,
-    };
+Map<String, dynamic> _$DirectusRoleToJson(DirectusRole instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('icon', instance.icon);
+  writeNotNull('description', instance.description);
+  writeNotNull('ip_access', instance.ipAccess);
+  writeNotNull('enforce_tfa', instance.enforceTfa);
+  writeNotNull('module_list', instance.moduleList);
+  writeNotNull('collection_list', instance.collectionList);
+  writeNotNull('admin_access', instance.adminAccess);
+  writeNotNull('app_access', instance.appAccess);
+  return val;
+}

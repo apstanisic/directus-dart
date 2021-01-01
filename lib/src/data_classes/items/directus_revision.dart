@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_revision.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusRevision {
   int? id;
   int? activity;
@@ -32,12 +32,8 @@ class DirectusRevision {
 
 class RevisionConverter implements ItemsConverter<DirectusRevision> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusRevision fromJson(Map<String, dynamic> data) {
-    return DirectusRevision.fromJson(data);
-  }
+  DirectusRevision fromJson(Map<String, dynamic> data) => DirectusRevision.fromJson(data);
 }

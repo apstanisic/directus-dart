@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_role.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusRole {
   String? id;
   String? name;
@@ -38,12 +38,8 @@ class DirectusRole {
 
 class RoleConverter implements ItemsConverter<DirectusRole> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusRole fromJson(Map<String, dynamic> data) {
-    return DirectusRole.fromJson(data);
-  }
+  DirectusRole fromJson(Map<String, dynamic> data) => DirectusRole.fromJson(data);
 }

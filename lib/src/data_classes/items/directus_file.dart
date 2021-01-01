@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_file.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusFile {
   String? id;
   String? storage;
@@ -60,12 +60,8 @@ class DirectusFile {
 
 class FileConverter implements ItemsConverter<DirectusFile> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusFile fromJson(Map<String, dynamic> data) {
-    return DirectusFile.fromJson(data);
-  }
+  DirectusFile fromJson(Map<String, dynamic> data) => DirectusFile.fromJson(data);
 }

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_folder.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusFolder {
   String? id;
   String? name;
@@ -24,12 +24,8 @@ class DirectusFolder {
 
 class FolderConverter implements ItemsConverter<DirectusFolder> {
   @override
-  Map<String, dynamic> toJson(data) {
-    return data.toJson();
-  }
+  Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusFolder fromJson(Map<String, dynamic> data) {
-    return DirectusFolder.fromJson(data);
-  }
+  DirectusFolder fromJson(Map<String, dynamic> data) => DirectusFolder.fromJson(data);
 }

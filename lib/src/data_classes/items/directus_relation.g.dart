@@ -21,16 +21,24 @@ DirectusRelation _$DirectusRelationFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DirectusRelationToJson(DirectusRelation instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'many_collection': instance.manyCollection,
-      'many_field': instance.manyField,
-      'many_primary': instance.manyPrimary,
-      'one_collection': instance.oneCollection,
-      'one_field': instance.oneField,
-      'one_primary': instance.onePrimary,
-      'one_collection_field': instance.oneCollectionField,
-      'one_allowed_collections': instance.oneAllowedCollections,
-      'junction_field': instance.junctionField,
-    };
+Map<String, dynamic> _$DirectusRelationToJson(DirectusRelation instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('many_collection', instance.manyCollection);
+  writeNotNull('many_field', instance.manyField);
+  writeNotNull('many_primary', instance.manyPrimary);
+  writeNotNull('one_collection', instance.oneCollection);
+  writeNotNull('one_field', instance.oneField);
+  writeNotNull('one_primary', instance.onePrimary);
+  writeNotNull('one_collection_field', instance.oneCollectionField);
+  writeNotNull('one_allowed_collections', instance.oneAllowedCollections);
+  writeNotNull('junction_field', instance.junctionField);
+  return val;
+}
