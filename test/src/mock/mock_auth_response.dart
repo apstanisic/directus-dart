@@ -1,4 +1,4 @@
-import 'package:directus/src/handlers/auth/_auth_response.dart';
+import 'package:directus/src/modules/auth/_auth_response.dart';
 
 AuthResponse getAuthRespones() {
   return AuthResponse(

@@ -18,32 +18,4 @@ void main() {
       'sort': 'id,-created',
     });
   });
-
-  test('Deep works', () {
-    final query = Query(deep: {
-      'one': Query(),
-      'two': Query(),
-    });
-
-    expect(query.toMap(), {
-      'deep': {'one': {}, 'two': {}}
-    });
-  });
-
-  test('Deep transforms to map recursevly', () {
-    final query = Query(deep: {
-      'one': Query(limit: 5, deep: {'two': Query(offset: 5)})
-    });
-
-    expect(query.toMap(), {
-      'deep': {
-        'one': {
-          'limit': 5,
-          'deep': {
-            'two': {'offset': 5},
-          },
-        },
-      }
-    });
-  });
 }

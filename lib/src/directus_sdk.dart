@@ -2,11 +2,11 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
-import 'package:directus/src/utils/items_converter.dart';
-import 'package:directus/src/utils/map_items_converter.dart';
+import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:meta/meta.dart';
 
-import 'handlers/handlers.dart';
+import 'modules/handlers.dart';
+import 'modules/items/map_items_converter.dart';
 
 class DirectusSdk {
   /// [Dio] client used for HTTP requests.
