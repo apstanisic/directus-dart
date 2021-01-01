@@ -1,5 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
+import 'package:directus/src/adapters/shared_preferences_storage.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:directus/src/modules/items/items_converter.dart';
@@ -8,7 +9,9 @@ import 'package:meta/meta.dart';
 import 'modules/handlers.dart';
 import 'modules/items/map_items_converter.dart';
 
-class DirectusSdk {
+bool _isDirectusInitialized = false;
+
+class Directus {
   /// [Dio] client used for HTTP requests.
   @protected
   @visibleForTesting
@@ -18,13 +21,24 @@ class DirectusSdk {
   late final DirectusStorage _storage;
 
   /// Constructor with all provided services.
-  DirectusSdk(String url, {required DirectusStorage storage, Dio? client})
-      : _storage = storage,
-        client = client ?? Dio(BaseOptions(baseUrl: url));
+  Directus(String url, {required DirectusStorage? storage, Dio? client})
+      : _storage = storage ?? SharedPreferencesStorage(),
+        client = client ?? Dio(BaseOptions(baseUrl: url)) {
+    // Check if SDK is inited before each request
+    this.client.interceptors.add(InterceptorsWrapper(
+      onRequest: (options) {
+        if (!_isDirectusInitialized) {
+          throw DirectusError(message: 'You must first await init method', code: 1000);
+        }
+        return options;
+      },
+    ));
+  }
 
   /// Initialize SDK.
-  Future<DirectusSdk> init() async {
+  Future<Directus> init() async {
     await auth.init();
+    _isDirectusInitialized = true;
     return this;
   }
 
