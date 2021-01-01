@@ -38,10 +38,12 @@ class DirectusSdk {
   late AuthHandler auth = AuthHandler(client: client, storage: _storage);
 
   /// Items
-  ItemsHandler<Map<String, dynamic>> items(String collection) {
-    return typedItems(collection, converter: MapItemsConverter());
-  }
+  ItemsHandler<Map<String, dynamic>> items(String collection) =>
+      typedItems(collection, converter: MapItemsConverter());
 
+  /// Strongly typed items. [ItemsConverter] must be provided that will convert data to
+  /// and from json. If you don't care about types, use [items],
+  /// that will return [Map<String, dynamic].
   ItemsHandler<T> typedItems<T>(String collection, {required ItemsConverter<T> converter}) {
     if (collection.startsWith('directus')) {
       throw DirectusError(

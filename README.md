@@ -38,11 +38,7 @@ final users =  await sdk.items('users').readMany(Query(limit: 5, offset: 5));
 users.data.forEach((user) => print(user['name']));
 
 final firstThreeUsers = await DirectusSdk().items('users').readMany(
-      Query(
-        filter: {
-          'id': Filter.isIn(['1', '2', '3'])
-        },
-      ),
+      filter: Filters({'id': Filter.isIn(['1', '2'])})
     );
 firstThreeUsers.data.forEach((user) => print(user['name']));
 ```
