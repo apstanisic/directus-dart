@@ -11,7 +11,8 @@ class DirectusError implements Exception {
   /// HTTP code. If there is non HTTP error (not problem with an API) [code] will be 1000.
   late final int code;
 
-  Map<String, dynamic>? additionalInfo;
+  /// Additional info that can be provided to error.
+  late final Map<String, dynamic>? additionalInfo;
 
   DirectusError({
     required this.message,
