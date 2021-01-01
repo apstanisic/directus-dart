@@ -3,19 +3,18 @@ import 'data_classes.dart';
 
 /// All options that can be passed to and [ItemsHandler.readMany].
 ///
-/// Every field is optional.
+/// Every field is optional. It has all properties that can be used
+/// to [ItemsHandler.readOne], with additional one for things
+/// that are only needed when returning multiple items.
+/// [Filters] are seperate property, and they are passed as seperate named param.
 ///
 /// ```dart
-/// final query = Query(
+/// Query(
 ///   limit: 5,
 ///   offset: 3,
 ///   fields: ['id', 'name'],
 ///   sort: ['name'],
-///   filter: {
-///     'name': Filter.eq('Aleksandar'),
-///   },
 /// );
-///
 /// ```
 class Query extends OneQuery {
   /// List of fields used to sort the fetched items.

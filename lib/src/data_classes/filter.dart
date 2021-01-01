@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 /// Used for filtering data
 ///
 /// It should be used inside a map as a value for comparisson
@@ -83,26 +85,36 @@ class Filter {
       : comparisson = '_nnull',
         value = true;
 
+  /// Check to see if value is between.
   Filter.between(dynamic from, dynamic to)
       : comparisson = '_between',
         value = [from, to];
 
+  /// Check to see if value is not between.
   Filter.notBetween(dynamic from, dynamic to)
       : comparisson = '_nbetween',
         value = [from, to];
 
-  List<Map<String, dynamic>> filterListToMapList(List<Map<String, Filter>> filters) {
-    // For every item in List
-    // Convert value from Filter to Map
+  /// Convert [Filter][List] to [Map][List].
+  ///
+  /// This method is used for converting `and` and `or` filtering.
+  @visibleForTesting
+  List<Map<String, dynamic>> convertFilterList(List<Map<String, Filter>> filters) {
+    // For every item in List convert value from Filter to Map.
     return filters
-        .map((filterMap) => filterMap.map((field, value) => value.toMapEntry(field)))
+        .map(
+          (filterMap) => filterMap.map((field, value) => value.toMapEntry(field)),
+        )
         .toList();
   }
 
+  /// Convert filter to [MapEntry], with provided [field] name.
+  ///
+  /// That way it can easily be converted to [Map] for passing to [Dio]
   MapEntry<String, dynamic> toMapEntry(String field) {
     // If value is a list of non filters
     if (comparisson == '_or' || comparisson == '_and') {
-      return MapEntry(comparisson, filterListToMapList(value));
+      return MapEntry(comparisson, convertFilterList(value));
     }
     return MapEntry(field, {comparisson: value});
   }
@@ -111,5 +123,5 @@ class Filter {
 /// Needed because of Dart limitation.
 mixin _Filter {}
 
-/// Alias for [Filters]
+/// Alias for [Filter].
 class F = Filter with _Filter;

@@ -5,18 +5,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Use shared preferences as storage engine
 class SharedPreferencesStorage extends DirectusStorage {
-  late final SharedPreferences? _instance;
+  final SharedPreferences? _instance;
 
   SharedPreferencesStorage([SharedPreferences? instance]) : _instance = instance;
 
+  /// Get item from starage
   @override
-  Future getItem(String key) async {
+  Future<dynamic?> getItem(String key) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
     return instance.get(key);
   }
 
+  /// Set item to storage
+  ///
+  /// Value can be either [String], [bool], [int] or [double].
+  /// For any other type, it will throw [DirectusError].
   @override
-  Future<void> setItem(String key, value) async {
+  Future<void> setItem(String key, dynamic value) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
 
     if (value is String) {

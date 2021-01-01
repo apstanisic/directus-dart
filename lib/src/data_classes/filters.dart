@@ -8,7 +8,7 @@ import 'data_classes.dart';
 /// You can also use [F] instead of [Filter], it's an alias, so it's the same
 ///
 /// ```dart
-/// filter = Filters({
+/// Filters({
 ///   'name': Filter.eq('Aleksandar'),
 ///   'email': Filter.contains('@gmail.com');
 ///   'favorite_food': Filter.notNull(),
@@ -18,19 +18,20 @@ import 'data_classes.dart';
 ///   ]),
 /// });
 ///
-/// filter = Filters({
+/// Filters({
 ///   'name': F.eq('Aleksandar'),
 /// });
 ///
 /// ```
 /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/filter.md)
-Map<String, Filter>? filter;
-
 class Filters {
+  /// Filters
   Map<String, Filter> data;
 
+  /// Set filters.
   Filters(this.data);
 
+  /// Convert fitlers to map so it can be passed to [Dio].
   Map<String, dynamic> toMap() {
     return data.map((field, value) => value.toMapEntry(field));
   }

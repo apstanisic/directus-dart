@@ -28,54 +28,21 @@ class DirectusResponse<T> {
   /// Set [DirectusResponse] manually, without needing [Response].
   DirectusResponse.manually(T data) : data = data;
 
-  /// Static method that you can pass a closure that should return [Dio][Response].
+  /// Static method that you can pass a closure that should return Dio [Response].
+  ///
   /// This will automaticaly convert [Response] to either [DirectusResponse] or [DirectusError].
-  /// Most of the methods that return JSON object with key `data` should be called inside this
-  /// static method.
+  /// Most of the methods that return JSON object with key `data` that is not a [List]
+  /// should be called inside this static method.
+  /// You can pass converter that is used to convert response [Map] to
+  /// proper object, by default it will return [Map].
   static Future<DirectusResponse<U>> fromRequest<U>(
-    Future<Response<dynamic>> Function() f, {
+    Future<Response<dynamic>> Function() func, {
     ItemsConverter? converter,
   }) async {
     converter ??= MapItemsConverter();
     try {
-      final response = await f();
+      final response = await func();
       return DirectusResponse<U>(response, converter: converter);
-    } on DioError catch (error) {
-      throw DirectusError.fromDio(error);
-    }
-  }
-}
-
-class DirectusListResponse<T> implements DirectusResponse<List<T>> {
-  @override
-  late final List<T> data;
-
-  DirectusListResponse.manually(data) : data = data;
-
-  /// Constructor that converts [Dio] [Response] to [DirectusResponse].
-  DirectusListResponse(Response dioResponse, {ItemsConverter? converter}) {
-    converter ??= MapItemsConverter();
-    var data = dioResponse.data['data'];
-
-    if (!(data is List)) {
-      throw DirectusError(message: 'Data should be a list.', code: 1000);
-    } else {
-      this.data = data.map((item) => converter!.fromJson(item)).cast<T>().toList();
-    }
-  }
-
-  /// Static method that you can pass a closure that should return [Dio][Response].
-  /// This will automaticaly convert [Response] to either [DirectusResponse] or [DirectusError].
-  /// Most of the methods that return JSON object with key `data` should be called inside this
-  /// static method.
-  static Future<DirectusListResponse<U>> fromRequest<U>(
-    Future<Response<dynamic>> Function() f, {
-    ItemsConverter? converter,
-  }) async {
-    converter ??= MapItemsConverter();
-    try {
-      final response = await f();
-      return DirectusListResponse<U>(response, converter: converter);
     } on DioError catch (error) {
       throw DirectusError.fromDio(error);
     }

@@ -10,7 +10,13 @@ class MyApp extends StatelessWidget {
   final Directus sdk;
 
   MyApp(this.sdk);
-  // This widget is the root of your application.
+
+  /// Get posts.
+  Future<DirectusListResponse<Map<String, dynamic>>> getPosts() => sdk.items('posts').readMany();
+
+  /// Get settings.
+  Future<DirectusResponse<DirectusSettings>> getSettings() => sdk.settings.read();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +30,7 @@ class MyApp extends StatelessWidget {
         ),
         body: Center(
           child: FutureBuilder<DirectusListResponse<Map<String, dynamic>>>(
-            future: sdk.items('posts').readMany(),
+            future: getPosts(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Container();

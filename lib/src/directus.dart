@@ -18,7 +18,7 @@ class Directus {
   final Dio client;
 
   /// Storage used for persisting data.
-  late final DirectusStorage _storage;
+  final DirectusStorage _storage;
 
   /// Constructor with all provided services.
   Directus(String url, {required DirectusStorage? storage, Dio? client})
@@ -36,17 +36,20 @@ class Directus {
   }
 
   /// Initialize SDK.
+  ///
+  /// This method must be called before using any other method.
+  ///
+  /// It returns [Directus] object in which this method is called.
+  /// This way simpla chaining is possible without using `..init()`.
+  /// For example:
+  /// ```dart
+  /// sdk = await Directus(url).init();
+  /// ```
   Future<Directus> init() async {
     await auth.init();
     _isDirectusInitialized = true;
     return this;
   }
-
-  /// Get Directus API url
-  String get url => client.options.baseUrl;
-
-  /// Change Directus API url
-  set url(String url) => client.options.baseUrl = url;
 
   /// Auth
   late AuthHandler auth = AuthHandler(client: client, storage: _storage);
@@ -55,9 +58,12 @@ class Directus {
   ItemsHandler<Map<String, dynamic>> items(String collection) =>
       typedItems<Map<String, dynamic>>(collection, converter: MapItemsConverter());
 
-  /// Strongly typed [items]. [ItemsConverter] must be provided that will convert data to
+  /// Get items from API with strong typings.
+  ///
+  /// [ItemsConverter] must be provided that will convert data to
   /// and from json. If you don't care about types, use [items],
-  /// that will return [Map<String, dynamic].
+  /// that will return [Map]. [converter] is a simple interface that converts value to
+  /// and from JSON so it can be consumed with this API.
   ItemsHandler<T> typedItems<T>(String collection, {required ItemsConverter<T> converter}) {
     if (collection.startsWith('directus')) {
       throw DirectusError(

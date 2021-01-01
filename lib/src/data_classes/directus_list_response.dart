@@ -1,0 +1,55 @@
+import 'package:dio/dio.dart';
+import 'package:directus/src/modules/items/items_converter.dart';
+import 'package:directus/src/modules/items/map_items_converter.dart';
+
+import 'data_classes.dart';
+
+/// Directus response object when data is [List].
+///
+/// When response is returning a [List] of items, use this instead of [DirectusRespones].
+/// This class is created to properly and type safely convert data.
+/// Using [List] respones inside [DirectusRespone] will throw an error. Only this
+/// response should be used. It has all the same properties and methods,
+/// but adopted when response is [List].
+class DirectusListResponse<T> implements DirectusResponse<List<T>> {
+  /// Response data.
+  @override
+  late final List<T> data;
+
+  /// Manually set data.
+  DirectusListResponse.manually(data) : data = data;
+
+  /// Constructor that converts Dio [Response] to [DirectusListResponse].
+  /// You can pass converter that is used to convert response [Map] to
+  /// proper object, by default it will return [Map].
+  DirectusListResponse(Response dioResponse, {ItemsConverter? converter}) {
+    converter ??= MapItemsConverter();
+    var data = dioResponse.data['data'];
+
+    if (!(data is List)) {
+      throw DirectusError(message: 'Data should be a list.', code: 1000);
+    } else {
+      this.data = data.map((item) => converter!.fromJson(item)).cast<T>().toList();
+    }
+  }
+
+  /// Static method that you can pass a closure that should return Dio [Response].
+  ///
+  /// This will automaticaly convert [Response] to either [DirectusListResponse] or [DirectusError].
+  /// Most of the methods that return JSON object with key `data` that is [List]
+  /// should be called inside this method.
+  /// You can pass converter that is used to convert response [Map] to
+  /// proper object, by default it will return [Map].
+  static Future<DirectusListResponse<U>> fromRequest<U>(
+    Future<Response<dynamic>> Function() func, {
+    ItemsConverter? converter,
+  }) async {
+    converter ??= MapItemsConverter();
+    try {
+      final response = await func();
+      return DirectusListResponse<U>(response, converter: converter);
+    } on DioError catch (error) {
+      throw DirectusError.fromDio(error);
+    }
+  }
+}

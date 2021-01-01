@@ -41,18 +41,18 @@ void main() {
       final sdk = Directus(url, storage: storage);
 
       expect(sdk.client.options.baseUrl, url);
-      expect(sdk.url, url);
+      // expect(sdk.url, url);
     });
 
-    test('that url can be changed with setter.', () {
-      final url = 'http://localhost:8055';
-      final sdk = Directus(url, storage: storage);
+    // test('that url can be changed with setter.', () {
+    //   final url = 'http://localhost:8055';
+    //   final sdk = Directus(url, storage: storage);
 
-      final newUrl = 'http://example.com';
-      sdk.url = newUrl;
-      expect(sdk.client.options.baseUrl, newUrl);
-      expect(sdk.url, newUrl);
-    });
+    //   final newUrl = 'http://example.com';
+    //   // sdk.url = newUrl;
+    //   expect(sdk.client.options.baseUrl, newUrl);
+    //   expect(sdk.url, newUrl);
+    // });
 
     test('that getters return correct handlers.', () {
       expect(sdk.activity, isA<ActivityHandler>());

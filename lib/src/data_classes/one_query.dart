@@ -1,10 +1,12 @@
 import 'data_classes.dart';
 
-/// Query that can be used when fetching data to specify needed data.
+/// All options that can be passed to some of [ItemsHandler] methods.
 ///
 /// This query can be used for both [ItemsHandler.readOne] and [ItemsHandler.readMany] methods,
-/// but [Query] is offering more options for `readMany`.
+/// but [Query] is offering more options for [ItemsHandler.readMany].
+/// It can also be passed to update and create methods, for specifying what data to be returned.
 class OneQuery {
+  /// Constructor
   OneQuery({this.deep, this.fields});
 
   /// List of all fields that should be returned.

@@ -1,5 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/directus_list_response.dart';
 import 'package:directus/src/modules/activity/directus_activity.dart';
 import 'package:directus/src/data_classes/query.dart';
 import 'package:directus/src/data_classes/directus_response.dart';

@@ -4,9 +4,9 @@
 /// If user wants something more secure, store remotely on some server,
 /// write to file, or to use other DB engine, user needs to implement all methods.
 abstract class DirectusStorage {
-  /// Used for storing items.
+  /// Call this method to store data.
   Future<void> setItem(String key, dynamic value);
 
-  /// Used for getting item from storage.
+  /// Call this method to get data from storage.
   Future<dynamic?> getItem(String key);
 }

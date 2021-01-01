@@ -1,19 +1,26 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 
-/// Error that SDK throws when API request returns 400+ status code.
+/// Error that any exception inside SDK will throw.
 ///
-///
+/// SDK should always throw [DirectusError], and never [Exception] or [DioError].
+/// If error is from an API (it returns statuc code > 400), that code will be set
+/// as [code]. Othervise [code] will be set to 1000. That is used for when user didn't
+/// properly configure SDK, or there is internal error.
 class DirectusError implements Exception {
   /// Message explaining error.
   late final String message;
 
-  /// HTTP code. If there is non HTTP error (not problem with an API) [code] will be 1000.
+  /// Error code.
+  ///
+  /// If there is an error in HTTP request, [code] will be status code from response.
+  /// Othervise, code will be 1000.
   late final int code;
 
   /// Additional info that can be provided to error.
   late final Map<String, dynamic>? additionalInfo;
 
+  /// Constructor
   DirectusError({
     required this.message,
     required this.code,
@@ -21,12 +28,17 @@ class DirectusError implements Exception {
   });
 
   /// Convert [DioError] to [DirectusError].
+  ///
+  /// It accepts [error] as [dynamic] for because by default exception is of type [Object],
+  /// and it's a lot less boilerplate that for every error to both catch for [DioError],
+  /// and for any other error. This way, in case error is not [DioErro], it will simply
+  /// complain that error is invalid.
+  ///
   DirectusError.fromDio(dynamic error) {
-    // assert(error is DioError, 'This should only be called when Dio throws an error.');
-
     if (!(error is DioError)) {
       message = 'Error should come from Dio.';
       code = 1000;
+      additionalInfo = {'originalError': error};
       return;
     }
 

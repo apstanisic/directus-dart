@@ -64,7 +64,7 @@ void main() {
       {'three': Filter.eq(4)},
       {'five': Filter.eq(6)},
     ]);
-    final filterList = filter.filterListToMapList(filter.value);
+    final filterList = filter.convertFilterList(filter.value);
 
     expect(filterList.length, 3);
 
@@ -87,7 +87,7 @@ void main() {
       {'three': Filter.eq(4)},
       {'five': Filter.eq(6)},
     ]);
-    final filterList = filter.filterListToMapList(filter.value);
+    final filterList = filter.convertFilterList(filter.value);
 
     expect(filterList.length, 3);
 
