@@ -15,6 +15,7 @@ import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:directus/src/directus_sdk.dart';
 
 export 'src/data_classes/data_classes.dart';
+export 'src/directus_sdk.dart';
 
 class Directus {
   final DirectusSdk _sdk;

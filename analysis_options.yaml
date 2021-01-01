@@ -14,5 +14,6 @@ analyzer:
   ## Bug https://stackoverflow.com/questions/62630553/analysis-options-yaml-the-included-file-not-found
   exclude:
     - "example/**"
+    - "**/*.g.dart"
 #   exclude:
 #     - path/to/excluded/files/**

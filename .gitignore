@@ -23,3 +23,9 @@ node_modules
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+example/**/android/
+example/**/ios/
+example/**/web/
+example/**/macos/
+example/**/linux/

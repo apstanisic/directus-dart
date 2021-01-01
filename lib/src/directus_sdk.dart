@@ -39,15 +39,15 @@ class DirectusSdk {
 
   /// Items
   ItemsHandler<Map<String, dynamic>> items(String collection) =>
-      typedItems(collection, converter: MapItemsConverter());
+      typedItems<Map<String, dynamic>>(collection, converter: MapItemsConverter());
 
-  /// Strongly typed items. [ItemsConverter] must be provided that will convert data to
+  /// Strongly typed [items]. [ItemsConverter] must be provided that will convert data to
   /// and from json. If you don't care about types, use [items],
   /// that will return [Map<String, dynamic].
   ItemsHandler<T> typedItems<T>(String collection, {required ItemsConverter<T> converter}) {
     if (collection.startsWith('directus')) {
       throw DirectusError(
-        message: 'You can\t read $collection collection directly.',
+        message: 'You can\'t read $collection collection directly.',
         code: 1000,
       );
     }
@@ -55,75 +55,47 @@ class DirectusSdk {
   }
 
   /// Activity
-  ActivityHandler get activity {
-    return ActivityHandler(client: client);
-  }
+  ActivityHandler get activity => ActivityHandler(client: client);
 
   /// Collections
-  CollectionsHandler get collections {
-    return CollectionsHandler(client: client);
-  }
+  CollectionsHandler get collections => CollectionsHandler(client: client);
 
   /// HTTP client that can be used for accessing custom extensions.
   Dio get custom => client;
 
   /// Fields
-  FieldsHandler get fields {
-    return FieldsHandler(client: client);
-  }
+  FieldsHandler get fields => FieldsHandler(client: client);
 
   /// Files
-  FilesHandler get files {
-    return FilesHandler(client: client);
-  }
+  FilesHandler get files => FilesHandler(client: client);
 
   /// Folders
-  FoldersHandler get folders {
-    return FoldersHandler(client: client);
-  }
+  FoldersHandler get folders => FoldersHandler(client: client);
 
   /// Permissions
-  PermissionsHandler get permissions {
-    return PermissionsHandler(client: client);
-  }
+  PermissionsHandler get permissions => PermissionsHandler(client: client);
 
   /// Presets
-  PresetsHandler get presets {
-    return PresetsHandler(client: client);
-  }
+  PresetsHandler get presets => PresetsHandler(client: client);
 
   /// Relations
-  RelationsHandler get relations {
-    return RelationsHandler(client: client);
-  }
+  RelationsHandler get relations => RelationsHandler(client: client);
 
   /// Revisions
-  RevisionsHandler get revisions {
-    return RevisionsHandler(client: client);
-  }
+  RevisionsHandler get revisions => RevisionsHandler(client: client);
 
   /// Roles
-  RolesHandler get roles {
-    return RolesHandler(client: client);
-  }
+  RolesHandler get roles => RolesHandler(client: client);
 
   /// Server
-  ServerHandler get server {
-    return ServerHandler(client: client);
-  }
+  ServerHandler get server => ServerHandler(client: client);
 
   /// Settings
-  SettingsHandler get settings {
-    return SettingsHandler(client: client);
-  }
+  SettingsHandler get settings => SettingsHandler(client: client);
 
   /// Users
-  UsersHandler get users {
-    return UsersHandler(client: client);
-  }
+  UsersHandler get users => UsersHandler(client: client);
 
   /// Utils
-  UtilsHandler get utils {
-    return UtilsHandler(client: client);
-  }
+  UtilsHandler get utils => UtilsHandler(client: client);
 }
