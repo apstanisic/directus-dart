@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:directus/src/modules/files/directus_file.dart';
 import 'package:directus/src/modules/files/files_handler.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
 import 'package:test/test.dart';
@@ -5,9 +7,21 @@ import 'package:test/test.dart';
 import '../../mock/mock_dio.dart';
 
 void main() {
-  test('that FilesHandler extends ItemsHandler.', () async {
-    final files = FilesHandler(client: MockDio());
+  late Dio client;
+  late ItemsHandler<DirectusFile> handler;
 
-    expect(files, isA<ItemsHandler>());
+  setUp(() {
+    client = MockDio();
+    handler = ItemsHandler('directus_files', client: client);
+  });
+
+  test('that FilesHandler has read and delete methods from ItemsHandler.', () async {
+    final files = FilesHandler(client: MockDio());
+    files.handler = handler;
+
+    expect(files.readOne, handler.readOne);
+    expect(files.readMany, handler.readMany);
+    expect(files.deleteOne, handler.deleteOne);
+    expect(files.deleteMany, handler.deleteMany);
   });
 }

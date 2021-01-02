@@ -21,7 +21,7 @@ class Directus {
   final DirectusStorage _storage;
 
   /// Constructor with all provided services.
-  Directus(String url, {required DirectusStorage? storage, Dio? client})
+  Directus(String url, {DirectusStorage? storage, Dio? client})
       : _storage = storage ?? SharedPreferencesStorage(),
         client = client ?? Dio(BaseOptions(baseUrl: url)) {
     // Check if SDK is inited before each request

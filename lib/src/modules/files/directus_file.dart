@@ -1,10 +1,21 @@
 import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'directus_file.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusFile {
+  /// Return root url.
+  ///
+  /// This will return url from /, without domain.
+  /// TODO Figure out best way to add domain.
+  @experimental
+  String? get downloadUrl {
+    if (id == null) return null;
+    return '/assets/$id';
+  }
+
   String? id;
   String? storage;
   String? filenameDisk;
