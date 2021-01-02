@@ -1,4 +1,4 @@
-name: example_project
+name: example
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -22,7 +22,8 @@ environment:
 
 dependencies:
   directus:
-    path: ../../
+    path: ../
+
   flutter:
     sdk: flutter
 
