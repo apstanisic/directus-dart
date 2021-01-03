@@ -28,7 +28,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
     var data = dioResponse.data['data'];
 
     if (!(data is List)) {
-      throw DirectusError(message: 'Data should be a list.', code: 1000);
+      throw DirectusError(message: 'Data should be a list.');
     } else {
       this.data = data.map((item) => converter!.fromJson(item)).cast<T>().toList();
     }

@@ -23,9 +23,9 @@ class DirectusError implements Exception {
   /// Constructor
   DirectusError({
     required this.message,
-    required this.code,
+    int? code,
     this.additionalInfo,
-  });
+  }) : code = code ?? 1000;
 
   /// Convert [DioError] to [DirectusError].
   ///

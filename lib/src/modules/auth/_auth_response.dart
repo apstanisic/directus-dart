@@ -40,10 +40,7 @@ class AuthResponse {
     final accessTokenTtlInMs = data['expires'];
 
     if (accessToken == null || !(accessTokenTtlInMs is num) || refreshToken == null) {
-      throw DirectusError(
-        message: 'Login response is invalid.',
-        code: 1000,
-      );
+      throw DirectusError(message: 'Login response is invalid.');
     }
     // accessTokenTtlInMs
 

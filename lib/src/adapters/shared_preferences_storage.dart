@@ -33,10 +33,7 @@ class SharedPreferencesStorage extends DirectusStorage {
     } else if (value is double) {
       await instance.setDouble(key, value);
     } else {
-      throw DirectusError(
-        message: 'You can only store strings, numbers and booleans.',
-        code: 1000,
-      );
+      throw DirectusError(message: 'You can only store strings, numbers and booleans.');
     }
   }
 }

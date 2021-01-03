@@ -17,7 +17,7 @@ class DirectusResponse<T> {
     var data = dioResponse.data['data'];
 
     if (data is List) {
-      throw DirectusError(message: 'List should use DirectusListResponse.', code: 1000);
+      throw DirectusError(message: 'List should use DirectusListResponse.');
     } else if (data is Map<String, dynamic>) {
       this.data = converter.fromJson(data);
     } else {

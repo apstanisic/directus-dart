@@ -38,7 +38,7 @@ class Directus {
     client.lock();
 
     if (!_isDirectusInitialized) {
-      throw DirectusError(message: 'You must first call and await init method.', code: 1000);
+      throw DirectusError(message: 'You must first call and await init method.');
     } else {
       client.interceptors.remove(_checkIfInited);
     }
@@ -64,13 +64,6 @@ class Directus {
     return this;
   }
 
-  /// Auth
-  late AuthHandler auth = AuthHandler(client: client, storage: _storage);
-
-  /// Items
-  ItemsHandler<Map<String, dynamic>> items(String collection) =>
-      typedItems<Map<String, dynamic>>(collection, converter: MapItemsConverter());
-
   /// Get items from API with strong typings.
   ///
   /// [ItemsConverter] must be provided that will convert data to
@@ -79,13 +72,17 @@ class Directus {
   /// and from JSON so it can be consumed with this API.
   ItemsHandler<T> typedItems<T>(String collection, {required ItemsConverter<T> converter}) {
     if (collection.startsWith('directus')) {
-      throw DirectusError(
-        message: 'You can\'t read $collection collection directly.',
-        code: 1000,
-      );
+      throw DirectusError(message: 'You can\'t read $collection collection directly.');
     }
     return ItemsHandler<T>(collection, client: client, converter: converter);
   }
+
+  /// Auth
+  late AuthHandler auth = AuthHandler(client: client, storage: _storage);
+
+  /// Items
+  ItemsHandler<Map<String, dynamic>> items(String collection) =>
+      typedItems<Map<String, dynamic>>(collection, converter: MapItemsConverter());
 
   /// Activity
   ActivityHandler get activity => ActivityHandler(client: client);
