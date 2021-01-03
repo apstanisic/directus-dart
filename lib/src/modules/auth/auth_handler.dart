@@ -80,7 +80,7 @@ class AuthHandler {
       if (otp != null) 'otp': otp
     };
 
-    final dioResponse = await client.post('/auth/login', data: data);
+    final dioResponse = await client.post('auth/login', data: data);
     final loginDataResponse = AuthResponse.fromResponse(dioResponse);
     await storage.storeLoginData(loginDataResponse);
     loginData = loginDataResponse;
@@ -92,7 +92,7 @@ class AuthHandler {
   Future<void> logout() async {
     // _timer?.cancel();
     if (loginData != null) {
-      await client.post('/auth/logout');
+      await client.post('auth/logout');
       loginData = null;
       currentUser = null;
       tfa = null;
@@ -126,7 +126,7 @@ class AuthHandler {
 
     client.lock();
 
-    final response = await _tokenClient.post('/auth/refresh', data: {
+    final response = await _tokenClient.post('auth/refresh', data: {
       'mode': 'json',
       'refresh_token': loginData!.refreshToken,
     });

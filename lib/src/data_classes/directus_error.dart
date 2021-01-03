@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 ///
 /// SDK should always throw [DirectusError], and never [Exception] or [DioError].
 /// If error is from an API (it returns statuc code > 400), that code will be set
-/// as [code]. Othervise [code] will be set to 1000. That is used for when user didn't
+/// as [code]. Othervise [code] will be set to 1000. Error 1000 is used for when user didn't
 /// properly configure SDK, or there is internal error.
 class DirectusError implements Exception {
   /// Message explaining error.

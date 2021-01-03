@@ -23,7 +23,7 @@ void main() {
       final response = await server.ping();
 
       expect(response, 'pong');
-      verify(client.get('/server/ping')).called(1);
+      verify(client.get('server/ping')).called(1);
     });
 
     test('that `info` works.', () async {
@@ -34,7 +34,7 @@ void main() {
       expect(response, isA<DirectusResponse>());
       expect(response.data, isA<Map>());
 
-      verify(client.get('/server/info')).called(1);
+      verify(client.get('server/info')).called(1);
     });
 
     test('hat `oas` works.', () async {
@@ -44,7 +44,7 @@ void main() {
 
       expect(response, isA<DirectusResponse>());
       expect(response.data, isA<Map>());
-      verify(client.get('/server/specs/oas')).called(1);
+      verify(client.get('server/specs/oas')).called(1);
     });
   });
 }

@@ -29,7 +29,7 @@ void main() {
       await users.invite(email: 'test@email.com', roleId: 'some-uuid');
 
       verify(client.post(
-        '/users/invite',
+        'users/invite',
         data: {'email': 'test@email.com', 'role': 'some-uuid'},
       )).called(1);
     });
@@ -40,7 +40,7 @@ void main() {
 
       await users.inviteMany(emails: ['test@example.com', 'test2@example.com'], role: 'some-uuid');
 
-      verify(client.post('/users/invite', data: {
+      verify(client.post('users/invite', data: {
         'email': ['test@example.com', 'test2@example.com'],
         'role': 'some-uuid'
       })).called(1);
@@ -53,7 +53,7 @@ void main() {
       await users.acceptInvite(password: 'some-password', token: 'some-token');
 
       verify(client.post(
-        '/users/invite/accept',
+        'users/invite/accept',
         data: {'password': 'some-password', 'token': 'some-token'},
       )).called(1);
     });

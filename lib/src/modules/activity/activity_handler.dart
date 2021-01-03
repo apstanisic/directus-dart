@@ -4,6 +4,8 @@ import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/modules/activity/directus_activity.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
 
+import 'activity_converter.dart';
+
 class ActivityHandler {
   Dio client;
   ItemsHandler<DirectusActivity> handler;
@@ -29,7 +31,7 @@ class ActivityHandler {
   }) async {
     return DirectusResponse.fromRequest(
       () => client.post(
-        '/activity/comments',
+        'activity/comments',
         data: {'collection': collection, 'item': itemId, 'comment': comment},
       ),
     );
@@ -42,7 +44,7 @@ class ActivityHandler {
   }) async {
     return DirectusResponse.fromRequest(
       () => client.patch(
-        '/activity/comments/$id',
+        'activity/comments/$id',
         data: {'comment': comment},
       ),
     );
@@ -51,7 +53,7 @@ class ActivityHandler {
   /// Delete comment
   Future<void> deleteComment(String key) async {
     try {
-      await client.delete('/activity/comments/$key');
+      await client.delete('activity/comments/$key');
     } catch (e) {
       throw DirectusError.fromDio(e);
     }

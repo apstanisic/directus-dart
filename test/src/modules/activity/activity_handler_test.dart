@@ -65,7 +65,7 @@ void main() {
       );
 
       expect(response.data, {'id': 5});
-      verify(client.post('/activity/comments',
+      verify(client.post('activity/comments',
           data: {'collection': 'col', 'comment': 'comm', 'item': '5'})).called(1);
     });
 
@@ -78,7 +78,7 @@ void main() {
       final response = await activity.updateComment(id: 'key', comment: 'newComment');
       expect(response.data, {'hello': 'world'});
 
-      verify(client.patch('/activity/comments/key', data: {'comment': 'newComment'})).called(1);
+      verify(client.patch('activity/comments/key', data: {'comment': 'newComment'})).called(1);
     });
 
     test('that `deleteComment` works.', () async {
@@ -86,7 +86,7 @@ void main() {
 
       await activity.deleteComment('some-id');
 
-      verify(client.delete('/activity/comments/some-id')).called(1);
+      verify(client.delete('activity/comments/some-id')).called(1);
     });
   });
 }

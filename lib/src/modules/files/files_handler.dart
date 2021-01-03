@@ -7,6 +7,7 @@ import 'package:directus/src/modules/items/items_handler.dart';
 import 'package:meta/meta.dart';
 
 import 'directus_file.dart';
+import 'file_converter.dart';
 
 /// Handle all needed functionality for files.
 ///
@@ -57,7 +58,7 @@ class FilesHandler {
     });
 
     return DirectusResponse.fromRequest<DirectusFile>(
-      () => client.post('/files', data: data),
+      () => client.post('files', data: data),
       converter: FileConverter(),
     );
   }

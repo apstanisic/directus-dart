@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_permission.g.dart';
@@ -33,12 +32,4 @@ class DirectusPermission {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusPermissionToJson(this);
-}
-
-class PermissionConverter implements ItemsConverter<DirectusPermission> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusPermission fromJson(Map<String, dynamic> data) => DirectusPermission.fromJson(data);
 }

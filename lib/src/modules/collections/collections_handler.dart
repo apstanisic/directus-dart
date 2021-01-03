@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
 
+import 'collection_converter.dart';
 import 'directus_collection.dart';
 
 class CollectionsHandler extends ItemsHandler<DirectusCollection> {

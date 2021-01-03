@@ -10,7 +10,7 @@ class UtilsHandler {
   Future<String> randomString([int length = 32]) async {
     try {
       final response = await client.get(
-        '/utils/random/string',
+        'utils/random/string',
         queryParameters: {'length': length},
       );
       return DirectusResponse(response).data;
@@ -21,7 +21,7 @@ class UtilsHandler {
 
   Future<String> generateHash(String value) async {
     try {
-      final response = await client.post('/utils/hash/generate', data: {'string': value});
+      final response = await client.post('utils/hash/generate', data: {'string': value});
       return DirectusResponse(response).data;
     } catch (e) {
       throw DirectusError.fromDio(e);
@@ -31,7 +31,7 @@ class UtilsHandler {
   Future<bool> verifyHash(String value, String hash) async {
     try {
       final response = await client.post(
-        '/utils/hash/verify',
+        'utils/hash/verify',
         data: {'string': value, 'hash': hash},
       );
       return DirectusResponse(response).data;
@@ -46,7 +46,7 @@ class UtilsHandler {
     required String toPk,
   }) async {
     try {
-      await client.post('/utils/sort/$collection', data: {'item': itemPk, 'to': toPk});
+      await client.post('utils/sort/$collection', data: {'item': itemPk, 'to': toPk});
     } catch (e) {
       throw DirectusError.fromDio(e);
     }
@@ -54,7 +54,7 @@ class UtilsHandler {
 
   Future<void> revert(String revisionPk) async {
     try {
-      await client.post('/utils/revert/$revisionPk');
+      await client.post('utils/revert/$revisionPk');
     } catch (e) {
       throw DirectusError.fromDio(e);
     }

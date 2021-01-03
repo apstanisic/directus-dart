@@ -1,23 +1,4 @@
-// class DirectusSettings {
-//   Data data;
-
-//   DirectusSettings({required this.data});
-
-//   DirectusSettings.fromJson(Map<String, dynamic> json) {
-//     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final  data = <String, dynamic>{};
-//     if (this.data != null) {
-//       data['data'] = this.data.toJson();
-//     }
-//     return data;
-//   }
-// }
-
 import 'package:directus/src/modules/settings/storage_asset_preset.dart';
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_settings.g.dart';
@@ -59,12 +40,4 @@ class DirectusSettings {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusSettingsToJson(this);
-}
-
-class SettingsConverter implements ItemsConverter<DirectusSettings> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusSettings fromJson(Map<String, dynamic> data) => DirectusSettings.fromJson(data);
 }

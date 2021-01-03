@@ -9,12 +9,4 @@ void main() {
     final roleMap = role.toJson();
     expect(roleMap, isMap);
   });
-
-  test('RoleConverter', () {
-    final converter = RoleConverter();
-    final roleMap = converter.toJson(DirectusRole(id: '1'));
-    expect(roleMap, isMap);
-    final role = converter.fromJson(roleMap);
-    expect(role, isA<DirectusRole>());
-  });
 }

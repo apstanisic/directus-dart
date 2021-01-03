@@ -9,12 +9,4 @@ void main() {
     final fieldMap = field.toJson();
     expect(fieldMap, isMap);
   });
-
-  test('FieldConverter', () {
-    final converter = FieldConverter();
-    final fieldMap = converter.toJson(DirectusField(id: 1));
-    expect(fieldMap, isMap);
-    final field = converter.fromJson(fieldMap);
-    expect(field, isA<DirectusField>());
-  });
 }

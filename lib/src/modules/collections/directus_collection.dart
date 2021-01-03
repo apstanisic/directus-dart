@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_collection.g.dart';
@@ -39,12 +38,4 @@ class DirectusCollection {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusCollectionToJson(this);
-}
-
-class CollectionConverter implements ItemsConverter<DirectusCollection> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusCollection fromJson(Map<String, dynamic> data) => DirectusCollection.fromJson(data);
 }

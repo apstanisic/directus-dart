@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:directus/src/modules/items/map_items_converter.dart';

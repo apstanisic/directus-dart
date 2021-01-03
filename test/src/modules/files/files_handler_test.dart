@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/files/directus_file.dart';
 import 'package:directus/src/modules/files/files_handler.dart';

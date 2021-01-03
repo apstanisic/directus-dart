@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_role.g.dart';
@@ -34,12 +33,4 @@ class DirectusRole {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusRoleToJson(this);
-}
-
-class RoleConverter implements ItemsConverter<DirectusRole> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusRole fromJson(Map<String, dynamic> data) => DirectusRole.fromJson(data);
 }

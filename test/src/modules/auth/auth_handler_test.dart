@@ -32,7 +32,7 @@ void main() {
     });
 
     test('logout', () async {
-      when(client.post('/auth/logout')).thenAnswer((realInvocation) async => Response());
+      when(client.post('auth/logout')).thenAnswer((realInvocation) async => Response());
 
       auth.loginData = getAuthRespones();
 
@@ -40,7 +40,7 @@ void main() {
 
       expect(auth.currentUser, isNull);
       expect(auth.tfa, isNull);
-      verify(client.post('/auth/logout')).called(1);
+      verify(client.post('auth/logout')).called(1);
     });
 
     test('init', () async {
@@ -93,7 +93,7 @@ void main() {
 
       verify(storage.setItem(any as dynamic, any)).called(4);
 
-      verify(client.post('/auth/login', data: {
+      verify(client.post('auth/login', data: {
         'mode': 'json',
         'email': 'email@email',
         'password': 'password1',
@@ -134,7 +134,7 @@ void main() {
       auth.loginData!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));
       await auth.getNewTokenInInterceptor(RequestOptions());
 
-      verify(tokenClient.post('/auth/refresh', data: {
+      verify(tokenClient.post('auth/refresh', data: {
         'mode': 'json',
         'refresh_token': loginData.refreshToken,
       })).called(1);

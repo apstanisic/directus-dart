@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -8,12 +7,22 @@ part 'directus_file.g.dart';
 class DirectusFile {
   /// Return root url.
   ///
-  /// This will return url from /, without domain.
-  /// TODO Figure out best way to add domain.
+  /// This will return url from /.
+  /// There is no way that [DirectusFile] can know [baseUrl], so user must provide it manually,
+  /// at least for now.
+  /// This method is experimental because I don't like the API, it should be simple getter,
+  /// without needing to pass [baseUrl], but It's not possible right now. One solution is to
+  /// make [FileConverter] do that, but that is complicating a codebase, for a little gain,
+  /// this way all converters and classes are same.
   @experimental
-  String? get downloadUrl {
+  String? downloadUrl(String baseUrl) {
     if (id == null) return null;
-    return '/assets/$id';
+    // Remove trailing / if exists.
+    if (baseUrl.endsWith('/')) {
+      baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+    }
+
+    return '$baseUrl/assets/$id';
   }
 
   String? id;
@@ -67,12 +76,4 @@ class DirectusFile {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusFileToJson(this);
-}
-
-class FileConverter implements ItemsConverter<DirectusFile> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusFile fromJson(Map<String, dynamic> data) => DirectusFile.fromJson(data);
 }

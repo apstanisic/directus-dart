@@ -19,7 +19,7 @@ void main() {
     });
 
     test('that `read` works.', () async {
-      when(client.get('/users/me')).thenAnswer(
+      when(client.get('users/me')).thenAnswer(
         (realInvocation) async => Response(data: {
           'data': {'id': '1'}
         }),
@@ -30,11 +30,11 @@ void main() {
       expect(response, isA<DirectusResponse>());
       expect(response.data, isA<DirectusUser>());
       expect(response.data.id, '1');
-      verify(client.get('/users/me')).called(1);
+      verify(client.get('users/me')).called(1);
     });
 
     test('that `update` works.', () async {
-      when(client.patch('/users/me', data: anyNamed('data'))).thenAnswer(
+      when(client.patch('users/me', data: anyNamed('data'))).thenAnswer(
         (realInvocation) async => Response(data: {
           'data': {'id': '1', 'first_name': 'Test'}
         }),
@@ -46,7 +46,7 @@ void main() {
       expect(response, isA<DirectusResponse>());
       expect(response.data, isA<DirectusUser>());
       expect(response.data.toJson(), {'id': '1', 'first_name': 'Test'});
-      verify(client.patch('/users/me', data: {'email': 'test@email.com'})).called(1);
+      verify(client.patch('users/me', data: {'email': 'test@email.com'})).called(1);
     });
   });
 }

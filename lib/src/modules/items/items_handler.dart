@@ -10,7 +10,11 @@ import 'map_items_converter.dart';
 
 /// Handler for fetching data from Directus API
 ///
-/// Provides CRUD API
+/// Provides CRUD API.
+/// [id] in most of the methods is accepting [String] instead of [dynamic] or [int].
+/// This provided better type safety, and in the end [id] is always converted to
+/// [String] anyway. So this way we have better type safety, it's only a little bit more
+/// verbose because user has to call [toString] when [id] is number.
 class ItemsHandler<T> {
   /// HTTP Client
   @protected
@@ -26,9 +30,8 @@ class ItemsHandler<T> {
   ItemsHandler(String collection, {required Dio client, ItemsConverter? converter})
       : client = client,
         converter = converter ?? MapItemsConverter(),
-        _endpoint = collection.startsWith('directus_')
-            ? '/${collection.substring(9)}'
-            : '/items/$collection';
+        _endpoint =
+            collection.startsWith('directus_') ? '${collection.substring(9)}' : 'items/$collection';
 
   /// Get item by ID
   ///
@@ -131,24 +134,6 @@ class ItemsHandler<T> {
       converter: converter,
     );
   }
-
-  // /// Update many items
-  // ///
-  // /// ```dart
-  // /// await items.updateMany(ids: ['5', '6', '7'], data: {'name': 'Test'});
-  // /// ```
-  // @Deprecated('This API is not stabilized, and might be deleted.')
-  // Future<DirectusResponse<List<T>>> updateWhere({required Filters filters, required T data}) async {
-  //   final mapData = converter.toJson(data);
-  //   return DirectusResponse.fromRequest(
-  //     () async {
-  //       final items = await readMany(filters: filters, query: Query(fields: ['id']));
-  //       final ids = items.data.map((e) => e['id']).join(',');
-  //       return client.patch('$_endpoint/${ids}', data: mapData);
-  //     },
-  //     converter: converter,
-  //   );
-  // }
 
   /// Delete item by ID
   ///

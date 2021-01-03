@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_preset.g.dart';
@@ -34,12 +33,4 @@ class DirectusPreset {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusPresetToJson(this);
-}
-
-class PresetConverter implements ItemsConverter<DirectusPreset> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusPreset fromJson(Map<String, dynamic> data) => DirectusPreset.fromJson(data);
 }

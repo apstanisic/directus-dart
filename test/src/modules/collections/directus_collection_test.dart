@@ -8,12 +8,4 @@ void main() {
     final collectionMap = collection.toJson();
     expect(collectionMap, isMap);
   });
-
-  test('CollectionConverter', () {
-    final converter = CollectionConverter();
-    final collectionMap = converter.toJson(DirectusCollection(hidden: false));
-    expect(collectionMap, isMap);
-    final collection = converter.fromJson(collectionMap);
-    expect(collection, isA<DirectusCollection>());
-  });
 }

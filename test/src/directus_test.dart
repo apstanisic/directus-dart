@@ -37,10 +37,18 @@ void main() {
     });
 
     test('that settings url sets base url for Dio.', () {
-      final url = 'http://localhost:8055';
+      final url = 'http://localhost:8055/';
       final sdk = Directus(url, storage: storage);
 
       expect(sdk.client.options.baseUrl, url);
+      // expect(sdk.url, url);
+    });
+
+    test('that settings url sets base url for Dio with trailing slash.', () {
+      final url = 'http://localhost:8055';
+      final sdk = Directus(url, storage: storage);
+
+      expect(sdk.client.options.baseUrl, '$url/');
       // expect(sdk.url, url);
     });
 

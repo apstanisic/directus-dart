@@ -11,11 +11,11 @@ class Tfa {
 
   /// Enable 2FA.
   Future<void> enable(String password) async {
-    await client.post('/users/tfa/enable', data: {'password': password});
+    await client.post('users/tfa/enable', data: {'password': password});
   }
 
   /// Disable 2FA.
   Future<void> disable(String otp) async {
-    await client.post('/users/tfa/disable', data: {'otp': otp});
+    await client.post('users/tfa/disable', data: {'otp': otp});
   }
 }

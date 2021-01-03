@@ -23,7 +23,7 @@ void main() {
       final response = await utils.randomString();
 
       expect(response, isA<String>());
-      verify(client.get('/utils/random/string', queryParameters: {'length': 32})).called(1);
+      verify(client.get('utils/random/string', queryParameters: {'length': 32})).called(1);
     });
 
     test('that user can change `randomString` length.', () async {
@@ -34,7 +34,7 @@ void main() {
 
       expect(response, isA<String>());
       verify(
-        client.get('/utils/random/string', queryParameters: {'length': 5}),
+        client.get('utils/random/string', queryParameters: {'length': 5}),
       ).called(1);
     });
 
@@ -46,7 +46,7 @@ void main() {
 
       expect(response, 'some-hash');
       verify(client.post(
-        '/utils/hash/generate',
+        'utils/hash/generate',
         data: {'string': 'some-string'},
       )).called(1);
     });
@@ -59,7 +59,7 @@ void main() {
 
       expect(response, true);
       verify(client.post(
-        '/utils/hash/verify',
+        'utils/hash/verify',
         data: {'string': 'some-string', 'hash': 'hash-string'},
       )).called(1);
     });
@@ -71,7 +71,7 @@ void main() {
       await utils.sort(collection: 'test_collection', itemPk: '1', toPk: '2');
 
       verify(client.post(
-        '/utils/sort/test_collection',
+        'utils/sort/test_collection',
         data: {'item': '1', 'to': '2'},
       )).called(1);
     });
@@ -81,7 +81,7 @@ void main() {
 
       await utils.revert('1');
 
-      verify(client.post('/utils/revert/1')).called(1);
+      verify(client.post('utils/revert/1')).called(1);
     });
   });
 }

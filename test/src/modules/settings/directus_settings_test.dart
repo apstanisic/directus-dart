@@ -9,12 +9,4 @@ void main() {
     final settingsMap = settings.toJson();
     expect(settingsMap, isMap);
   });
-
-  test('SettingsConverter', () {
-    final converter = SettingsConverter();
-    final settingsMap = converter.toJson(DirectusSettings(id: 1));
-    expect(settingsMap, isMap);
-    final settings = converter.fromJson(settingsMap);
-    expect(settings, isA<DirectusSettings>());
-  });
 }

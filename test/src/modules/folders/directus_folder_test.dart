@@ -9,12 +9,4 @@ void main() {
     final folderMap = folder.toJson();
     expect(folderMap, isMap);
   });
-
-  test('FolderConverter', () {
-    final converter = FolderConverter();
-    final folderMap = converter.toJson(DirectusFolder(id: 'fds'));
-    expect(folderMap, isMap);
-    final folder = converter.fromJson(folderMap);
-    expect(folder, isA<DirectusFolder>());
-  });
 }

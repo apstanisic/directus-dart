@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_folder.g.dart';
@@ -20,12 +19,4 @@ class DirectusFolder {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusFolderToJson(this);
-}
-
-class FolderConverter implements ItemsConverter<DirectusFolder> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusFolder fromJson(Map<String, dynamic> data) => DirectusFolder.fromJson(data);
 }

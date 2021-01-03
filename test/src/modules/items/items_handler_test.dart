@@ -30,7 +30,7 @@ void main() {
 
       expect(response, isA<DirectusResponse>());
       expect(response.data, {'id': 'some-id'});
-      verify(client.get('/items/test/some-id', queryParameters: OneQuery().toMap())).called(1);
+      verify(client.get('items/test/some-id', queryParameters: OneQuery().toMap())).called(1);
     });
 
     test('readMany', () async {
@@ -51,7 +51,7 @@ void main() {
         {'id': 1},
         {'id': 2}
       ]);
-      verify(client.get('/items/test', queryParameters: query.toMap())).called(1);
+      verify(client.get('items/test', queryParameters: query.toMap())).called(1);
     });
 
     test('that `createOne` works.', () async {
@@ -63,7 +63,7 @@ void main() {
 
       expect(response, isA<DirectusResponse>());
       expect(response.data, itemData);
-      verify(client.post('/items/test', data: itemData)).called(1);
+      verify(client.post('items/test', data: itemData)).called(1);
     });
 
     test('that `createMany` works.', () async {
@@ -78,7 +78,7 @@ void main() {
 
       expect(response, isA<DirectusListResponse>());
       expect(response.data, [itemData, itemData]);
-      verify(client.post('/items/test', data: [itemData, itemData])).called(1);
+      verify(client.post('items/test', data: [itemData, itemData])).called(1);
     });
 
     test('that `updateOne` works.', () async {
@@ -90,7 +90,7 @@ void main() {
 
       expect(response, isA<DirectusResponse>());
       expect(response.data, itemData);
-      verify(client.patch('/items/test/5', data: itemData)).called(1);
+      verify(client.patch('items/test/5', data: itemData)).called(1);
     });
 
     test('that `updateMany` works.', () async {
@@ -105,7 +105,7 @@ void main() {
 
       expect(response, isA<DirectusListResponse>());
       expect(response.data, [itemData, itemData]);
-      verify(client.patch('/items/test/1,2', data: itemData)).called(1);
+      verify(client.patch('items/test/1,2', data: itemData)).called(1);
     });
 
     test('that `deleteOne` works.', () async {
@@ -113,7 +113,7 @@ void main() {
 
       await items.deleteOne('5');
 
-      verify(client.delete('/items/test/5')).called(1);
+      verify(client.delete('items/test/5')).called(1);
     });
 
     test('that `deleteMany` works.', () async {
@@ -121,7 +121,7 @@ void main() {
 
       await items.deleteMany(['1', '2', '3']);
 
-      verify(client.delete('/items/test/1,2,3')).called(1);
+      verify(client.delete('items/test/1,2,3')).called(1);
     });
 
     test('that `deleteOne` throws `DirectusError`.', () async {
@@ -129,7 +129,7 @@ void main() {
 
       expect(() => items.deleteOne('5'), throwsException);
 
-      verify(client.delete('/items/test/5')).called(1);
+      verify(client.delete('items/test/5')).called(1);
     });
 
     test('that `deleteMany` works.', () async {
@@ -137,7 +137,7 @@ void main() {
 
       expect(() => items.deleteMany(['1', '2', '3']), throwsException);
 
-      verify(client.delete('/items/test/1,2,3')).called(1);
+      verify(client.delete('items/test/1,2,3')).called(1);
     });
   });
 }

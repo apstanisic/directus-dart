@@ -1,6 +1,7 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
+import 'package:directus/src/modules/presets/preset_converter.dart';
 
 import 'directus_preset.dart';
 

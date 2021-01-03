@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
+import 'package:directus/src/modules/settings/settings_converter.dart';
 import 'package:meta/meta.dart';
 
 import 'directus_settings.dart';

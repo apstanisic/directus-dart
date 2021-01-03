@@ -13,7 +13,6 @@ bool _isDirectusInitialized = false;
 
 class Directus {
   /// [Dio] client used for HTTP requests.
-  @protected
   @visibleForTesting
   final Dio client;
 
@@ -23,16 +22,29 @@ class Directus {
   /// Constructor with all provided services.
   Directus(String url, {DirectusStorage? storage, Dio? client})
       : _storage = storage ?? SharedPreferencesStorage(),
-        client = client ?? Dio(BaseOptions(baseUrl: url)) {
+        client = client ??
+            Dio(BaseOptions(
+                // Add trailing `/`
+                baseUrl: url.endsWith('/') ? url : '$url/')) {
     // Check if SDK is inited before each request
-    this.client.interceptors.add(InterceptorsWrapper(
-      onRequest: (options) {
-        if (!_isDirectusInitialized) {
-          throw DirectusError(message: 'You must first await init method', code: 1000);
-        }
-        return options;
-      },
-    ));
+    this.client.interceptors.add(InterceptorsWrapper(onRequest: _checkIfInited));
+  }
+
+  /// Add check to [Dio] to see if SDK is initialized before sending HTTP request.
+  ///
+  /// If [Directus] is initialized, this interceptor will be removed.
+  RequestOptions _checkIfInited(RequestOptions options) {
+    client.lock();
+
+    if (!_isDirectusInitialized) {
+      throw DirectusError(message: 'You must first call and await init method.', code: 1000);
+    } else {
+      client.interceptors.remove(_checkIfInited);
+    }
+
+    client.unlock();
+
+    return options;
   }
 
   /// Initialize SDK.

@@ -9,12 +9,4 @@ void main() {
     final permissionMap = permission.toJson();
     expect(permissionMap, isMap);
   });
-
-  test('PermissionConverter', () {
-    final converter = PermissionConverter();
-    final permissionMap = converter.toJson(DirectusPermission(id: 1));
-    expect(permissionMap, isMap);
-    final permission = converter.fromJson(permissionMap);
-    expect(permission, isA<DirectusPermission>());
-  });
 }

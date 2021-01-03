@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_field.g.dart';
@@ -46,12 +45,4 @@ class DirectusField {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusFieldToJson(this);
-}
-
-class FieldConverter implements ItemsConverter<DirectusField> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusField fromJson(Map<String, dynamic> data) => DirectusField.fromJson(data);
 }

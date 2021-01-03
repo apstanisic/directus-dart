@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_relation.g.dart';
@@ -34,12 +33,4 @@ class DirectusRelation {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusRelationToJson(this);
-}
-
-class RelationConverter implements ItemsConverter<DirectusRelation> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusRelation fromJson(Map<String, dynamic> data) => DirectusRelation.fromJson(data);
 }

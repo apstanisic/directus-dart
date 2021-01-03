@@ -9,12 +9,4 @@ void main() {
     final relationMap = relation.toJson();
     expect(relationMap, isMap);
   });
-
-  test('RelationConverter', () {
-    final converter = RelationConverter();
-    final relationMap = converter.toJson(DirectusRelation(id: 1));
-    expect(relationMap, isMap);
-    final relation = converter.fromJson(relationMap);
-    expect(relation, isA<DirectusRelation>());
-  });
 }

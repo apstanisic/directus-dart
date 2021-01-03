@@ -9,12 +9,4 @@ void main() {
     final revisionMap = revision.toJson();
     expect(revisionMap, isMap);
   });
-
-  test('RevisionConverter', () {
-    final converter = RevisionConverter();
-    final revisionMap = converter.toJson(DirectusRevision(id: 1));
-    expect(revisionMap, isMap);
-    final revision = converter.fromJson(revisionMap);
-    expect(revision, isA<DirectusRevision>());
-  });
 }

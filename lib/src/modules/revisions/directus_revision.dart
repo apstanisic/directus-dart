@@ -1,4 +1,3 @@
-import 'package:directus/src/modules/items/items_converter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_revision.g.dart';
@@ -28,12 +27,4 @@ class DirectusRevision {
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusRevisionToJson(this);
-}
-
-class RevisionConverter implements ItemsConverter<DirectusRevision> {
-  @override
-  Map<String, dynamic> toJson(data) => data.toJson();
-
-  @override
-  DirectusRevision fromJson(Map<String, dynamic> data) => DirectusRevision.fromJson(data);
 }

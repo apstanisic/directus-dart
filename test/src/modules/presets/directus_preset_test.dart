@@ -9,12 +9,4 @@ void main() {
     final presetMap = preset.toJson();
     expect(presetMap, isMap);
   });
-
-  test('PresetConverter', () {
-    final converter = PresetConverter();
-    final presetMap = converter.toJson(DirectusPreset(id: 1));
-    expect(presetMap, isMap);
-    final preset = converter.fromJson(presetMap);
-    expect(preset, isA<DirectusPreset>());
-  });
 }
