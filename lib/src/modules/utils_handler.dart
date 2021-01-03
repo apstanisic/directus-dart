@@ -8,36 +8,31 @@ class UtilsHandler {
   UtilsHandler({required this.client});
 
   Future<String> randomString([int length = 32]) async {
-    try {
-      final response = await client.get(
+    final response = await DirectusResponse.fromRequest<String>(
+      () => client.get(
         'utils/random/string',
         queryParameters: {'length': length},
-      );
-      return DirectusResponse(response).data;
-    } catch (e) {
-      throw DirectusError.fromDio(e);
-    }
+      ),
+    );
+    return response.data;
   }
 
   Future<String> generateHash(String value) async {
-    try {
-      final response = await client.post('utils/hash/generate', data: {'string': value});
-      return DirectusResponse(response).data;
-    } catch (e) {
-      throw DirectusError.fromDio(e);
-    }
+    final response = await DirectusResponse.fromRequest<String>(
+      () => client.post('utils/hash/generate', data: {'string': value}),
+    );
+
+    return response.data;
   }
 
   Future<bool> verifyHash(String value, String hash) async {
-    try {
-      final response = await client.post(
+    final response = await DirectusResponse.fromRequest<bool>(
+      () => client.post(
         'utils/hash/verify',
         data: {'string': value, 'hash': hash},
-      );
-      return DirectusResponse(response).data;
-    } catch (e) {
-      throw DirectusError.fromDio(e);
-    }
+      ),
+    );
+    return response.data;
   }
 
   Future<void> sort({

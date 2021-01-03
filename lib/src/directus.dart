@@ -24,8 +24,9 @@ class Directus {
       : _storage = storage ?? SharedPreferencesStorage(),
         client = client ??
             Dio(BaseOptions(
-                // Add trailing `/`
-                baseUrl: url.endsWith('/') ? url : '$url/')) {
+              // Add trailing `/`
+              baseUrl: url.endsWith('/') ? url : '$url/',
+            )) {
     // Check if SDK is inited before each request
     this.client.interceptors.add(InterceptorsWrapper(onRequest: _checkIfInited));
   }
