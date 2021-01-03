@@ -10,7 +10,7 @@ More info can be found [here](https://pub.dev/packages/directus/install).
 
 ## Getting started
 
-Create instance and initialize. You must run `.init()` for storage to be initialized. Othervise, there could be bugs.
+Create instance and initialize. You must run `.init()` for storage to be initialized. Othervise, there `DirectusError` will be thrown.
 
 ```dart
 import 'package:directus/directus.dart';
@@ -201,7 +201,9 @@ final fields = sdk.fields;
 
 ### Files
 
-Same methods as `sdk.items(collection)`.
+Methods `readOne`, `readMany`, `deleteOne`, `deleteMany` are the same as in `items(collection)`.
+There is currently experimental `uploadFile` method that is still not stable.
+There are not `updateOne`, `updateMany`, `createOne` and `createMany`.
 
 ```dart
 final files = sdk.files;
