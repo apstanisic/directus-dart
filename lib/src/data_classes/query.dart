@@ -58,7 +58,7 @@ class Query extends OneQuery {
   @override
   Map<String, dynamic> toMap({Filters? filters}) {
     return {
-      'filter': filters,
+      'filter': filters?.toMap(),
       'fields': fields?.join(','),
       'limit': limit,
       'offset': offset,
