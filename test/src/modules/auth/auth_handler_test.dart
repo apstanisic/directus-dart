@@ -32,15 +32,23 @@ void main() {
     });
 
     test('logout', () async {
-      when(client.post('auth/logout')).thenAnswer((realInvocation) async => Response());
+      when(client.post('auth/logout', data: anyNamed('data')))
+          .thenAnswer((realInvocation) async => Response());
 
-      auth.loginData = getAuthRespones();
+      final loginData = getAuthRespones();
+      auth.loginData = loginData;
 
       await auth.logout();
 
       expect(auth.currentUser, isNull);
       expect(auth.tfa, isNull);
-      verify(client.post('auth/logout')).called(1);
+      verify(client.post('auth/logout', data: {'refresh_token': loginData.refreshToken})).called(1);
+    });
+
+    test('logout does nothing if user is not logged in', () async {
+      auth.loginData = null;
+      await auth.logout();
+      verifyZeroInteractions(client);
     });
 
     test('init', () async {

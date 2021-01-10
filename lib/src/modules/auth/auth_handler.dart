@@ -92,7 +92,7 @@ class AuthHandler {
   Future<void> logout() async {
     // _timer?.cancel();
     if (loginData != null) {
-      await client.post('auth/logout');
+      await client.post('auth/logout', data: {'refresh_token': loginData!.refreshToken});
       loginData = null;
       currentUser = null;
       tfa = null;
