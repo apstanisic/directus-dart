@@ -22,6 +22,7 @@ void main() {
     late Dio tokenClient;
     late AuthHandler auth;
     late AuthStorage authStorage;
+
     setUp(() async {
       storage = MockDirectusStorage();
       client = MockDio();
@@ -37,7 +38,6 @@ void main() {
 
       final loginData = getAuthRespones();
       auth.loginData = loginData;
-
       await auth.logout();
 
       expect(auth.currentUser, isNull);
@@ -148,6 +148,95 @@ void main() {
       })).called(1);
 
       verify(authStorage.storeLoginData(any as dynamic)).called(1);
+    });
+
+    test('init listener', () async {
+      final auth = AuthHandler(client: client, storage: storage);
+      auth.storage = authStorage;
+      final authData = getAuthRespones();
+      when(authStorage.getLoginData()).thenAnswer((_) async => authData);
+      auth.onChange = (type, data) async {
+        expect(type, 'init');
+        expect(data, authData);
+      };
+      await auth.init();
+    });
+
+    test('logout listener works', () async {
+      when(client.post(any, data: anyNamed('data')))
+          .thenAnswer((realInvocation) async => Response());
+
+      var called = 0;
+      auth.onChange = (type, data) async {
+        expect(called, 0);
+        expect(type, 'logout');
+        expect(data, null);
+        called += 1;
+      };
+
+      auth.onChange = (type, data) async {
+        expect(called, 1);
+        called += 1;
+      };
+
+      auth.loginData = getAuthRespones();
+      await auth.logout();
+      expect(called, 2);
+    });
+
+    test('login listener works', () async {
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(
+        (realInvocation) async => Response(data: {
+          'data': {'access_token': 'ac', 'refresh_token': 'rt', 'expires': 1000}
+        }),
+      );
+
+      var called = 0;
+
+      auth.onChange = (type, data) async {
+        expect(called, 0);
+        expect(type, 'login');
+        expect(data, isA<AuthResponse>());
+        called += 1;
+      };
+
+      auth.onChange = (type, data) async {
+        expect(called, 1);
+        expect(type, 'login');
+        expect(data, isA<AuthResponse>());
+        called += 1;
+      };
+
+      await auth.login(email: 'email@email', password: 'password1', otp: 'otp1');
+      expect(called, 2);
+    });
+
+    test('refreshing token listener works', () async {
+      when(tokenClient.post(any, data: anyNamed('data'))).thenAnswer(
+        (realInvocation) async => Response(data: {
+          'data': {
+            'refresh_token': 'rt',
+            'access_token': 'at',
+            'expires': 10000,
+          }
+        }),
+      );
+      var called = 0;
+      auth.loginData = getAuthRespones();
+      auth.loginData!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));
+      auth.onChange = (type, data) async {
+        expect(called, 0);
+        expect(type, 'refresh');
+        expect(data, isA<AuthResponse>());
+        called += 1;
+      };
+      auth.onChange = (type, data) async {
+        expect(called, 1);
+        called += 1;
+      };
+
+      await auth.getNewTokenInInterceptor(RequestOptions());
+      expect(called, 2);
     });
   });
 }

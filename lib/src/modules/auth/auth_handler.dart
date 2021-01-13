@@ -7,8 +7,16 @@ import 'package:directus/src/modules/auth/_current_user.dart';
 import 'package:directus/src/modules/auth/_forgotten_password.dart';
 import 'package:directus/src/modules/auth/_tfa.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
+import 'package:meta/meta.dart';
 
 import '_auth_response.dart';
+
+/// Definition that any callback function must fullfill if it wants to be Auth callback.
+///
+/// [type] is either `login`, `logout`, `init` or `refresh`.
+/// [data] is data returned from action. It can be [AuthResponse] for `login`, `init` and `refresh`,
+/// and [Null] for `logout` and `init`. `init` will have value if user is logged in.
+typedef ListenerFunction = Future<void> Function(String type, AuthResponse? data);
 
 class AuthHandler {
   /// Http client
@@ -40,6 +48,8 @@ class AuthHandler {
   /// Forgotten password.
   late ForgottenPassword forgottenPassword;
 
+  List<ListenerFunction> listeners = [];
+
   AuthHandler({
     required this.client,
     required DirectusStorage storage,
@@ -52,6 +62,10 @@ class AuthHandler {
     client.interceptors.add(InterceptorsWrapper(onRequest: getNewTokenInInterceptor));
   }
 
+  /// Add listener when auth status changes
+  @experimental
+  set onChange(ListenerFunction fn) => listeners.add(fn);
+
   /// Initializes [AuthHandler], by getting data from cold storage.
   ///
   /// This method should be called right after constructor, othervise logged in user
@@ -61,6 +75,9 @@ class AuthHandler {
     if (loginData != null) {
       currentUser = CurrentUser(client: client);
       tfa = Tfa(client: client);
+    }
+    for (var i = 0; i < listeners.length; i++) {
+      await listeners[i].call('init', loginData);
     }
   }
 
@@ -86,6 +103,10 @@ class AuthHandler {
     loginData = loginDataResponse;
     currentUser = CurrentUser(client: client);
     tfa = Tfa(client: client);
+
+    for (var i = 0; i < listeners.length; i++) {
+      await listeners[i].call('login', loginDataResponse);
+    }
   }
 
   /// Logout user
@@ -96,6 +117,10 @@ class AuthHandler {
       loginData = null;
       currentUser = null;
       tfa = null;
+    }
+
+    for (var i = 0; i < listeners.length; i++) {
+      await listeners[i].call('logout', null);
     }
   }
 
@@ -136,6 +161,9 @@ class AuthHandler {
     options.headers['Authorization'] = loginData!.accessToken;
 
     client.unlock();
+    for (var i = 0; i < listeners.length; i++) {
+      await listeners[i].call('refresh', loginDataResponse);
+    }
     return options;
   }
 }

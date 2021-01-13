@@ -31,6 +31,12 @@ class AuthResponse {
 
   /// Create [AuthResponse] from [Dio] [Response] object.
   AuthResponse.fromResponse(Response response) {
+    // Response is possible to be null in testing when we forget to return response.
+    // ignore: unnecessary_null_comparison
+    if (response == null || response.data == null) {
+      throw DirectusError(message: 'Response and response data can\'t be null.');
+    }
+
     final data = response.data?['data'];
 
     if (data == null) throw Exception('Login response is invalid.');

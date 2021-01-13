@@ -1,3 +1,8 @@
+## 0.4.3
+
+- Add auth hooks
+- Improve types
+
 ## 0.0.6
 
 - Fix `Filter.notEmpty`
