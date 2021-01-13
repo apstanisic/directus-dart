@@ -6,8 +6,12 @@ part 'directus_preset.g.dart';
 class DirectusPreset {
   int? id;
   String? bookmark;
-  String? user;
-  String? role;
+
+  /// User is either [String] or [DirectusUser].
+  Object? user;
+
+  /// User is either [String] or [DirectusRole].
+  Object? role;
   String? collection;
   String? search;
   List<Map<String, dynamic>>? filters;

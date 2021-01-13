@@ -31,10 +31,16 @@ class DirectusFile {
   String? filenameDownload;
   String? title;
   String? type;
-  String? folder;
-  String? uploadedBy;
+
+  /// Folder. Either [String] or [DirectusFolder].
+  Object? folder;
+
+  /// Either [String] or [DirectusUser].
+  Object? uploadedBy;
   DateTime? uploadedOn;
-  String? modifiedBy;
+
+  /// Either [String] or [DirectusUser].
+  Object? modifiedBy;
   DateTime? modifiedOn;
   String? charset;
   int? filesize;

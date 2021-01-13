@@ -5,12 +5,20 @@ part 'directus_revision.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusRevision {
   int? id;
-  int? activity;
+
+  /// Activity is either [int] or [DirectusActivity].
+  Object? activity;
+
+  /// Collection name. NOT FK to [DirectusCollection].
   String? collection;
+
+  /// Item is either [String]. It represents ID of item that is joined. Joining doesn't do anything.
   String? item;
   Map<String, dynamic>? data;
   Map<String, dynamic>? delta;
-  int? parent;
+
+  /// Parent revision. It is either [int] or [DirectusRevision].
+  Object? parent;
 
   DirectusRevision({
     this.id,

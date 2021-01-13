@@ -4,9 +4,16 @@ part 'directus_folder.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusFolder {
+  /// Folder ID
   String? id;
+
+  /// Folder name
   String? name;
-  String? parent;
+
+  /// Parent folder.
+  ///
+  /// This field is [id] of parent item. It is either [String] or [DirectusFolder].
+  Object? parent;
 
   DirectusFolder({
     this.id,

@@ -1,3 +1,4 @@
+import 'package:directus/directus.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_role.g.dart';
@@ -15,6 +16,9 @@ class DirectusRole {
   bool? adminAccess;
   bool? appAccess;
 
+  /// Either [List] of [String] IDs, or [List] of [DirectusUsers].
+  List<Object>? users;
+
   DirectusRole({
     this.id,
     this.name,
@@ -26,6 +30,7 @@ class DirectusRole {
     this.collectionList,
     this.adminAccess,
     this.appAccess,
+    this.users,
   });
 
   /// Used for code generation

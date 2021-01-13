@@ -13,11 +13,15 @@ class DirectusUser {
   String? title;
   String? description;
   List<String>? tags;
-  String? avatar;
+
+  /// Either [String] or [DirectusFile].
+  Object? avatar;
   String? language;
   String? theme;
   String? status;
-  String? role;
+
+  /// Role is either [String] or [DirectusRole].
+  Object? role;
 
   DirectusUser({
     this.id,

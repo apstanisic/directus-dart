@@ -5,13 +5,26 @@ part 'directus_activity.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusActivity {
   int? id;
+
+  /// What action is performed. For example `create`
   String? action;
-  String? user;
+
+  /// User that performed action. Either [String] or [DirectusUser].
+  Object? user;
   DateTime? timestamp;
   String? ip;
   String? userAgent;
+
+  /// Name of the collection.
+  ///
+  /// It is NOT FK to [DirectusCollection].
   String? collection;
-  String? item;
+
+  /// It's [int] or [String].
+  ///
+  /// It is not connected to any other collection.
+  /// At least not when this code is written (January 2021).
+  Object? item;
   String? comment;
 
   DirectusActivity({

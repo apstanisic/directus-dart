@@ -4,6 +4,9 @@ part 'directus_collection.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusCollection {
+  /// Collection name.
+  ///
+  /// It is not a FK to [DirectusCollection].
   String? collection;
   String? icon;
   String? note;
