@@ -22,8 +22,9 @@ DirectusField _$DirectusFieldFromJson(Map<String, dynamic> json) {
     sort: json['sort'] as int?,
     width: json['width'] as String?,
     group: json['group'] as int?,
-    translations:
-        (json['translations'] as List<dynamic>?)?.map((e) => e as Map<String, dynamic>).toList(),
+    translations: (json['translations'] as List<dynamic>?)
+        ?.map((e) => e as Map<String, dynamic>)
+        .toList(),
     note: json['note'] as String?,
   );
 }

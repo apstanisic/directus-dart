@@ -17,11 +17,11 @@ DirectusUser _$DirectusUserFromJson(Map<String, dynamic> json) {
     title: json['title'] as String?,
     description: json['description'] as String?,
     tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-    avatar: json['avatar'] as String?,
+    avatar: json['avatar'],
     language: json['language'] as String?,
     theme: json['theme'] as String?,
     status: json['status'] as String?,
-    role: json['role'] as String?,
+    role: json['role'],
   );
 }
 

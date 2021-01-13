@@ -10,7 +10,7 @@ DirectusFolder _$DirectusFolderFromJson(Map<String, dynamic> json) {
   return DirectusFolder(
     id: json['id'] as String?,
     name: json['name'] as String?,
-    parent: json['parent'] as String?,
+    parent: json['parent'],
   );
 }
 

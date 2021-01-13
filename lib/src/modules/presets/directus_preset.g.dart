@@ -10,11 +10,13 @@ DirectusPreset _$DirectusPresetFromJson(Map<String, dynamic> json) {
   return DirectusPreset(
     id: json['id'] as int?,
     bookmark: json['bookmark'] as String?,
-    user: json['user'] as String?,
-    role: json['role'] as String?,
+    user: json['user'],
+    role: json['role'],
     collection: json['collection'] as String?,
     search: json['search'] as String?,
-    filters: (json['filters'] as List<dynamic>?)?.map((e) => e as Map<String, dynamic>).toList(),
+    filters: (json['filters'] as List<dynamic>?)
+        ?.map((e) => e as Map<String, dynamic>)
+        .toList(),
     layout: json['layout'] as String?,
     layoutQuery: json['layout_query'] as Map<String, dynamic>?,
     layoutOptions: json['layout_options'] as Map<String, dynamic>?,

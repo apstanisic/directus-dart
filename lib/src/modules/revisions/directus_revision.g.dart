@@ -9,12 +9,12 @@ part of 'directus_revision.dart';
 DirectusRevision _$DirectusRevisionFromJson(Map<String, dynamic> json) {
   return DirectusRevision(
     id: json['id'] as int?,
-    activity: json['activity'] as int?,
+    activity: json['activity'],
     collection: json['collection'] as String?,
     item: json['item'] as String?,
     data: json['data'] as Map<String, dynamic>?,
     delta: json['delta'] as Map<String, dynamic>?,
-    parent: json['parent'] as int?,
+    parent: json['parent'],
   );
 }
 

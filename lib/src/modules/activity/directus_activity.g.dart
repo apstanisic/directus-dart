@@ -13,9 +13,11 @@ DirectusActivity _$DirectusActivityFromJson(Map<String, dynamic> json) {
     comment: json['comment'] as String?,
     id: json['id'] as int?,
     ip: json['ip'] as String?,
-    item: json['item'] as String?,
-    timestamp: json['timestamp'] == null ? null : DateTime.parse(json['timestamp'] as String),
-    user: json['user'] as String?,
+    item: json['item'],
+    timestamp: json['timestamp'] == null
+        ? null
+        : DateTime.parse(json['timestamp'] as String),
+    user: json['user'],
     userAgent: json['user_agent'] as String?,
   );
 }

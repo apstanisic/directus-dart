@@ -1,3 +1,7 @@
+## 0.4.4
+
+- Update generated files
+
 ## 0.4.3
 
 - Add auth hooks
