@@ -59,7 +59,7 @@ class AuthHandler {
     // Get new access token if current is expired.
     _refreshClient = refreshClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
 
-    client.interceptors.add(InterceptorsWrapper(onRequest: getNewTokenInInterceptor));
+    client.interceptors.add(InterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor));
   }
 
   /// Add listener when auth status changes
@@ -135,8 +135,13 @@ class AuthHandler {
     }
   }
 
+  /// This is run before every request. It check if token is about to expire, and fetches new one.
+  ///
+  /// If user is logged in, and token has less the 5s ttl, SDK will refresh token,
+  /// and update token in [client]. If for some reason refreshing fail, it will delete token
+  /// from [client].
   @visibleForTesting
-  Future<RequestOptions> getNewTokenInInterceptor(RequestOptions options) async {
+  Future<RequestOptions> refreshExpiredTokenInterceptor(RequestOptions options) async {
     // If user is not logged in, just do request normally
     if (loginData == null) return options;
 

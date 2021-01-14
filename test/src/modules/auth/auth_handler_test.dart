@@ -111,7 +111,7 @@ void main() {
 
     test('Do not get new access token if user is not logged in.', () async {
       auth.loginData = null;
-      await auth.getNewTokenInInterceptor(RequestOptions());
+      await auth.refreshExpiredTokenInterceptor(RequestOptions());
 
       verifyZeroInteractions(tokenClient);
       //
@@ -120,7 +120,7 @@ void main() {
     test('Do not get new access token if AT is valid for more then 5 seconds.', () async {
       auth.loginData = getAuthRespones();
       auth.loginData?.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 10));
-      await auth.getNewTokenInInterceptor(RequestOptions());
+      await auth.refreshExpiredTokenInterceptor(RequestOptions());
 
       verifyZeroInteractions(tokenClient);
       //
@@ -140,7 +140,7 @@ void main() {
       final loginData = getAuthRespones();
       auth.loginData = loginData;
       auth.loginData!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));
-      await auth.getNewTokenInInterceptor(RequestOptions());
+      await auth.refreshExpiredTokenInterceptor(RequestOptions());
 
       verify(tokenClient.post('auth/refresh', data: {
         'mode': 'json',
@@ -235,7 +235,7 @@ void main() {
         called += 1;
       };
 
-      await auth.getNewTokenInInterceptor(RequestOptions());
+      await auth.refreshExpiredTokenInterceptor(RequestOptions());
       expect(called, 2);
     });
   });
