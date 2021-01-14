@@ -1,5 +1,7 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/directus_error.dart';
+import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/modules/auth/_auth_response.dart';
 import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:directus/src/modules/auth/_current_user.dart';
@@ -45,15 +47,15 @@ void main() {
       verify(client.post('auth/logout', data: {'refresh_token': loginData.refreshToken})).called(1);
     });
 
-    test('logout does nothing if user is not logged in', () async {
+    test('logout throws error if user is not logged in', () async {
       auth.loginData = null;
-      await auth.logout();
+      expect(() => auth.logout(), throwsA(isA<DirectusError>()));
       verifyZeroInteractions(client);
     });
 
     test('init', () async {
       when(storage.getItem(any as dynamic)).thenAnswer((realInvocation) async => null);
-      final auth = AuthHandler(client: client, storage: storage);
+      final auth = AuthHandler(client: client, storage: storage, refreshClient: tokenClient);
       await auth.init();
       expect(auth.loginData, isNull);
       expect(auth.currentUser, isNull);
@@ -63,7 +65,7 @@ void main() {
     test('Init properties when user is logged in', () async {
       when(authStorage.getLoginData()).thenAnswer((realInvocation) async => getAuthRespones());
 
-      final auth = AuthHandler(client: client, storage: storage);
+      final auth = AuthHandler(client: client, storage: storage, refreshClient: tokenClient);
       auth.storage = authStorage;
       await auth.init();
 
@@ -151,7 +153,7 @@ void main() {
     });
 
     test('init listener', () async {
-      final auth = AuthHandler(client: client, storage: storage);
+      final auth = AuthHandler(client: client, storage: storage, refreshClient: tokenClient);
       auth.storage = authStorage;
       final authData = getAuthRespones();
       when(authStorage.getLoginData()).thenAnswer((_) async => authData);

@@ -25,46 +25,50 @@ class AuthHandler {
   /// Http client that is used to get new access token
   late final Dio _refreshClient;
 
-  /// Data returned from login
+  /// Data returned from login.
   ///
   /// If there is no data, then user is not logged in
-  AuthResponse? _loginData;
+  AuthResponse? _tokens;
 
-  /// Storage used for data returned from login.
+  /// Storage used for storing data returned from login.
   AuthStorage storage;
 
   /// Manipulate current user.
   ///
-  /// This value is [Tfa] when user is logged in,
-  /// and [null] when user is not logged in.
+  /// This value is [CurrentUser] when user is logged in, and [null] othervise.
   CurrentUser? currentUser;
 
   /// Enable and disable two factor authentication.
   ///
-  /// This value is [Tfa] when user is logged in,
-  /// and [null] when user is not logged in.
+  /// This value is [Tfa] when user is logged in, and [null] othervise.
   Tfa? tfa;
 
-  /// Forgotten password.
+  /// Class for requesting and setting forgotten password.
   late ForgottenPassword forgottenPassword;
 
-  List<ListenerFunction> listeners = [];
+  /// Event listeners that will be called on auth event.
+  final List<ListenerFunction> _listeners = [];
 
+  /// Auth constructor.
+  ///
+  /// Requires [Dio] client that makes HTTP requests, [DirectusStorage] for storing auth data,
+  /// and [Dio] client that is used for making request for new access token.
   AuthHandler({
     required this.client,
     required DirectusStorage storage,
-    Dio? refreshClient,
-  }) : storage = AuthStorage(storage) {
-    forgottenPassword = ForgottenPassword(client: client);
+    required Dio refreshClient,
+  })   : storage = AuthStorage(storage),
+        forgottenPassword = ForgottenPassword(client: client),
+        _refreshClient = refreshClient {
+    // Refresh url is same as normal url.
+    _refreshClient.options.baseUrl = client.options.baseUrl;
     // Get new access token if current is expired.
-    _refreshClient = refreshClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
-
     client.interceptors.add(InterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor));
   }
 
   /// Add listener when auth status changes
   @experimental
-  set onChange(ListenerFunction fn) => listeners.add(fn);
+  set onChange(ListenerFunction fn) => _listeners.add(fn);
 
   /// Initializes [AuthHandler], by getting data from cold storage.
   ///
@@ -72,6 +76,7 @@ class AuthHandler {
   /// might appear as not logged in, because data isn't fetched from cold storage.
   Future<void> init() async {
     loginData = await storage.getLoginData();
+
     if (loginData != null) {
       currentUser = CurrentUser(client: client);
       tfa = Tfa(client: client);
@@ -81,7 +86,7 @@ class AuthHandler {
   }
 
   /// Check if user is logged in.
-  bool get isLoggedIn => _loginData != null;
+  bool get isLoggedIn => _tokens != null;
 
   /// Try to login user.
   Future<void> login({
@@ -96,37 +101,44 @@ class AuthHandler {
       if (otp != null) 'otp': otp
     };
 
-    final dioResponse = await client.post('auth/login', data: data);
-    final loginDataResponse = AuthResponse.fromResponse(dioResponse);
-    await storage.storeLoginData(loginDataResponse);
-    loginData = loginDataResponse;
-    currentUser = CurrentUser(client: client);
-    tfa = Tfa(client: client);
+    try {
+      final dioResponse = await client.post('auth/login', data: data);
+      final loginDataResponse = AuthResponse.fromResponse(dioResponse);
+      await storage.storeLoginData(loginDataResponse);
 
-    await _callListeners('login', loginDataResponse);
+      loginData = loginDataResponse;
+      currentUser = CurrentUser(client: client);
+      tfa = Tfa(client: client);
+
+      await _callListeners('login', loginDataResponse);
+    } catch (e) {
+      throw DirectusError.fromDio(e);
+    }
   }
 
   /// Logout user
   Future<void> logout() async {
-    // _timer?.cancel();
-    if (loginData != null) {
+    if (loginData == null) throw DirectusError(message: 'User is not logged in.');
+    try {
       await client.post('auth/logout', data: {'refresh_token': loginData!.refreshToken});
-      loginData = null;
+    } catch (e) {
+      throw DirectusError.fromDio(e);
+    } finally {
       currentUser = null;
       tfa = null;
+      loginData = null;
+      await _callListeners('logout');
     }
-
-    await _callListeners('logout');
   }
 
   /// Get login data
-  AuthResponse? get loginData => _loginData;
+  AuthResponse? get loginData => _tokens;
 
   /// Set login data in memory. For storing data permanently, use [storage]
   ///
   /// This will set data in memory and set access token for client.
   set loginData(AuthResponse? data) {
-    _loginData = data;
+    _tokens = data;
 
     if (data == null) {
       client.options.headers.remove('Authorization');
@@ -173,22 +185,26 @@ class AuthHandler {
     if (loginData == null) return null;
     client.lock();
 
-    final response = await _refreshClient.post('auth/refresh', data: {
-      'mode': 'json',
-      'refresh_token': loginData!.refreshToken,
-    });
-    final loginDataResponse = AuthResponse.fromResponse(response);
-    await storage.storeLoginData(loginDataResponse);
-    loginData = loginDataResponse;
+    try {
+      final response = await _refreshClient.post('auth/refresh', data: {
+        'mode': 'json',
+        'refresh_token': loginData!.refreshToken,
+      });
+      final loginDataResponse = AuthResponse.fromResponse(response);
+      await storage.storeLoginData(loginDataResponse);
+      loginData = loginDataResponse;
+    } catch (e) {
+      throw DirectusError.fromDio(e);
+    }
     client.unlock();
-    await _callListeners('refresh', loginDataResponse);
-    return loginDataResponse;
+    await _callListeners('refresh', loginData);
+    return loginData;
   }
 
   /// Call all listeners after event happened.
   Future<void> _callListeners(String type, [AuthResponse? data]) async {
-    for (var i = 0; i < listeners.length; i++) {
-      await listeners[i].call(type, data);
+    for (var i = 0; i < _listeners.length; i++) {
+      await _listeners[i].call(type, data);
     }
   }
 }

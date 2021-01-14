@@ -22,12 +22,8 @@ class Directus {
   /// Constructor with all provided services.
   Directus(String url, {DirectusStorage? storage, Dio? client})
       : _storage = storage ?? SharedPreferencesStorage(),
-        client = client ??
-            Dio(BaseOptions(
-              // Add trailing `/`
-              baseUrl: url.endsWith('/') ? url : '$url/',
-            )) {
-    // Check if SDK is inited before each request
+        client = client ?? Dio(BaseOptions(baseUrl: url.endsWith('/') ? url : '$url/')) {
+    // Check if SDK is inited before first request.
     this.client.interceptors.add(InterceptorsWrapper(onRequest: _checkIfInited));
   }
 
@@ -78,7 +74,8 @@ class Directus {
   }
 
   /// Auth
-  late AuthHandler auth = AuthHandler(client: client, storage: _storage);
+  late final AuthHandler auth =
+      AuthHandler(client: client, storage: _storage, refreshClient: Dio());
 
   /// Items
   ItemsHandler<Map<String, dynamic>> items(String collection) =>

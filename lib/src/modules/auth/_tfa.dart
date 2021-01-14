@@ -1,5 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:meta/meta.dart';
 
 /// Two factor authentication.
@@ -11,11 +12,19 @@ class Tfa {
 
   /// Enable 2FA.
   Future<void> enable(String password) async {
-    await client.post('users/tfa/enable', data: {'password': password});
+    try {
+      await client.post('users/tfa/enable', data: {'password': password});
+    } catch (e) {
+      DirectusError.fromDio(e);
+    }
   }
 
   /// Disable 2FA.
   Future<void> disable(String otp) async {
-    await client.post('users/tfa/disable', data: {'otp': otp});
+    try {
+      await client.post('users/tfa/disable', data: {'otp': otp});
+    } catch (e) {
+      DirectusError.fromDio(e);
+    }
   }
 }

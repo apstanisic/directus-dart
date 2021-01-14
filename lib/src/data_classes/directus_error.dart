@@ -34,7 +34,7 @@ class DirectusError implements Exception {
   /// and for any other error. This way, in case error is not [DioErro], it will simply
   /// complain that error is invalid.
   ///
-  DirectusError.fromDio(dynamic error) {
+  DirectusError.fromDio(Object error) {
     if (!(error is DioError)) {
       message = 'Error should come from Dio.';
       code = 1000;

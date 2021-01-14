@@ -9,9 +9,10 @@ void main() {
   test('that `handlers.dart` exports all handlers.', () async {
     final client = MockDio();
     final storage = MockDirectusStorage();
+    final refreshClient = MockDio();
 
     ActivityHandler(client: client);
-    AuthHandler(client: client, storage: storage);
+    AuthHandler(client: client, storage: storage, refreshClient: refreshClient);
     CollectionsHandler(client: client);
     FieldsHandler(client: client);
     FilesHandler(client: client);
