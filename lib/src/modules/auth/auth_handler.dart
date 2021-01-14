@@ -23,7 +23,7 @@ class AuthHandler {
   final Dio client;
 
   /// Http client that is used to get new access token
-  late final Dio _tokenClient;
+  late final Dio _refreshClient;
 
   /// Data returned from login
   ///
@@ -53,11 +53,11 @@ class AuthHandler {
   AuthHandler({
     required this.client,
     required DirectusStorage storage,
-    Dio? tokenClient,
+    Dio? refreshClient,
   }) : storage = AuthStorage(storage) {
     forgottenPassword = ForgottenPassword(client: client);
     // Get new access token if current is expired.
-    _tokenClient = tokenClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
+    _refreshClient = refreshClient ?? Dio(BaseOptions(baseUrl: client.options.baseUrl));
 
     client.interceptors.add(InterceptorsWrapper(onRequest: getNewTokenInInterceptor));
   }
@@ -76,9 +76,8 @@ class AuthHandler {
       currentUser = CurrentUser(client: client);
       tfa = Tfa(client: client);
     }
-    for (var i = 0; i < listeners.length; i++) {
-      await listeners[i].call('init', loginData);
-    }
+
+    await _callListeners('init', loginData);
   }
 
   /// Check if user is logged in.
@@ -104,9 +103,7 @@ class AuthHandler {
     currentUser = CurrentUser(client: client);
     tfa = Tfa(client: client);
 
-    for (var i = 0; i < listeners.length; i++) {
-      await listeners[i].call('login', loginDataResponse);
-    }
+    await _callListeners('login', loginDataResponse);
   }
 
   /// Logout user
@@ -119,9 +116,7 @@ class AuthHandler {
       tfa = null;
     }
 
-    for (var i = 0; i < listeners.length; i++) {
-      await listeners[i].call('logout', null);
-    }
+    await _callListeners('logout');
   }
 
   /// Get login data
@@ -140,6 +135,7 @@ class AuthHandler {
     }
   }
 
+  @visibleForTesting
   Future<RequestOptions> getNewTokenInInterceptor(RequestOptions options) async {
     // If user is not logged in, just do request normally
     if (loginData == null) return options;
@@ -149,21 +145,45 @@ class AuthHandler {
       return options;
     }
 
+    final response = await manuallyRefresh();
+    if (response?.accessToken != null) {
+      options.headers['Authorization'] = response!.accessToken;
+    } else {
+      options.headers.remove('Authorization');
+    }
+
+    return options;
+  }
+
+  /// Refreshes access token.
+  ///
+  /// It checks if user is logged in,
+  /// then locks Dio to don't make requests until we have new token,
+  /// then send request for new access token,
+  /// then set response to storage and memory,
+  /// then unlocks Dio,
+  /// then notifies all listeners.
+  @experimental
+  Future<AuthResponse?> manuallyRefresh() async {
+    if (loginData == null) return null;
     client.lock();
 
-    final response = await _tokenClient.post('auth/refresh', data: {
+    final response = await _refreshClient.post('auth/refresh', data: {
       'mode': 'json',
       'refresh_token': loginData!.refreshToken,
     });
     final loginDataResponse = AuthResponse.fromResponse(response);
     await storage.storeLoginData(loginDataResponse);
     loginData = loginDataResponse;
-    options.headers['Authorization'] = loginData!.accessToken;
-
     client.unlock();
+    await _callListeners('refresh', loginDataResponse);
+    return loginDataResponse;
+  }
+
+  /// Call all listeners after event happened.
+  Future<void> _callListeners(String type, [AuthResponse? data]) async {
     for (var i = 0; i < listeners.length; i++) {
-      await listeners[i].call('refresh', loginDataResponse);
+      await listeners[i].call(type, data);
     }
-    return options;
   }
 }

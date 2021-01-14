@@ -27,7 +27,7 @@ void main() {
       storage = MockDirectusStorage();
       client = MockDio();
       tokenClient = MockDio();
-      auth = AuthHandler(client: client, storage: storage, tokenClient: tokenClient);
+      auth = AuthHandler(client: client, storage: storage, refreshClient: tokenClient);
       authStorage = MockAuthStorage();
       await auth.init();
     });
