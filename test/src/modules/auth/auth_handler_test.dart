@@ -1,7 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
-import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/modules/auth/_auth_response.dart';
 import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:directus/src/modules/auth/_current_user.dart';
@@ -39,7 +38,7 @@ void main() {
           .thenAnswer((realInvocation) async => Response());
 
       final loginData = getAuthRespones();
-      auth.loginData = loginData;
+      auth.tokens = loginData;
       await auth.logout();
 
       expect(auth.currentUser, isNull);
@@ -48,7 +47,7 @@ void main() {
     });
 
     test('logout throws error if user is not logged in', () async {
-      auth.loginData = null;
+      auth.tokens = null;
       expect(() => auth.logout(), throwsA(isA<DirectusError>()));
       verifyZeroInteractions(client);
     });
@@ -57,7 +56,7 @@ void main() {
       when(storage.getItem(any as dynamic)).thenAnswer((realInvocation) async => null);
       final auth = AuthHandler(client: client, storage: storage, refreshClient: tokenClient);
       await auth.init();
-      expect(auth.loginData, isNull);
+      expect(auth.tokens, isNull);
       expect(auth.currentUser, isNull);
       expect(auth.tfa, isNull);
     });
@@ -69,14 +68,14 @@ void main() {
       auth.storage = authStorage;
       await auth.init();
 
-      expect(auth.loginData, isA<AuthResponse>());
+      expect(auth.tokens, isA<AuthResponse>());
       expect(auth.currentUser, isA<CurrentUser>());
       expect(auth.tfa, isA<Tfa>());
     });
 
     test('isLoggedIn', () {
       expect(auth.isLoggedIn, false);
-      auth.loginData = getAuthRespones();
+      auth.tokens = getAuthRespones();
       expect(auth.isLoggedIn, true);
     });
 
@@ -91,13 +90,13 @@ void main() {
         }),
       );
 
-      expect(auth.loginData, isNull);
+      expect(auth.tokens, isNull);
       expect(auth.currentUser, isNull);
       expect(auth.tfa, isNull);
 
       await auth.login(email: 'email@email', password: 'password1', otp: 'otp1');
 
-      expect(auth.loginData, isA<AuthResponse>());
+      expect(auth.tokens, isA<AuthResponse>());
       expect(auth.currentUser, isA<CurrentUser>());
       expect(auth.tfa, isA<Tfa>());
 
@@ -112,36 +111,36 @@ void main() {
     });
 
     test('Do not get new access token if user is not logged in.', () async {
-      auth.loginData = null;
+      auth.tokens = null;
       await auth.refreshExpiredTokenInterceptor(RequestOptions());
 
       verifyZeroInteractions(tokenClient);
       //
     });
 
-    test('Do not get new access token if AT is valid for more then 5 seconds.', () async {
-      auth.loginData = getAuthRespones();
-      auth.loginData?.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 10));
+    test('Do not get new access token if AT is valid for more then 10 seconds.', () async {
+      auth.tokens = getAuthRespones();
+      auth.tokens?.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 11));
       await auth.refreshExpiredTokenInterceptor(RequestOptions());
 
       verifyZeroInteractions(tokenClient);
       //
     });
 
-    test('Get new access token if AT is valid for less then 5 seconds.', () async {
+    test('Get new access token if AT is valid for less then 10 seconds.', () async {
       when(tokenClient.post(any, data: anyNamed('data'))).thenAnswer(
         (realInvocation) async => Response(data: {
           'data': {
             'refresh_token': 'rt',
             'access_token': 'at',
-            'expires': 2000,
+            'expires': 3600000,
           }
         }),
       );
       auth.storage = authStorage;
       final loginData = getAuthRespones();
-      auth.loginData = loginData;
-      auth.loginData!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));
+      auth.tokens = loginData;
+      auth.tokens!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 9));
       await auth.refreshExpiredTokenInterceptor(RequestOptions());
 
       verify(tokenClient.post('auth/refresh', data: {
@@ -181,7 +180,7 @@ void main() {
         called += 1;
       };
 
-      auth.loginData = getAuthRespones();
+      auth.tokens = getAuthRespones();
       await auth.logout();
       expect(called, 2);
     });
@@ -224,8 +223,8 @@ void main() {
         }),
       );
       var called = 0;
-      auth.loginData = getAuthRespones();
-      auth.loginData!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));
+      auth.tokens = getAuthRespones();
+      auth.tokens!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));
       auth.onChange = (type, data) async {
         expect(called, 0);
         expect(type, 'refresh');

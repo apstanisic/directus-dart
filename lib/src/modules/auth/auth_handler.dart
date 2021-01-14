@@ -23,7 +23,7 @@ class AuthHandler {
   final Dio client;
 
   /// Http client that is used to get new access token
-  late final Dio _refreshClient;
+  final Dio _refreshClient;
 
   /// Data returned from login.
   ///
@@ -75,14 +75,14 @@ class AuthHandler {
   /// This method should be called right after constructor, othervise logged in user
   /// might appear as not logged in, because data isn't fetched from cold storage.
   Future<void> init() async {
-    loginData = await storage.getLoginData();
+    tokens = await storage.getLoginData();
 
-    if (loginData != null) {
+    if (tokens != null) {
       currentUser = CurrentUser(client: client);
       tfa = Tfa(client: client);
     }
 
-    await _callListeners('init', loginData);
+    await _callEventListeners('init', tokens);
   }
 
   /// Check if user is logged in.
@@ -106,11 +106,11 @@ class AuthHandler {
       final loginDataResponse = AuthResponse.fromResponse(dioResponse);
       await storage.storeLoginData(loginDataResponse);
 
-      loginData = loginDataResponse;
+      tokens = loginDataResponse;
       currentUser = CurrentUser(client: client);
       tfa = Tfa(client: client);
 
-      await _callListeners('login', loginDataResponse);
+      await _callEventListeners('login', loginDataResponse);
     } catch (e) {
       throw DirectusError.fromDio(e);
     }
@@ -118,26 +118,26 @@ class AuthHandler {
 
   /// Logout user
   Future<void> logout() async {
-    if (loginData == null) throw DirectusError(message: 'User is not logged in.');
+    if (tokens == null) throw DirectusError(message: 'User is not logged in.');
     try {
-      await client.post('auth/logout', data: {'refresh_token': loginData!.refreshToken});
+      await client.post('auth/logout', data: {'refresh_token': tokens!.refreshToken});
     } catch (e) {
       throw DirectusError.fromDio(e);
     } finally {
       currentUser = null;
       tfa = null;
-      loginData = null;
-      await _callListeners('logout');
+      tokens = null;
+      await _callEventListeners('logout');
     }
   }
 
   /// Get login data
-  AuthResponse? get loginData => _tokens;
+  AuthResponse? get tokens => _tokens;
 
   /// Set login data in memory. For storing data permanently, use [storage]
   ///
   /// This will set data in memory and set access token for client.
-  set loginData(AuthResponse? data) {
+  set tokens(AuthResponse? data) {
     _tokens = data;
 
     if (data == null) {
@@ -155,10 +155,10 @@ class AuthHandler {
   @visibleForTesting
   Future<RequestOptions> refreshExpiredTokenInterceptor(RequestOptions options) async {
     // If user is not logged in, just do request normally
-    if (loginData == null) return options;
+    if (tokens == null) return options;
 
     // If there are less then 5 seconds in access token, get new token
-    if (!loginData!.accessTokenExpiresAt.subtract(Duration(seconds: 5)).isBefore(DateTime.now())) {
+    if (!tokens!.accessTokenExpiresAt.subtract(Duration(seconds: 10)).isBefore(DateTime.now())) {
       return options;
     }
 
@@ -182,27 +182,27 @@ class AuthHandler {
   /// then notifies all listeners.
   @experimental
   Future<AuthResponse?> manuallyRefresh() async {
-    if (loginData == null) return null;
+    if (tokens == null) return null;
     client.lock();
 
     try {
       final response = await _refreshClient.post('auth/refresh', data: {
         'mode': 'json',
-        'refresh_token': loginData!.refreshToken,
+        'refresh_token': tokens!.refreshToken,
       });
       final loginDataResponse = AuthResponse.fromResponse(response);
       await storage.storeLoginData(loginDataResponse);
-      loginData = loginDataResponse;
+      tokens = loginDataResponse;
     } catch (e) {
       throw DirectusError.fromDio(e);
     }
     client.unlock();
-    await _callListeners('refresh', loginData);
-    return loginData;
+    await _callEventListeners('refresh', tokens);
+    return tokens;
   }
 
   /// Call all listeners after event happened.
-  Future<void> _callListeners(String type, [AuthResponse? data]) async {
+  Future<void> _callEventListeners(String type, [AuthResponse? data]) async {
     for (var i = 0; i < _listeners.length; i++) {
       await _listeners[i].call(type, data);
     }
