@@ -2,11 +2,11 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:directus/src/modules/auth/_current_user.dart';
 import 'package:directus/src/modules/auth/_forgotten_password.dart';
 import 'package:directus/src/modules/auth/_tfa.dart';
-import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:meta/meta.dart';
 
 import '_auth_response.dart';
