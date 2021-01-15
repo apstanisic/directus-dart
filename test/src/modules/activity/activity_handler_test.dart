@@ -10,6 +10,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../../mock/mock_dio.dart';
+import '../../mock/mock_dio_response.dart';
 import '../../mock/mock_item_handler.dart';
 
 void main() {
@@ -53,10 +54,9 @@ void main() {
     });
 
     test('that `createComment` works', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {
-                'data': {'id': 5}
-              }));
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({
+        'data': {'id': 5}
+      }));
 
       final response = await activity.createComment(
         collection: 'col',
@@ -70,10 +70,9 @@ void main() {
     });
 
     test('that `updateComment` works.', () async {
-      when(client.patch(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {
-                'data': {'hello': 'world'}
-              }));
+      when(client.patch(any, data: anyNamed('data'))).thenAnswer(dioResponse({
+        'data': {'hello': 'world'}
+      }));
 
       final response = await activity.updateComment(id: 'key', comment: 'newComment');
       expect(response.data, {'hello': 'world'});
@@ -82,7 +81,7 @@ void main() {
     });
 
     test('that `deleteComment` works.', () async {
-      when(client.delete(any)).thenAnswer((realInvocation) async => Response());
+      when(client.delete(any)).thenAnswer(dioResponse());
 
       await activity.deleteComment('some-id');
 

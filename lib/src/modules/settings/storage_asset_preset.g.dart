@@ -17,8 +17,7 @@ StorageAssetPreset _$StorageAssetPresetFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$StorageAssetPresetToJson(StorageAssetPreset instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$StorageAssetPresetToJson(StorageAssetPreset instance) => <String, dynamic>{
       'key': instance.key,
       'fit': instance.fit,
       'width': instance.width,

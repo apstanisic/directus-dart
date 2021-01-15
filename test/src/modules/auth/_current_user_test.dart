@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../../mock/mock_dio.dart';
+import '../../mock/mock_dio_response.dart';
 
 void main() {
   group('CurrentUser', () {
@@ -19,11 +20,9 @@ void main() {
     });
 
     test('that `read` works.', () async {
-      when(client.get('users/me')).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': {'id': '1'}
-        }),
-      );
+      when(client.get('users/me')).thenAnswer(dioResponse({
+        'data': {'id': '1'}
+      }));
 
       final response = await currentUser.read();
 
@@ -35,7 +34,7 @@ void main() {
 
     test('that `update` works.', () async {
       when(client.patch('users/me', data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
+        dioResponse({
           'data': {'id': '1', 'first_name': 'Test'}
         }),
       );

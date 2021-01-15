@@ -1,10 +1,9 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:dio/dio.dart';
 import 'package:directus/src/modules/utils_handler.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../mock/mock_dio.dart';
+import '../mock/mock_dio_response.dart';
 
 void main() {
   group('UtilsHandler', () {
@@ -18,7 +17,7 @@ void main() {
 
     test('that `randomString` works.', () async {
       when(client.get(any, queryParameters: anyNamed('queryParameters')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': 'some-string'}));
+          .thenAnswer(dioResponse({'data': 'some-string'}));
 
       final response = await utils.randomString();
 
@@ -28,7 +27,7 @@ void main() {
 
     test('that user can change `randomString` length.', () async {
       when(client.get(any, queryParameters: anyNamed('queryParameters')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': 'some-string'}));
+          .thenAnswer(dioResponse({'data': 'some-string'}));
 
       final response = await utils.randomString(5);
 
@@ -39,8 +38,7 @@ void main() {
     });
 
     test('that `generateHash` works.', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': 'some-hash'}));
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({'data': 'some-hash'}));
 
       var response = await utils.generateHash('some-string');
 
@@ -52,8 +50,7 @@ void main() {
     });
 
     test('that `verifyHash` works.', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': true}));
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({'data': true}));
 
       var response = await utils.verifyHash('some-string', 'hash-string');
 
@@ -65,8 +62,7 @@ void main() {
     });
 
     test('that `sort` works.', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
       await utils.sort(collection: 'test_collection', itemPk: '1', toPk: '2');
 
@@ -77,7 +73,7 @@ void main() {
     });
 
     test('that `revert` works', () async {
-      when(client.post(any)).thenAnswer((realInvocation) async => Response());
+      when(client.post(any)).thenAnswer(dioResponse());
 
       await utils.revert('1');
 

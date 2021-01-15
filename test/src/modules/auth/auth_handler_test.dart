@@ -12,6 +12,7 @@ import 'package:test/test.dart';
 
 import '../../mock/mock_auth_response.dart';
 import '../../mock/mock_dio.dart';
+import '../../mock/mock_dio_response.dart';
 import '../../mock/mock_directus_storage.dart';
 
 class MockAuthStorage extends Mock implements AuthStorage {}
@@ -80,15 +81,13 @@ void main() {
     });
 
     test('login', () async {
-      when(client.post(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': {
-            'access_token': 'ac',
-            'refresh_token': 'rt',
-            'expires': 1000,
-          }
-        }),
-      );
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({
+        'data': {
+          'access_token': 'ac',
+          'refresh_token': 'rt',
+          'expires': 1000,
+        }
+      }));
 
       expect(auth.tokens, isNull);
       expect(auth.currentUser, isNull);
@@ -128,15 +127,13 @@ void main() {
     });
 
     test('Get new access token if AT is valid for less then 10 seconds.', () async {
-      when(tokenClient.post(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': {
-            'refresh_token': 'rt',
-            'access_token': 'at',
-            'expires': 3600000,
-          }
-        }),
-      );
+      when(tokenClient.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({
+        'data': {
+          'refresh_token': 'rt',
+          'access_token': 'at',
+          'expires': 3600000,
+        }
+      }));
       auth.storage = authStorage;
       final loginData = getAuthRespones();
       auth.tokens = loginData;
@@ -164,8 +161,7 @@ void main() {
     });
 
     test('logout listener works', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
       var called = 0;
       auth.onChange = (type, data) async {
@@ -187,7 +183,7 @@ void main() {
 
     test('login listener works', () async {
       when(client.post(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
+        dioResponse({
           'data': {'access_token': 'ac', 'refresh_token': 'rt', 'expires': 1000}
         }),
       );
@@ -213,15 +209,13 @@ void main() {
     });
 
     test('refreshing token listener works', () async {
-      when(tokenClient.post(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': {
-            'refresh_token': 'rt',
-            'access_token': 'at',
-            'expires': 10000,
-          }
-        }),
-      );
+      when(tokenClient.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({
+        'data': {
+          'refresh_token': 'rt',
+          'access_token': 'at',
+          'expires': 10000,
+        }
+      }));
       var called = 0;
       auth.tokens = getAuthRespones();
       auth.tokens!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 4));

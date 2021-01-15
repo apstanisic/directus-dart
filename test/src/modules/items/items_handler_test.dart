@@ -9,134 +9,111 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../../mock/mock_dio.dart';
+import '../../mock/mock_dio_response.dart';
 
 void main() {
   group('ItemsHandler', () {
+    /// Placeholder data
+    late Map<String, dynamic> exampleItem;
     late MockDio client;
     late ItemsHandler items;
 
     setUp(() {
       client = MockDio();
       items = ItemsHandler('test', client: client);
+      exampleItem = {'id': 1, 'name': 'Test'};
     });
 
-    test('that `readOne` works.', () async {
+    test('readOne works properly', () async {
       when(client.get(any, queryParameters: anyNamed('queryParameters')))
-          .thenAnswer((_) async => Response(data: {
-                'data': {'id': 'some-id'}
-              }));
+          .thenAnswer(dioResponse({'data': exampleItem}));
 
       final response = await items.readOne('some-id', query: OneQuery());
 
       expect(response, isA<DirectusResponse>());
-      expect(response.data, {'id': 'some-id'});
+      expect(response.data, exampleItem);
       verify(client.get('items/test/some-id', queryParameters: OneQuery().toMap())).called(1);
     });
 
-    test('readMany', () async {
-      when(client.get(any, queryParameters: anyNamed('queryParameters'))).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': [
-            {'id': 1},
-            {'id': 2}
-          ]
-        }),
-      );
+    test('readMany works properly', () async {
+      when(client.get(any, queryParameters: anyNamed('queryParameters'))).thenAnswer(dioResponse({
+        'data': [exampleItem, exampleItem]
+      }));
 
       final query = Query(limit: 5);
       final response = await items.readMany(query: query);
 
       expect(response, isA<DirectusListResponse>());
-      expect(response.data, [
-        {'id': 1},
-        {'id': 2}
-      ]);
+      expect(response.data, [exampleItem, exampleItem]);
       verify(client.get('items/test', queryParameters: query.toMap())).called(1);
     });
 
-    test('that `createOne` works.', () async {
-      final itemData = {'name': 'Test'};
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': itemData}));
+    test('createOne works properly', () async {
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({'data': exampleItem}));
 
-      final response = await items.createOne(itemData);
+      final response = await items.createOne(exampleItem);
 
       expect(response, isA<DirectusResponse>());
-      expect(response.data, itemData);
-      verify(client.post('items/test', data: itemData)).called(1);
+      expect(response.data, exampleItem);
+      verify(client.post('items/test', data: exampleItem)).called(1);
     });
 
-    test('that `createMany` works.', () async {
-      final itemData = {'name': 'Test'};
-      when(client.post(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': [itemData, itemData]
-        }),
-      );
+    test('createMany works properly', () async {
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({
+        'data': [exampleItem, exampleItem]
+      }));
 
-      final response = await items.createMany([itemData, itemData]);
+      final response = await items.createMany([exampleItem, exampleItem]);
 
       expect(response, isA<DirectusListResponse>());
-      expect(response.data, [itemData, itemData]);
-      verify(client.post('items/test', data: [itemData, itemData])).called(1);
+      expect(response.data, [exampleItem, exampleItem]);
+      verify(client.post('items/test', data: [exampleItem, exampleItem])).called(1);
     });
 
-    test('that `updateOne` works.', () async {
-      final itemData = {'name': 'Test'};
+    test('updateOne works properly', () async {
       when(client.patch(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response(data: {'data': itemData}));
+          .thenAnswer(dioResponse({'data': exampleItem}));
 
-      final response = await items.updateOne(data: itemData, id: '5');
+      final response = await items.updateOne(data: exampleItem, id: '5');
 
       expect(response, isA<DirectusResponse>());
-      expect(response.data, itemData);
-      verify(client.patch('items/test/5', data: itemData)).called(1);
+      expect(response.data, exampleItem);
+      verify(client.patch('items/test/5', data: exampleItem)).called(1);
     });
 
-    test('that `updateMany` works.', () async {
-      final itemData = {'name': 'Test'};
-      when(client.patch(any, data: anyNamed('data'))).thenAnswer(
-        (realInvocation) async => Response(data: {
-          'data': [itemData, itemData]
-        }),
-      );
+    test('updateMany works properly', () async {
+      when(client.patch(any, data: anyNamed('data'))).thenAnswer(dioResponse({
+        'data': [exampleItem, exampleItem]
+      }));
 
-      final response = await items.updateMany(data: itemData, ids: ['1', '2']);
+      final response = await items.updateMany(data: exampleItem, ids: ['1', '2']);
 
       expect(response, isA<DirectusListResponse>());
-      expect(response.data, [itemData, itemData]);
-      verify(client.patch('items/test/1,2', data: itemData)).called(1);
+      expect(response.data, [exampleItem, exampleItem]);
+      verify(client.patch('items/test/1,2', data: exampleItem)).called(1);
     });
 
-    test('that `deleteOne` works.', () async {
-      when(client.delete(any)).thenAnswer((realInvocation) async => Response());
-
+    test('deleteOne works properly', () async {
+      when(client.delete(any)).thenAnswer(dioResponse());
       await items.deleteOne('5');
-
       verify(client.delete('items/test/5')).called(1);
     });
 
-    test('that `deleteMany` works.', () async {
-      when(client.delete(any)).thenAnswer((realInvocation) async => Response());
-
+    test('deleteMany works properly', () async {
+      when(client.delete(any)).thenAnswer(dioResponse());
       await items.deleteMany(['1', '2', '3']);
-
       verify(client.delete('items/test/1,2,3')).called(1);
     });
 
-    test('that `deleteOne` throws `DirectusError`.', () async {
+    test('deleteOne throws DirectusError, and not DioError', () async {
       when(client.delete(any)).thenThrow(DioError);
-
       expect(() => items.deleteOne('5'), throwsException);
-
       verify(client.delete('items/test/5')).called(1);
     });
 
-    test('that `deleteMany` works.', () async {
+    test('deleteMany throws DirectusError, and not DioError', () async {
       when(client.delete(any)).thenThrow(DioError);
-
       expect(() => items.deleteMany(['1', '2', '3']), throwsException);
-
       verify(client.delete('items/test/1,2,3')).called(1);
     });
   });

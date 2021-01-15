@@ -1,3 +1,7 @@
+## 0.4.5
+
+- Logout throws if user is not logged in
+
 ## 0.4.4
 
 - Update generated files

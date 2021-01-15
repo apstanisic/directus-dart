@@ -1,16 +1,15 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/modules/server_handler.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../mock/mock_dio.dart';
+import '../mock/mock_dio_response.dart';
 
 void main() {
   group('ServerHandler', () {
     late ServerHandler server;
-    late Dio client;
+    late MockDio client;
 
     setUp(() {
       client = MockDio();
@@ -18,7 +17,7 @@ void main() {
     });
 
     test('that `ping` works.', () async {
-      when(client.get(any)).thenAnswer((realInvocation) async => Response(data: 'pong'));
+      when(client.get(any)).thenAnswer(dioResponse('pong'));
 
       final response = await server.ping();
 
@@ -27,7 +26,7 @@ void main() {
     });
 
     test('that `info` works.', () async {
-      when(client.get(any)).thenAnswer((realInvocation) async => Response(data: {'data': {}}));
+      when(client.get(any)).thenAnswer(dioResponse({'data': {}}));
 
       final response = await server.info();
 
@@ -38,7 +37,7 @@ void main() {
     });
 
     test('hat `oas` works.', () async {
-      when(client.get(any)).thenAnswer((realInvocation) async => Response(data: {'data': {}}));
+      when(client.get(any)).thenAnswer(dioResponse({'data': {}}));
 
       final response = await server.oas();
 

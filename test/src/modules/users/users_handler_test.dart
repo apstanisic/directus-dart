@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../../mock/mock_dio.dart';
+import '../../mock/mock_dio_response.dart';
 
 void main() {
   group('UsersHandler', () {
@@ -23,8 +24,7 @@ void main() {
     });
 
     test('that `invite` works.', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
       await users.invite(email: 'test@email.com', roleId: 'some-uuid');
 
@@ -35,8 +35,7 @@ void main() {
     });
 
     test('that `inviteMany` works.', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
       await users.inviteMany(emails: ['test@example.com', 'test2@example.com'], role: 'some-uuid');
 
@@ -47,8 +46,7 @@ void main() {
     });
 
     test('that `acceptInvite` works.', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
       await users.acceptInvite(password: 'some-password', token: 'some-token');
 
