@@ -10,11 +10,10 @@ class AuthResponse {
   /// Access token
   late String accessToken;
 
-  /// Access token time to live in seconds
+  /// Access token time to live in miliseconds
   ///
-  /// API returns duration in miliseconds, but value will be converted to seconds
-  /// for easier use.
-  late int accessTokenTtlInSeconds;
+  ///
+  late int accessTokenTtlMs;
 
   /// [DateTime] when access token expires.
   ///
@@ -25,7 +24,7 @@ class AuthResponse {
   AuthResponse({
     required this.accessToken,
     required this.accessTokenExpiresAt,
-    required this.accessTokenTtlInSeconds,
+    required this.accessTokenTtlMs,
     required this.refreshToken,
   });
 
@@ -45,16 +44,15 @@ class AuthResponse {
     final refreshToken = data['refresh_token'];
     final accessTokenTtlInMs = data['expires'];
 
-    if (accessToken == null || !(accessTokenTtlInMs is num) || refreshToken == null) {
+    if (accessToken == null || !(accessTokenTtlInMs is int) || refreshToken == null) {
       throw DirectusError(message: 'Login response is invalid.');
     }
-    // accessTokenTtlInMs
 
     this.refreshToken = refreshToken;
     this.accessToken = accessToken;
-    accessTokenTtlInSeconds = (accessTokenTtlInMs / 1000).round();
+    accessTokenTtlMs = accessTokenTtlInMs;
     accessTokenExpiresAt = DateTime.now().add(
-      Duration(seconds: accessTokenTtlInSeconds),
+      Duration(milliseconds: accessTokenTtlMs),
     );
   }
 }

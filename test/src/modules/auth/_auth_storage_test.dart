@@ -5,14 +5,6 @@ import 'package:test/test.dart';
 
 import '../../mock/mock_directus_storage.dart';
 
-/// Field names that are used to store data
-class _Fields {
-  static const accessToken = 'access_token';
-  static const refreshToken = 'refresh_token';
-  static const accessTokenTtlInSeconds = 'access_token_ttl_in_seconds';
-  static const expiresAt = 'access_token_expires_at';
-}
-
 void main() {
   group('AuthStorage', () {
     late MockDirectusStorage storage;
@@ -29,23 +21,23 @@ void main() {
         AuthResponse(
           accessToken: 'accessToken',
           accessTokenExpiresAt: now,
-          accessTokenTtlInSeconds: 1000,
+          accessTokenTtlMs: 1000,
           refreshToken: 'refreshToken',
         ),
       );
 
-      verify(storage.setItem(_Fields.accessToken, 'accessToken')).called(1);
-      verify(storage.setItem(_Fields.refreshToken, 'refreshToken')).called(1);
-      verify(storage.setItem(_Fields.accessTokenTtlInSeconds, 1000)).called(1);
-      verify(storage.setItem(_Fields.expiresAt, now.toString())).called(1);
+      verify(storage.setItem(AuthFields.accessToken, 'accessToken')).called(1);
+      verify(storage.setItem(AuthFields.refreshToken, 'refreshToken')).called(1);
+      verify(storage.setItem(AuthFields.accessTokenTtlInMs, 1000)).called(1);
+      verify(storage.setItem(AuthFields.expiresAt, now.toString())).called(1);
     });
 
     test('getLoginData', () async {
-      when(storage.getItem(_Fields.accessToken)).thenAnswer((realInvocation) async => 'at');
-      when(storage.getItem(_Fields.refreshToken)).thenAnswer((realInvocation) async => 'rt');
-      when(storage.getItem(_Fields.expiresAt))
+      when(storage.getItem(AuthFields.accessToken)).thenAnswer((realInvocation) async => 'at');
+      when(storage.getItem(AuthFields.refreshToken)).thenAnswer((realInvocation) async => 'rt');
+      when(storage.getItem(AuthFields.expiresAt))
           .thenAnswer((realInvocation) async => DateTime.now().toString());
-      when(storage.getItem(_Fields.accessTokenTtlInSeconds))
+      when(storage.getItem(AuthFields.accessTokenTtlInMs))
           .thenAnswer((realInvocation) async => 1000);
 
       final data = await authStorage.getLoginData();
@@ -53,7 +45,7 @@ void main() {
       expect(data, isA<AuthResponse>());
       expect(data?.accessToken, 'at');
       expect(data?.refreshToken, 'rt');
-      expect(data?.accessTokenTtlInSeconds, 1000);
+      expect(data?.accessTokenTtlMs, 1000);
       expect(data?.accessTokenExpiresAt, isA<DateTime>());
       verify(storage.getItem(any as dynamic)).called(4);
     });

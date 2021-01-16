@@ -23,7 +23,7 @@ void main() {
       final response = AuthResponse(
         accessToken: 'ac',
         accessTokenExpiresAt: DateTime.now(),
-        accessTokenTtlInSeconds: 5,
+        accessTokenTtlMs: 5000,
         refreshToken: 'rt',
       );
 
@@ -37,7 +37,7 @@ void main() {
 
       expect(response.accessToken, 'at');
       expect(response.refreshToken, 'rt');
-      expect(response.accessTokenTtlInSeconds, 5);
+      expect(response.accessTokenTtlMs, 5000);
       expect(response.accessTokenExpiresAt, isA<DateTime>());
 
       expect(
