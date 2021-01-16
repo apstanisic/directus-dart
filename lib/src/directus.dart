@@ -35,9 +35,9 @@ class Directus {
 
     if (!_isDirectusInitialized) {
       throw DirectusError(message: 'You must first call and await init method.');
-    } else {
-      client.interceptors.remove(_checkIfInited);
     }
+
+    client.interceptors.remove(_checkIfInited);
 
     client.unlock();
 

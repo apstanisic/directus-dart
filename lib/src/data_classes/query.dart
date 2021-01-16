@@ -41,11 +41,17 @@ class Query extends OneQuery {
   /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/offset.md)
   int? offset;
 
+  /// Metadata returns additional info about the query.
+  ///
+  /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/meta.md)
+  Meta? meta;
+
   /// Constructor for query. All fields are optional.
   Query({
     this.limit,
     this.offset,
     this.sort,
+    this.meta,
     Map<String, Query>? deep,
     List<String>? fields,
   }) : super(deep: deep, fields: fields);
@@ -62,10 +68,26 @@ class Query extends OneQuery {
       'fields': fields?.join(','),
       'limit': limit,
       'offset': offset,
+      'meta': meta?.toString(),
       'sort': sort?.join(','),
       'deep': deep?.map((key, value) => MapEntry(key, value.toMap())),
     }..removeWhere(
         (key, value) => value == null,
       );
+  }
+}
+
+/// What metadata response should return.
+class Meta {
+  bool? totalCount;
+  bool? filterCount;
+
+  Meta({this.filterCount, this.totalCount});
+
+  /// Override [toString] is it returns [String] that can be used in request.
+  @override
+  String toString() {
+    return [if (totalCount == true) 'total_count', if (filterCount == true) 'filter_count']
+        .join(',');
   }
 }

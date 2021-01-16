@@ -1,3 +1,9 @@
+## 0.5.0
+
+- Add meta to Query, and meta property on DirectusListResponse
+- Change names of storage fields, they now start with `directus`
+- TTL is now in ms
+
 ## 0.4.5
 
 - Logout throws if user is not logged in

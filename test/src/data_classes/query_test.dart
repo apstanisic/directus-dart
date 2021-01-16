@@ -3,11 +3,16 @@ import 'package:directus/src/data_classes/query.dart';
 import 'package:test/test.dart';
 
 void main() {
+  test('Query can be empty', () {
+    expect(Query().toMap(), {});
+  });
+
   test('Query converts to map properly', () {
     final query = Query(
       fields: ['name', 'email'],
       limit: 5,
       offset: 4,
+      meta: Meta(filterCount: true, totalCount: true),
       sort: ['id', '-created'],
     );
 
@@ -15,12 +20,13 @@ void main() {
       'fields': 'name,email',
       'limit': 5,
       'offset': 4,
+      'meta': 'total_count,filter_count',
       'sort': 'id,-created',
     });
   });
 
-// Regression test
-  test('that filter is also converted to map.', () {
+// Regression test. It checks that [Filter.toMap] is called.
+  test('filter is also converted to a map', () {
     final query = Query();
     final queryMap = query.toMap(
       filters: Filters({

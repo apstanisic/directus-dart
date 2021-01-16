@@ -17,8 +17,11 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
   @override
   late final List<T> data;
 
+  /// Response metadata.
+  late final _Meta? meta;
+
   /// Manually set data.
-  DirectusListResponse.manually(data) : data = data;
+  DirectusListResponse.manually(data, {this.meta}) : data = data;
 
   /// Constructor that converts Dio [Response] to [DirectusListResponse].
   /// You can pass converter that is used to convert response [Map] to
@@ -26,12 +29,12 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
   DirectusListResponse(Response dioResponse, {ItemsConverter? converter}) {
     converter ??= MapItemsConverter();
     var data = dioResponse.data['data'];
+    meta = _Meta.fromJson(dioResponse.data['meta']);
 
     if (!(data is List)) {
       throw DirectusError(message: 'Data should be a list.');
-    } else {
-      this.data = data.map((item) => converter!.fromJson(item)).cast<T>().toList();
     }
+    this.data = data.map((item) => converter!.fromJson(item)).cast<T>().toList();
   }
 
   /// Static method that you can pass a closure that should return Dio [Response].
@@ -53,4 +56,16 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
       throw DirectusError.fromDio(error);
     }
   }
+}
+
+/// Response metadata
+class _Meta {
+  int? totalCount;
+  int? filterCount;
+
+  _Meta({this.filterCount, this.totalCount});
+
+  _Meta.fromJson(Map<String, dynamic>? data)
+      : totalCount = data?['total_count'],
+        filterCount = data?['filter_count'];
 }
