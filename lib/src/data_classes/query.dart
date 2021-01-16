@@ -47,7 +47,7 @@ class Query extends OneQuery {
   Meta? meta;
   
   /// Custom url params
-  Map<String, dynamic>? params;
+  Map<String, dynamic>? customParams;
 
   /// Constructor for query. All fields are optional.
   Query({
@@ -57,7 +57,7 @@ class Query extends OneQuery {
     this.meta,
     Map<String, Query>? deep,
     List<String>? fields,
-    this.params,
+    this.customParams,
   }) : super(deep: deep, fields: fields);
 
   /// Convert [Query] to [Map] so it can be passed to Dio for request.
@@ -75,7 +75,7 @@ class Query extends OneQuery {
       'meta': meta?.toString(),
       'sort': sort?.join(','),
       'deep': deep?.map((key, value) => MapEntry(key, value.toMap())),
-      ...params ?? {}
+      ...customParams ?? {}
     }..removeWhere(
         (key, value) => value == null,
       );
