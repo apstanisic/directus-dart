@@ -8,6 +8,15 @@ system.
 Add `directus` to `dependencies` in `pubspec.yaml` and run `pub get` or `flutter pub get`.
 More info can be found [here](https://pub.dev/packages/directus/install).
 
+## Contributing
+
+Run code bellow before commiting. Writting tests is welcomed, but not required.
+
+```sh
+flutter test --no-sound-null-safety
+flutter format . -l 100
+```
+
 ## Getting started
 
 Create instance and initialize. You must run `.init()` for storage to be initialized. Othervise, there `DirectusError` will be thrown.
