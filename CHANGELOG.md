@@ -1,3 +1,7 @@
+## 0.5.1
+
+- Add option to pass a key to Directus (used for multiple auths)
+
 ## 0.5.0
 
 - Add meta to Query, and meta property on DirectusListResponse

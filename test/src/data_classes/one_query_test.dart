@@ -53,9 +53,9 @@ void main() {
 
     test('customParams wont overwrite other options', () {
       final query = OneQuery(
+        fields: ['id'],
         deep: {},
         customParams: {'deep': 'test', 'fields': 'test', 'random': 'value'},
-        fields: ['id'],
       );
       expect(query.toMap(), {'deep': {}, 'fields': 'id', 'random': 'value'});
     });
