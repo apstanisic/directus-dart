@@ -42,4 +42,32 @@ void main() {
       }
     });
   });
+
+  test('customParams wont overwrite other options', () {
+    final query = Query(
+      fields: ['id'],
+      deep: {},
+      limit: 5,
+      meta: Meta(filterCount: true),
+      offset: 5,
+      sort: ['name'],
+      customParams: {
+        'deep': 'test',
+        'fields': 'test',
+        'random': 'value',
+        'limit': 3,
+        'offset': 3,
+        'sort': ['any'],
+      },
+    );
+    expect(query.toMap(), {
+      'deep': {},
+      'limit': 5,
+      'meta': 'filter_count',
+      'offset': 5,
+      'sort': 'name',
+      'fields': 'id',
+      'random': 'value',
+    });
+  });
 }

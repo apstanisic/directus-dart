@@ -41,5 +41,23 @@ void main() {
         }
       });
     });
+
+    test('User can set custom params', () {
+      final query = OneQuery(
+        deep: {},
+        customParams: {'cp': 'test'},
+        fields: ['id'],
+      );
+      expect(query.toMap(), {'deep': {}, 'fields': 'id', 'cp': 'test'});
+    });
+
+    test('customParams wont overwrite other options', () {
+      final query = OneQuery(
+        deep: {},
+        customParams: {'deep': 'test', 'fields': 'test', 'random': 'value'},
+        fields: ['id'],
+      );
+      expect(query.toMap(), {'deep': {}, 'fields': 'id', 'random': 'value'});
+    });
   });
 }

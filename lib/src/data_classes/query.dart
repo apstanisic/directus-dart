@@ -45,7 +45,7 @@ class Query extends OneQuery {
   ///
   /// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/meta.md)
   Meta? meta;
-  
+
   /// Custom url params
   Map<String, dynamic>? customParams;
 
@@ -68,6 +68,7 @@ class Query extends OneQuery {
   @override
   Map<String, dynamic> toMap({Filters? filters}) {
     return {
+      if (customParams != null) ...customParams!,
       'filter': filters?.toMap(),
       'fields': fields?.join(','),
       'limit': limit,
@@ -75,7 +76,6 @@ class Query extends OneQuery {
       'meta': meta?.toString(),
       'sort': sort?.join(','),
       'deep': deep?.map((key, value) => MapEntry(key, value.toMap())),
-      ...customParams ?? {}
     }..removeWhere(
         (key, value) => value == null,
       );
