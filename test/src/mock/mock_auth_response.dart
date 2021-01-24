@@ -1,6 +1,6 @@
 import 'package:directus/src/modules/auth/_auth_response.dart';
 
-AuthResponse getAuthRespones() {
+AuthResponse getAuthRespone() {
   return AuthResponse(
     accessToken: 'accessToken',
     accessTokenExpiresAt: DateTime.now(),

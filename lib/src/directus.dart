@@ -35,15 +35,11 @@ class Directus {
   ///
   /// If [Directus] is initialized, this interceptor will be removed.
   RequestOptions _checkIfInited(RequestOptions options) {
-    client.lock();
-
     if (!_isDirectusInitialized) {
       throw DirectusError(message: 'You must first call and await init method.');
     }
 
     client.interceptors.remove(_checkIfInited);
-
-    client.unlock();
 
     return options;
   }
@@ -91,7 +87,10 @@ class Directus {
   /// Collections
   CollectionsHandler get collections => CollectionsHandler(client: client);
 
+  /// Use [client] instead. This is the same as client, only more descriptive name.
+  ///
   /// HTTP client that can be used for accessing custom extensions.
+  @Deprecated('Use this.client instead')
   Dio get custom => client;
 
   /// Fields

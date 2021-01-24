@@ -199,6 +199,7 @@ class AuthHandler {
       await storage.storeLoginData(loginDataResponse);
       tokens = loginDataResponse;
     } catch (e) {
+      client.unlock();
       throw DirectusError.fromDio(e);
     }
     client.unlock();
