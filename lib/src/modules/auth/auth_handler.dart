@@ -49,15 +49,20 @@ class AuthHandler {
   /// Event listeners that will be called on auth event.
   final List<ListenerFunction> _listeners = [];
 
+  /// Key used for differentiating between instances storage
+  final String? _key;
+
   /// Auth constructor.
   ///
   /// Requires [Dio] client that makes HTTP requests, [DirectusStorage] for storing auth data,
   /// and [Dio] client that is used for making request for new access token.
-  AuthHandler({
-    required this.client,
-    required DirectusStorage storage,
-    required Dio refreshClient,
-  })   : storage = AuthStorage(storage),
+  AuthHandler(
+      {required this.client,
+      required DirectusStorage storage,
+      required Dio refreshClient,
+      String? key})
+      : _key = key,
+        storage = AuthStorage(storage),
         forgottenPassword = ForgottenPassword(client: client),
         _refreshClient = refreshClient {
     // Refresh url is same as normal url.

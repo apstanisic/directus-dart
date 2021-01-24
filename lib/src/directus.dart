@@ -13,14 +13,18 @@ bool _isDirectusInitialized = false;
 
 class Directus {
   /// [Dio] client used for HTTP requests.
-  @visibleForTesting
+  ///
+  /// Client is visible so users can add more headers, or any other customization.
   final Dio client;
 
   /// Storage used for persisting data.
   final DirectusStorage _storage;
 
+  /// Used for differentiating between multiple instances.
+  final String? key;
+
   /// Constructor with all provided services.
-  Directus(String url, {DirectusStorage? storage, Dio? client})
+  Directus(String url, {DirectusStorage? storage, Dio? client, this.key})
       : _storage = storage ?? SharedPreferencesStorage(),
         client = client ?? Dio(BaseOptions(baseUrl: url.endsWith('/') ? url : '$url/')) {
     // Check if SDK is inited before first request.
