@@ -14,7 +14,9 @@ DirectusPreset _$DirectusPresetFromJson(Map<String, dynamic> json) {
     role: json['role'],
     collection: json['collection'] as String?,
     search: json['search'] as String?,
-    filters: (json['filters'] as List<dynamic>?)?.map((e) => e as Map<String, dynamic>).toList(),
+    filters: (json['filters'] as List<dynamic>?)
+        ?.map((e) => e as Map<String, dynamic>)
+        .toList(),
     layout: json['layout'] as String?,
     layoutQuery: json['layout_query'] as Map<String, dynamic>?,
     layoutOptions: json['layout_options'] as Map<String, dynamic>?,

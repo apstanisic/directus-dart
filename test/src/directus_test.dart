@@ -1,12 +1,10 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/directus.dart';
 import 'package:directus/src/modules/handlers.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:test/test.dart';
 
-import 'mock/mock_dio.dart';
-import 'mock/mock_directus_storage.dart';
+import 'mock/mocks.mocks.dart';
 
 void main() {
   group('Directus', () {

@@ -1,13 +1,12 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/auth/_forgotten_password.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../../mock/mock_dio.dart';
+import '../../mock/mocks.mocks.dart';
 
 void main() {
-  late Dio client;
+  late MockDio client;
   late ForgottenPassword fp;
   setUp(() {
     client = MockDio();

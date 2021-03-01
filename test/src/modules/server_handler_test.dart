@@ -3,8 +3,8 @@ import 'package:directus/src/modules/server_handler.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../mock/mock_dio.dart';
 import '../mock/mock_dio_response.dart';
+import '../mock/mocks.mocks.dart';
 
 void main() {
   group('ServerHandler', () {

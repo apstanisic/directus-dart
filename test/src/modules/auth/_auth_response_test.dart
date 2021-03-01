@@ -1,4 +1,3 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/auth/_auth_response.dart';
 import 'package:test/test.dart';

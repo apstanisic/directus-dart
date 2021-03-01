@@ -1,4 +1,3 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 
 /// Error that any exception inside SDK will throw.
@@ -45,14 +44,17 @@ class DirectusError implements Exception {
     var errorMessage;
 
     try {
-      final apiErrors = Map.from(error.response.data);
+      final apiErrors = Map.from(error.response?.data);
       errorMessage = apiErrors['errors']?[0]?['message'] ?? 'Problem with Directus.';
     } catch (e) {
       errorMessage = 'Problem with Directus.';
     }
 
     message = errorMessage.toString();
-    code = error.response.statusCode;
-    additionalInfo = {'codeMessage': error.response.statusMessage, 'response': error.response};
+    code = error.response?.statusCode ?? 1000;
+    additionalInfo = {
+      'codeMessage': error.response?.statusMessage ?? 'Error',
+      'response': error.response
+    };
   }
 }

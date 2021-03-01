@@ -1,10 +1,9 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/auth/_tfa.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../../mock/mock_dio.dart';
+import '../../mock/mocks.mocks.dart';
 
 void main() {
   group('Tfa', () {

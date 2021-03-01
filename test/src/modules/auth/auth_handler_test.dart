@@ -1,4 +1,3 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/modules/auth/_auth_response.dart';
@@ -11,17 +10,16 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../../mock/mock_auth_response.dart';
-import '../../mock/mock_dio.dart';
 import '../../mock/mock_dio_response.dart';
-import '../../mock/mock_directus_storage.dart';
+import '../../mock/mocks.mocks.dart';
 
 class MockAuthStorage extends Mock implements AuthStorage {}
 
 void main() {
   group('AuthHandler', () {
     late DirectusStorage storage;
-    late Dio client;
-    late Dio refreshClient;
+    late MockDio client;
+    late MockDio refreshClient;
     late AuthHandler auth;
     late AuthStorage authStorage;
     Map getRefreshResponse() => {

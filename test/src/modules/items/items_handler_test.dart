@@ -1,15 +1,14 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_list_response.dart';
+import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/data_classes/one_query.dart';
 import 'package:directus/src/data_classes/query.dart';
-import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../../mock/mock_dio.dart';
 import '../../mock/mock_dio_response.dart';
+import '../../mock/mocks.mocks.dart';
 
 void main() {
   group('ItemsHandler', () {

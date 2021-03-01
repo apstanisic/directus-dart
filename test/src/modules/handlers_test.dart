@@ -2,8 +2,7 @@ import 'package:directus/src/modules/handlers.dart';
 import 'package:directus/src/modules/utils_handler.dart';
 import 'package:test/test.dart';
 
-import '../mock/mock_dio.dart';
-import '../mock/mock_directus_storage.dart';
+import '../mock/mocks.mocks.dart';
 
 void main() {
   test('that `handlers.dart` exports all handlers.', () async {

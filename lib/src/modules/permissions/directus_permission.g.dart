@@ -15,7 +15,8 @@ DirectusPermission _$DirectusPermissionFromJson(Map<String, dynamic> json) {
     permissions: json['permissions'] as Map<String, dynamic>?,
     validation: json['validation'] as Map<String, dynamic>?,
     presets: json['presets'] as Map<String, dynamic>?,
-    fields: (json['fields'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    fields:
+        (json['fields'] as List<dynamic>?)?.map((e) => e as String).toList(),
     limit: json['limit'] as int?,
   );
 }

@@ -1,4 +1,3 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/modules/auth/_current_user.dart';
@@ -6,8 +5,8 @@ import 'package:directus/src/modules/users/directus_user.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../../mock/mock_dio.dart';
 import '../../mock/mock_dio_response.dart';
+import '../../mock/mocks.mocks.dart';
 
 void main() {
   group('CurrentUser', () {

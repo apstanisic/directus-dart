@@ -1,11 +1,10 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 import 'package:directus/src/modules/files/directus_file.dart';
 import 'package:directus/src/modules/files/files_handler.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
 import 'package:test/test.dart';
 
-import '../../mock/mock_dio.dart';
+import '../../mock/mocks.mocks.dart';
 
 void main() {
   late Dio client;

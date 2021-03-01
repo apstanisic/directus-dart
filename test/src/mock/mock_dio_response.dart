@@ -1,4 +1,3 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:dio/dio.dart';
 
 typedef Res = Future<Response<dynamic>> Function(Invocation);
