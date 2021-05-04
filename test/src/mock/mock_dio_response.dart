@@ -6,6 +6,9 @@ typedef Res = Future<Response<dynamic>> Function(Invocation);
 ///
 /// Mockito's `thenAnwser` expects function, this wrapper function returns
 /// that function that will return response with data that is passed to [dioResponse].
-Res dioResponse([dynamic? data]) {
-  return (Invocation invocation) async => Response(data: data);
+Res dioResponse([dynamic data]) {
+  return (Invocation invocation) async => Response(
+        data: data,
+        requestOptions: RequestOptions(path: '/'),
+      );
 }

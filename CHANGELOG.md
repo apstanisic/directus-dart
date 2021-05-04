@@ -1,3 +1,8 @@
+## 0.6.0
+
+- Null safety
+- Fix: filter not applied when query not passed in ItemsHandler readMany
+
 ## 0.5.2
 
 - Fix for locking client after failed refresh

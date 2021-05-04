@@ -5,13 +5,11 @@ import 'package:test/test.dart';
 import '../mock/mocks.mocks.dart';
 
 void main() {
+  /// This does not test AuthHandler, that is special case
   test('that `handlers.dart` exports all handlers.', () async {
     final client = MockDio();
-    final storage = MockDirectusStorage();
-    final refreshClient = MockDio();
 
     ActivityHandler(client: client);
-    AuthHandler(client: client, storage: storage, refreshClient: refreshClient);
     CollectionsHandler(client: client);
     FieldsHandler(client: client);
     FilesHandler(client: client);

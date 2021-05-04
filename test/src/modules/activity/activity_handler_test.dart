@@ -8,19 +8,18 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import '../../mock/mock_dio_response.dart';
-import '../../mock/mock_item_handler.dart';
 import '../../mock/mocks.mocks.dart';
 
 void main() {
   group('ActivityHandler', () {
     late MockDio client;
     late ActivityHandler activity;
-    late ItemsHandler<DirectusActivity> handler;
+    late MockItemsHandler<DirectusActivity> handler;
 
     setUp(() {
       client = MockDio();
       activity = ActivityHandler(client: client);
-      handler = MockItemHandler<DirectusActivity>();
+      handler = MockItemsHandler<DirectusActivity>();
     });
 
     test('handler is set up corectly', () {
@@ -29,7 +28,7 @@ void main() {
 
     test('that `readOne` works.', () async {
       activity.handler = handler;
-      when(handler.readOne(any as dynamic))
+      when(handler.readOne(any))
           .thenAnswer((realInvocation) async => DirectusResponse.manually(DirectusActivity()));
 
       final response = await activity.readOne('key');

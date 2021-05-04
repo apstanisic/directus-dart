@@ -4,7 +4,9 @@ import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../../mock/mock_directus_storage.dart';
+import '../../mock/mocks.mocks.dart';
+
+// import '../../mock/mock_directus_storage.dart';
 
 void main() {
   group('AuthStorage', () {
@@ -19,7 +21,7 @@ void main() {
     });
     test('storeLoginData', () async {
       final now = DateTime.now();
-      when(storage.setItem(any as dynamic, any)).thenAnswer((realInvocation) async {});
+      when(storage.setItem(any, any)).thenAnswer((realInvocation) async {});
       await authStorage.storeLoginData(
         AuthResponse(
           accessToken: 'accessToken',
@@ -49,7 +51,7 @@ void main() {
       expect(data?.refreshToken, 'rt');
       expect(data?.accessTokenTtlMs, 1000);
       expect(data?.accessTokenExpiresAt, isA<DateTime>());
-      verify(storage.getItem(any as dynamic)).called(4);
+      verify(storage.getItem(any)).called(4);
     });
   });
 }

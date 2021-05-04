@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:directus/src/modules/handlers.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';

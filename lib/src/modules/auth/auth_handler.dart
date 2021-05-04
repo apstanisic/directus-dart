@@ -157,7 +157,10 @@ class AuthHandler {
   /// and update token in [client]. If for some reason refreshing fail, it will delete token
   /// from [client].
   @visibleForTesting
-  Future<RequestOptions> refreshExpiredTokenInterceptor(RequestOptions options) async {
+  Future<RequestOptions> refreshExpiredTokenInterceptor(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     // If user is not logged in, just do request normally
     if (tokens == null) return options;
 

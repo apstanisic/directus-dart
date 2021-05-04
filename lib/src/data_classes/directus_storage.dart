@@ -8,5 +8,5 @@ abstract class DirectusStorage {
   Future<void> setItem(String key, dynamic value);
 
   /// Call this method to get data from storage.
-  Future<dynamic?> getItem(String key);
+  Future<dynamic> getItem(String key);
 }

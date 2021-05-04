@@ -3,6 +3,7 @@ import 'package:directus/src/modules/auth/_tfa.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import '../../mock/mock_dio_response.dart';
 import '../../mock/mocks.mocks.dart';
 
 void main() {
@@ -15,8 +16,7 @@ void main() {
       tfa = Tfa(client: client);
     });
     test('enable', () async {
-      when(client.post('users/tfa/enable', data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post('users/tfa/enable', data: anyNamed('data'))).thenAnswer(dioResponse());
 
       await tfa.enable('some-password');
 
@@ -24,8 +24,7 @@ void main() {
     });
 
     test('disable', () async {
-      when(client.post('users/tfa/disable', data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post('users/tfa/disable', data: anyNamed('data'))).thenAnswer(dioResponse());
       await tfa.disable('some-otp');
 
       verify(client.post('users/tfa/disable', data: {'otp': 'some-otp'})).called(1);

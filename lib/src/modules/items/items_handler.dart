@@ -67,10 +67,11 @@ class ItemsHandler<T> {
     Query? query,
     Filters? filters,
   }) async {
+    query ??= Query();
     return DirectusListResponse.fromRequest(
       () => client.get(
         '$_endpoint',
-        queryParameters: query?.toMap(filters: filters),
+        queryParameters: query!.toMap(filters: filters),
       ),
       converter: converter,
     );

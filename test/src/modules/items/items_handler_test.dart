@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/data_classes/directus_list_response.dart';
 import 'package:directus/src/data_classes/directus_response.dart';
 import 'package:directus/src/data_classes/one_query.dart';
@@ -45,6 +46,21 @@ void main() {
       expect(response, isA<DirectusListResponse>());
       expect(response.data, [exampleItem, exampleItem]);
       verify(client.get('items/test', queryParameters: query.toMap())).called(1);
+    });
+
+// Regresion test: https://github.com/apstanisic/directus-dart/issues/18
+    test('readMany applies filter without query', () async {
+      when(client.get(any, queryParameters: anyNamed('queryParameters'))).thenAnswer(dioResponse({
+        'data': [exampleItem, exampleItem]
+      }));
+
+      final response = await items.readMany(filters: Filters({'one': Filter.eq(2)}));
+
+      final query = Query();
+      expect(response, isA<DirectusListResponse>());
+      expect(response.data, [exampleItem, exampleItem]);
+      verify(client.get('items/test',
+          queryParameters: query.toMap(filters: Filters({'one': Filter.eq(2)})))).called(1);
     });
 
     test('createOne works properly', () async {

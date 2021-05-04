@@ -8,7 +8,7 @@ void main() async {
   final sdk = await Directus('http://localhost:8055').init();
   await sdk.auth.login(email: 'test@example.com', password: 'password');
   // await sdk
-  final user = await sdk.auth.currentUser.read();
+  final user = await sdk.auth.currentUser?.read();
   print(user);
   runApp(MyApp(sdk));
 }
@@ -29,7 +29,20 @@ class MyApp extends StatelessWidget {
     final result = await sdk.items('reviews').readMany(
         query: Query(
             limit: 5, offset: 0, fields: ['*'], meta: Meta(filterCount: true, totalCount: true)),
-        filters: Filters({'is_positive': Filter.eq(false)}));
+        filters: Filters({
+          'is_positive': Filter.eq(false),
+          'and': Filter.and([
+            {
+              "date_effective": Filter.lte(DateTime.now()),
+              // DateTime.now().to
+              // Filter.lte('${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}')
+            },
+            {
+              "date_expired": Filter.gte(DateTime.now())
+              // Filter.gte('${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}')
+            }
+          ])
+        }));
 
     result.data.forEach((project) => print(project['title']));
     return;

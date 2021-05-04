@@ -1,6 +1,6 @@
 import 'package:directus/src/modules/auth/_auth_response.dart';
 
-AuthResponse getAuthRespone() {
+AuthResponse mockAuthResponse() {
   return AuthResponse(
     accessToken: 'accessToken',
     accessTokenExpiresAt: DateTime.now(),

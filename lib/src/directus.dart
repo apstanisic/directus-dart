@@ -3,7 +3,6 @@ import 'package:directus/src/adapters/shared_preferences_storage.dart';
 import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:directus/src/modules/items/items_converter.dart';
-import 'package:meta/meta.dart';
 
 import 'modules/handlers.dart';
 import 'modules/items/map_items_converter.dart';
@@ -33,7 +32,7 @@ class Directus {
   /// Add check to [Dio] to see if SDK is initialized before sending HTTP request.
   ///
   /// If [Directus] is initialized, this interceptor will be removed.
-  RequestOptions _checkIfInited(RequestOptions options) {
+  RequestOptions _checkIfInited(RequestOptions options, RequestInterceptorHandler handler) {
     if (!_isDirectusInitialized) {
       throw DirectusError(message: 'You must first call and await init method.');
     }

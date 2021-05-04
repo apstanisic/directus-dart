@@ -5,6 +5,7 @@ import 'package:test/test.dart';
 void main() {
   test('DirectusListResponse.fromDio works', () async {
     final response = await DirectusListResponse.fromRequest(() async => Response(
+          requestOptions: RequestOptions(path: '/'),
           data: {
             'data': [
               {'hello': 'world'}
@@ -18,16 +19,18 @@ void main() {
     expect(() async {
       await DirectusListResponse.fromRequest(
         () async => throw DioError(
+            requestOptions: RequestOptions(path: '/'),
             response: Response(
-          data: 'error',
-        )),
+              requestOptions: RequestOptions(path: '/'),
+              data: 'error',
+            )),
       );
     }, throwsA(TypeMatcher<DirectusError>()));
   });
 
   test('Meta is properly set', () async {
     final response = await DirectusListResponse.fromRequest(
-      () async => Response(data: {
+      () async => Response(requestOptions: RequestOptions(path: '/'), data: {
         'data': [],
         'meta': {'total_count': 2, 'filter_count': 1}
       }),

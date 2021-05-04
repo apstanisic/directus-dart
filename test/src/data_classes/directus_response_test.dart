@@ -5,6 +5,7 @@ import 'package:test/test.dart';
 void main() {
   test('that `DirectusResponse.fromDio` works.', () async {
     final response = await DirectusResponse.fromRequest(() async => Response(
+          requestOptions: RequestOptions(path: '/'),
           data: {
             'data': {'hello': 'world'}
           },
@@ -16,9 +17,11 @@ void main() {
     expect(() async {
       await DirectusResponse.fromRequest(
         () async => throw DioError(
+            requestOptions: RequestOptions(path: '/'),
             response: Response(
-          data: 'error',
-        )),
+              requestOptions: RequestOptions(path: '/'),
+              data: 'error',
+            )),
       );
     }, throwsA(TypeMatcher<DirectusError>()));
   });

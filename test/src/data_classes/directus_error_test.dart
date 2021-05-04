@@ -11,15 +11,17 @@ void main() {
 
   test('that DirectusError will parse DioError to get correct error from server API.', () async {
     final error = DirectusError.fromDio(DioError(
+        requestOptions: RequestOptions(path: '/'),
         response: Response(
-      data: {
-        'errors': [
-          {'message': 'API message'}
-        ]
-      },
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-    )));
+          requestOptions: RequestOptions(path: '/'),
+          data: {
+            'errors': [
+              {'message': 'API message'}
+            ]
+          },
+          statusCode: 400,
+          statusMessage: 'Bad Request',
+        )));
 
     expect(error.code, 400);
     expect(error.message, 'API message');

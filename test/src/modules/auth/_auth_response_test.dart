@@ -30,9 +30,12 @@ void main() {
     });
 
     test('fromRequest', () async {
-      final request = Response(data: validResponse);
+      final httpResponse = Response(
+        requestOptions: RequestOptions(path: '/'),
+        data: validResponse,
+      );
       final now = DateTime.now();
-      final response = AuthResponse.fromResponse(request);
+      final response = AuthResponse.fromResponse(httpResponse);
 
       expect(response.accessToken, 'at');
       expect(response.refreshToken, 'rt');
@@ -51,22 +54,39 @@ void main() {
     });
 
     test('Throws if response data is null', () {
-      expect(() => AuthResponse.fromResponse(Response()), throwsException);
+      expect(
+        () => AuthResponse.fromResponse(Response(requestOptions: RequestOptions(path: '/'))),
+        throwsException,
+      );
     });
 
     test('Throws if access token does not exist', () {
       validResponse['data']?.remove('access_token');
-      expect(() => AuthResponse.fromResponse(Response(data: validResponse)), throwsException);
+      expect(
+        () => AuthResponse.fromResponse(
+            Response(data: validResponse, requestOptions: RequestOptions(path: '/'))),
+        throwsException,
+      );
     });
 
     test('Throws if expires does not exist', () {
       validResponse['data']?.remove('expires');
-      expect(() => AuthResponse.fromResponse(Response(data: validResponse)), throwsException);
+      expect(
+          () => AuthResponse.fromResponse(Response(
+                data: validResponse,
+                requestOptions: RequestOptions(path: '/'),
+              )),
+          throwsException);
     });
 
     test('Throws if refresh token does not exist', () {
       validResponse['data']?.remove('refresh_token');
-      expect(() => AuthResponse.fromResponse(Response(data: validResponse)), throwsException);
+      expect(
+          () => AuthResponse.fromResponse(Response(
+                data: validResponse,
+                requestOptions: RequestOptions(path: '/'),
+              )),
+          throwsException);
     });
   });
 }

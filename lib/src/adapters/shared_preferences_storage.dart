@@ -10,7 +10,7 @@ class SharedPreferencesStorage extends DirectusStorage {
 
   /// Get item from starage
   @override
-  Future<dynamic?> getItem(String key) async {
+  Future<dynamic> getItem(String key) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
     return instance.get(key);
   }

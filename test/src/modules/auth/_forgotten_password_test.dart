@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:directus/src/modules/auth/_forgotten_password.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import '../../mock/mock_dio_response.dart';
 import '../../mock/mocks.mocks.dart';
 
 void main() {
@@ -15,15 +15,13 @@ void main() {
 
   group('ForgottenPassword', () {
     test('requestPassword', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
       await fp.request('email@test.com');
       verify(client.post('auth/password/request', data: {'email': 'email@test.com'})).called(1);
     });
 
     test('requestPassword', () async {
-      when(client.post(any, data: anyNamed('data')))
-          .thenAnswer((realInvocation) async => Response());
+      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
       await fp.reset(token: 'token1', password: 'password1');
 

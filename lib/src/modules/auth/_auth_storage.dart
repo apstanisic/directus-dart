@@ -1,5 +1,4 @@
 import 'package:directus/src/data_classes/directus_storage.dart';
-import 'package:meta/meta.dart';
 
 import '_auth_fields.dart';
 import '_auth_response.dart';

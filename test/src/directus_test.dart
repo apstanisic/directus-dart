@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:directus/src/directus.dart';
 import 'package:directus/src/modules/handlers.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
+import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'mock/mocks.mocks.dart';
@@ -10,11 +11,14 @@ void main() {
   group('Directus', () {
     late Dio client;
     late Directus sdk;
-    late DirectusStorage storage;
+    late MockDirectusStorage storage;
 
     setUp(() async {
       client = MockDio();
       storage = MockDirectusStorage();
+      when(client.interceptors).thenReturn(Interceptors());
+      when(client.options).thenReturn(BaseOptions());
+      when(storage.getItem(any)).thenAnswer((realInvocation) async => null);
       sdk = Directus('url', client: client, storage: storage);
       await sdk.init();
     });
@@ -30,6 +34,8 @@ void main() {
 
     test('that sdk will use provided client.', () {
       final newClient = MockDio();
+      when(newClient.interceptors).thenReturn(Interceptors());
+      when(newClient.options).thenReturn(BaseOptions());
       sdk = Directus('url', storage: storage, client: newClient);
       expect(sdk.client, newClient);
     });

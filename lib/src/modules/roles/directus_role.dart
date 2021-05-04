@@ -1,4 +1,3 @@
-import 'package:directus/directus.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'directus_role.g.dart';
