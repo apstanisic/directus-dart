@@ -1,3 +1,7 @@
+## 0.6.2
+
+- Require Dart 2.12 stable
+
 ## 0.6.1
 
 - Fix Dio interceptors never finishing
