@@ -1,3 +1,8 @@
+## 0.6.1
+
+- Fix Dio interceptors never finishing
+- Ensure Flutter is initialized before accessing storage
+
 ## 0.6.0
 
 - Null safety
