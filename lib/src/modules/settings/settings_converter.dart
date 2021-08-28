@@ -7,5 +7,6 @@ class SettingsConverter implements ItemsConverter<DirectusSettings> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusSettings fromJson(Map<String, dynamic> data) => DirectusSettings.fromJson(data);
+  DirectusSettings fromJson(Map<String, dynamic> data) =>
+      DirectusSettings.fromJson(data);
 }

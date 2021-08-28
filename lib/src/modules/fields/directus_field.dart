@@ -41,7 +41,8 @@ class DirectusField {
   });
 
   /// Used for code generation
-  factory DirectusField.fromJson(Map<String, dynamic> json) => _$DirectusFieldFromJson(json);
+  factory DirectusField.fromJson(Map<String, dynamic> json) =>
+      _$DirectusFieldFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusFieldToJson(this);

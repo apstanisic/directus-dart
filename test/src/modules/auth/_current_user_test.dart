@@ -44,7 +44,8 @@ void main() {
       expect(response, isA<DirectusResponse>());
       expect(response.data, isA<DirectusUser>());
       expect(response.data.toJson(), {'id': '1', 'first_name': 'Test'});
-      verify(client.patch('users/me', data: {'email': 'test@email.com'})).called(1);
+      verify(client.patch('users/me', data: {'email': 'test@email.com'}))
+          .called(1);
     });
   });
 }

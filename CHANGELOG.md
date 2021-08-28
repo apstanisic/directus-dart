@@ -1,3 +1,12 @@
+## 0.6.2
+
+- Require Dart 2.12 stable
+
+## 0.6.1
+
+- Fix Dio interceptors never finishing
+- Ensure Flutter is initialized before accessing storage
+
 ## 0.6.0
 
 - Null safety
@@ -9,7 +18,7 @@
 
 ## 0.5.1
 
-- Add option to pass a key to Directus (used for multiple auths)
+- Add option to pass a key to Directus (used for multiple auth)
 
 ## 0.5.0
 

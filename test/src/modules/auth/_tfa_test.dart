@@ -16,18 +16,22 @@ void main() {
       tfa = Tfa(client: client);
     });
     test('enable', () async {
-      when(client.post('users/tfa/enable', data: anyNamed('data'))).thenAnswer(dioResponse());
+      when(client.post('users/tfa/enable', data: anyNamed('data')))
+          .thenAnswer(dioResponse());
 
       await tfa.enable('some-password');
 
-      verify(client.post('users/tfa/enable', data: {'password': 'some-password'})).called(1);
+      verify(client.post('users/tfa/enable',
+          data: {'password': 'some-password'})).called(1);
     });
 
     test('disable', () async {
-      when(client.post('users/tfa/disable', data: anyNamed('data'))).thenAnswer(dioResponse());
+      when(client.post('users/tfa/disable', data: anyNamed('data')))
+          .thenAnswer(dioResponse());
       await tfa.disable('some-otp');
 
-      verify(client.post('users/tfa/disable', data: {'otp': 'some-otp'})).called(1);
+      verify(client.post('users/tfa/disable', data: {'otp': 'some-otp'}))
+          .called(1);
     });
   });
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
@@ -15,7 +16,8 @@ import '_auth_response.dart';
 /// [type] is either `login`, `logout`, `init` or `refresh`.
 /// [data] is data returned from action. It can be [AuthResponse] for `login`, `init` and `refresh`,
 /// and [Null] for `logout` and `init`. `init` will have value if user is logged in.
-typedef ListenerFunction = Future<void> Function(String type, AuthResponse? data);
+typedef ListenerFunction = Future<void> Function(
+    String type, AuthResponse? data);
 
 class AuthHandler {
   /// Http client
@@ -67,7 +69,8 @@ class AuthHandler {
     // Refresh url is same as normal url.
     _refreshClient.options.baseUrl = client.options.baseUrl;
     // Get new access token if current is expired.
-    client.interceptors.add(InterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor));
+    client.interceptors
+        .add(InterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor));
   }
 
   /// Add listener when auth status changes
@@ -124,7 +127,8 @@ class AuthHandler {
   Future<void> logout() async {
     if (tokens == null) throw DirectusError(message: 'User is not logged in.');
     try {
-      await client.post('auth/logout', data: {'refresh_token': tokens!.refreshToken});
+      await client
+          .post('auth/logout', data: {'refresh_token': tokens!.refreshToken});
     } catch (e) {
       throw DirectusError.fromDio(e);
     } finally {
@@ -145,9 +149,10 @@ class AuthHandler {
     _tokens = data;
 
     if (data == null) {
-      client.options.headers.remove('Authorization');
+      client.options.headers.remove(HttpHeaders.authorizationHeader);
     } else {
-      client.options.headers['Authorization'] = 'Bearer ${data.accessToken}';
+      client.options.headers[HttpHeaders.authorizationHeader] =
+          'Bearer ${data.accessToken}';
     }
   }
 
@@ -157,16 +162,18 @@ class AuthHandler {
   /// and update token in [client]. If for some reason refreshing fail, it will delete token
   /// from [client].
   @visibleForTesting
-  Future<RequestOptions> refreshExpiredTokenInterceptor(
+  Future<void> refreshExpiredTokenInterceptor(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
     // If user is not logged in, just do request normally
-    if (tokens == null) return options;
+    if (tokens == null) return handler.next(options);
 
     // If there are less then 5 seconds in access token, get new token
-    if (!tokens!.accessTokenExpiresAt.subtract(Duration(seconds: 10)).isBefore(DateTime.now())) {
-      return options;
+    if (!tokens!.accessTokenExpiresAt
+        .subtract(Duration(seconds: 10))
+        .isBefore(DateTime.now())) {
+      return handler.next(options);
     }
 
     final response = await manuallyRefresh();
@@ -176,7 +183,7 @@ class AuthHandler {
       options.headers.remove('Authorization');
     }
 
-    return options;
+    return handler.next(options);
   }
 
   /// Refreshes access token.

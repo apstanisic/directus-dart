@@ -15,7 +15,8 @@ void main() {
     handler = ItemsHandler('directus_files', client: client);
   });
 
-  test('that FilesHandler has read and delete methods from ItemsHandler.', () async {
+  test('that FilesHandler has read and delete methods from ItemsHandler.',
+      () async {
     final files = FilesHandler(client: MockDio());
     files.handler = handler;
 

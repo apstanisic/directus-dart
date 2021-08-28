@@ -7,5 +7,6 @@ class RelationConverter implements ItemsConverter<DirectusRelation> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusRelation fromJson(Map<String, dynamic> data) => DirectusRelation.fromJson(data);
+  DirectusRelation fromJson(Map<String, dynamic> data) =>
+      DirectusRelation.fromJson(data);
 }

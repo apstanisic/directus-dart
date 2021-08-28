@@ -5,10 +5,21 @@ import 'package:directus/directus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final sdk = await Directus('http://localhost:8055').init();
-  await sdk.auth.login(email: 'test@example.com', password: 'password');
+  print(1);
+  try {
+    print('w');
+    await sdk.auth.login(email: 'test@example.com', password: 'password');
+    print('e');
+  } catch (e) {
+    print('q');
+    print(e.toString());
+  }
+  print(2);
   // await sdk
   final user = await sdk.auth.currentUser?.read();
+  print(3);
   print(user);
   runApp(MyApp(sdk));
 }
@@ -19,32 +30,30 @@ class MyApp extends StatelessWidget {
   MyApp(this.sdk);
 
   /// Get posts.
-  Future<DirectusListResponse<Map<String, dynamic>>> getPosts() => sdk.items('posts').readMany();
+  Future<DirectusListResponse<Map<String, dynamic>>> getPosts() =>
+      sdk.items('posts').readMany();
 
   /// Get settings.
-  Future<DirectusResponse<DirectusSettings>> getSettings() => sdk.settings.read();
+  Future<DirectusResponse<DirectusSettings>> getSettings() =>
+      sdk.settings.read();
 
   Future<dynamic> getReviews() async {
-    sdk.custom.options.headers['Custom-Header'] = 'some-value';
-    final result = await sdk.items('reviews').readMany(
-        query: Query(
-            limit: 5, offset: 0, fields: ['*'], meta: Meta(filterCount: true, totalCount: true)),
-        filters: Filters({
-          'is_positive': Filter.eq(false),
-          'and': Filter.and([
-            {
-              "date_effective": Filter.lte(DateTime.now()),
-              // DateTime.now().to
-              // Filter.lte('${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}')
-            },
-            {
-              "date_expired": Filter.gte(DateTime.now())
-              // Filter.gte('${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}')
-            }
-          ])
-        }));
+    print('enter');
+    try {
+      final result = await sdk.items('posts').readMany(
+          // query: Query(
+          //     limit: 5,
+          //     offset: 0,
+          //     fields: ['*'],
+          //     meta: Meta(filterCount: true, totalCount: true)),
+          );
 
-    result.data.forEach((project) => print(project['title']));
+      print('ehere');
+      result.data.forEach((project) => print(project));
+    } catch (e) {
+      print(e);
+    }
+
     return;
   }
 

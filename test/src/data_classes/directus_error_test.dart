@@ -3,13 +3,17 @@ import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('that DirectusError will use generic error if `fromDio` is not `DioError`.', () async {
+  test(
+      'that DirectusError will use generic error if `fromDio` is not `DioError`.',
+      () async {
     final error = DirectusError.fromDio(Exception());
     expect(error.code, 1000);
     expect(error.message, 'Error should come from Dio.');
   });
 
-  test('that DirectusError will parse DioError to get correct error from server API.', () async {
+  test(
+      'that DirectusError will parse DioError to get correct error from server API.',
+      () async {
     final error = DirectusError.fromDio(DioError(
         requestOptions: RequestOptions(path: '/'),
         response: Response(

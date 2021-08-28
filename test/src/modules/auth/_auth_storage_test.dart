@@ -38,11 +38,14 @@ void main() {
     });
 
     test('getLoginData', () async {
-      when(storage.getItem(fields.accessToken)).thenAnswer((realInvocation) async => 'at');
-      when(storage.getItem(fields.refreshToken)).thenAnswer((realInvocation) async => 'rt');
+      when(storage.getItem(fields.accessToken))
+          .thenAnswer((realInvocation) async => 'at');
+      when(storage.getItem(fields.refreshToken))
+          .thenAnswer((realInvocation) async => 'rt');
       when(storage.getItem(fields.expiresAt))
           .thenAnswer((realInvocation) async => DateTime.now().toString());
-      when(storage.getItem(fields.accessTokenTtlInMs)).thenAnswer((realInvocation) async => 1000);
+      when(storage.getItem(fields.accessTokenTtlInMs))
+          .thenAnswer((realInvocation) async => 1000);
 
       final data = await authStorage.getLoginData();
 

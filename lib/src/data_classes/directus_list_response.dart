@@ -33,7 +33,8 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
     if (!(data is List)) {
       throw DirectusError(message: 'Data should be a list.');
     }
-    this.data = data.map((item) => converter!.fromJson(item)).cast<T>().toList();
+    this.data =
+        data.map((item) => converter!.fromJson(item)).cast<T>().toList();
   }
 
   /// Static method that you can pass a closure that should return Dio [Response].

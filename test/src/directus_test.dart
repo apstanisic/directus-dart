@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/directus.dart';
 import 'package:directus/src/modules/handlers.dart';
-import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -69,7 +68,7 @@ void main() {
     test('that getters return correct handlers.', () {
       expect(sdk.activity, isA<ActivityHandler>());
       expect(sdk.collections, isA<CollectionsHandler>());
-      expect(sdk.custom, isA<Dio>());
+      expect(sdk.client, isA<Dio>());
       expect(sdk.fields, isA<FieldsHandler>());
       expect(sdk.files, isA<FilesHandler>());
       expect(sdk.folders, isA<FoldersHandler>());

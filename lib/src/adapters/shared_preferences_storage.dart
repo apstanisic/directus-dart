@@ -1,12 +1,16 @@
 import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Use shared preferences as storage engine
 class SharedPreferencesStorage extends DirectusStorage {
   final SharedPreferences? _instance;
 
-  SharedPreferencesStorage([SharedPreferences? instance]) : _instance = instance;
+  SharedPreferencesStorage([SharedPreferences? instance])
+      : _instance = instance {
+    WidgetsFlutterBinding.ensureInitialized();
+  }
 
   /// Get item from starage
   @override
@@ -32,7 +36,8 @@ class SharedPreferencesStorage extends DirectusStorage {
     } else if (value is double) {
       await instance.setDouble(key, value);
     } else {
-      throw DirectusError(message: 'You can only store strings, numbers and booleans.');
+      throw DirectusError(
+          message: 'You can only store strings, numbers and booleans.');
     }
   }
 }

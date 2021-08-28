@@ -7,5 +7,6 @@ class FileConverter implements ItemsConverter<DirectusFile> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusFile fromJson(Map<String, dynamic> data) => DirectusFile.fromJson(data);
+  DirectusFile fromJson(Map<String, dynamic> data) =>
+      DirectusFile.fromJson(data);
 }

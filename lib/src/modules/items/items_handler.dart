@@ -26,11 +26,13 @@ class ItemsHandler<T> {
   /// It's `/items/$collection` for normal collections and `/$collection` for system collection
   final String _endpoint;
 
-  ItemsHandler(String collection, {required Dio client, ItemsConverter? converter})
+  ItemsHandler(String collection,
+      {required Dio client, ItemsConverter? converter})
       : client = client,
         converter = converter ?? MapItemsConverter(),
-        _endpoint =
-            collection.startsWith('directus_') ? '${collection.substring(9)}' : 'items/$collection';
+        _endpoint = collection.startsWith('directus_')
+            ? '${collection.substring(9)}'
+            : 'items/$collection';
 
   /// Get item by ID
   ///
@@ -108,7 +110,8 @@ class ItemsHandler<T> {
   /// ```dart
   /// await items.updateOne(id: '5', data: {'name': 'Test'});
   /// ```
-  Future<DirectusResponse<T>> updateOne({required T data, required String id}) async {
+  Future<DirectusResponse<T>> updateOne(
+      {required T data, required String id}) async {
     final mapData = converter.toJson(data);
     return DirectusResponse.fromRequest(
       () => client.patch('$_endpoint/$id', data: mapData),
@@ -121,7 +124,8 @@ class ItemsHandler<T> {
   /// ```dart
   /// await items.updateMany(ids: ['5', '6', '7'], data: {'name': 'Test'});
   /// ```
-  Future<DirectusListResponse<T>> updateMany({required List<String> ids, required T data}) async {
+  Future<DirectusListResponse<T>> updateMany(
+      {required List<String> ids, required T data}) async {
     if (ids.isEmpty) return DirectusListResponse.manually([]);
 
     final mapData = converter.toJson(data);

@@ -1,4 +1,4 @@
-# Direcuts SDK for Dart/Flutter
+# Directus SDK for Dart/Flutter
 
 Unofficial Directus SDK for Dart/Flutter that provides APIs for reading, creating, updating and deleting user and system data, authentication, and access to activity. This package is port of SDK for JS from [here](https://github.com/directus/directus/tree/main/packages/sdk-js). Most methods are same as in JS, but there are some differences because of Dart type
 system.
@@ -10,16 +10,16 @@ More info can be found [here](https://pub.dev/packages/directus/install).
 
 ## Contributing
 
-Run code bellow before commiting. Writting tests is welcomed, but not required.
+Run code bellow before committing. Writing tests is welcomed, but not required.
 
 ```sh
-flutter test --no-sound-null-safety
-flutter format . -l 100
+flutter test
+flutter format .
 ```
 
 ## Getting started
 
-Create instance and initialize. You must run `.init()` for storage to be initialized. Othervise, there `DirectusError` will be thrown.
+Create instance and initialize. You must run `.init()` for storage to be initialized. Otherwise, there `DirectusError` will be thrown.
 
 ```dart
 import 'package:directus/directus.dart';
@@ -36,7 +36,7 @@ final sdk = await Directus('http://localhost:8055')
 
 ```dart
 // ID must be `String` because Dart does not have union types.
-final res = await sdk.items('users').readOne('someid');
+final res = await sdk.items('users').readOne('someId');
 print(res.data['name']);
 ```
 
@@ -327,7 +327,7 @@ await sdk.users.inviteMany(emails: ['test@example.com'], role: 'some-uuid');
 #### Accept a User Invite
 
 ```dart
-await sdk.users.acceptInvite(token: 'fdasfsdafas', password: 'secret-password');
+await sdk.users.acceptInvite(token: 'some-token', password: 'secret-password');
 ```
 
 ---

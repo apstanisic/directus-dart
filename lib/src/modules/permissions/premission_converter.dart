@@ -7,5 +7,6 @@ class PermissionConverter implements ItemsConverter<DirectusPermission> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusPermission fromJson(Map<String, dynamic> data) => DirectusPermission.fromJson(data);
+  DirectusPermission fromJson(Map<String, dynamic> data) =>
+      DirectusPermission.fromJson(data);
 }

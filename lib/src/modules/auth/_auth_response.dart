@@ -32,7 +32,8 @@ class AuthResponse {
     // Response is possible to be null in testing when we forget to return response.
     // ignore: unnecessary_null_comparison
     if (response == null || response.data == null) {
-      throw DirectusError(message: 'Response and response data can\'t be null.');
+      throw DirectusError(
+          message: 'Response and response data can\'t be null.');
     }
 
     final data = response.data?['data'];
@@ -43,7 +44,9 @@ class AuthResponse {
     final refreshToken = data['refresh_token'];
     final accessTokenTtlInMs = data['expires'];
 
-    if (accessToken == null || !(accessTokenTtlInMs is int) || refreshToken == null) {
+    if (accessToken == null ||
+        !(accessTokenTtlInMs is int) ||
+        refreshToken == null) {
       throw DirectusError(message: 'Login response is invalid.');
     }
 

@@ -40,7 +40,8 @@ class UtilsHandler {
     required String toPk,
   }) async {
     try {
-      await client.post('utils/sort/$collection', data: {'item': itemPk, 'to': toPk});
+      await client
+          .post('utils/sort/$collection', data: {'item': itemPk, 'to': toPk});
     } catch (e) {
       throw DirectusError.fromDio(e);
     }

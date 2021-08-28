@@ -92,7 +92,9 @@ class Meta {
   /// Override [toString] is it returns [String] that can be used in request.
   @override
   String toString() {
-    return [if (totalCount == true) 'total_count', if (filterCount == true) 'filter_count']
-        .join(',');
+    return [
+      if (totalCount == true) 'total_count',
+      if (filterCount == true) 'filter_count'
+    ].join(',');
   }
 }

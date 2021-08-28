@@ -28,8 +28,8 @@ void main() {
 
     test('that `readOne` works.', () async {
       activity.handler = handler;
-      when(handler.readOne(any))
-          .thenAnswer((realInvocation) async => DirectusResponse.manually(DirectusActivity()));
+      when(handler.readOne(any)).thenAnswer((realInvocation) async =>
+          DirectusResponse.manually(DirectusActivity()));
 
       final response = await activity.readOne('key');
 
@@ -40,8 +40,9 @@ void main() {
     test('that `readMany` works.', () async {
       activity.handler = handler;
       final activityItem = DirectusActivity();
-      when(handler.readMany(query: anyNamed('query')))
-          .thenAnswer((realInvocation) async => DirectusListResponse.manually([activityItem]));
+      when(handler.readMany(query: anyNamed('query'))).thenAnswer(
+          (realInvocation) async =>
+              DirectusListResponse.manually([activityItem]));
 
       final query = Query(limit: 5, offset: 5);
       final response = await activity.readMany(query: query);
@@ -63,7 +64,8 @@ void main() {
 
       expect(response.data, {'id': 5});
       verify(client.post('activity/comments',
-          data: {'collection': 'col', 'comment': 'comm', 'item': '5'})).called(1);
+              data: {'collection': 'col', 'comment': 'comm', 'item': '5'}))
+          .called(1);
     });
 
     test('that `updateComment` works.', () async {
@@ -71,10 +73,12 @@ void main() {
         'data': {'hello': 'world'}
       }));
 
-      final response = await activity.updateComment(id: 'key', comment: 'newComment');
+      final response =
+          await activity.updateComment(id: 'key', comment: 'newComment');
       expect(response.data, {'hello': 'world'});
 
-      verify(client.patch('activity/comments/key', data: {'comment': 'newComment'})).called(1);
+      verify(client.patch('activity/comments/key',
+          data: {'comment': 'newComment'})).called(1);
     });
 
     test('that `deleteComment` works.', () async {

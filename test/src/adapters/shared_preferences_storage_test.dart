@@ -12,7 +12,7 @@ void main() {
         'stringValue': 'value',
         'intValue': 5,
       });
-      SharedPreferences instance = await SharedPreferences.getInstance();
+      final instance = await SharedPreferences.getInstance();
 
       storage = SharedPreferencesStorage(instance);
     });

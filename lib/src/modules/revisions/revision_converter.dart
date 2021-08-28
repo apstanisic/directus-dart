@@ -7,5 +7,6 @@ class RevisionConverter implements ItemsConverter<DirectusRevision> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusRevision fromJson(Map<String, dynamic> data) => DirectusRevision.fromJson(data);
+  DirectusRevision fromJson(Map<String, dynamic> data) =>
+      DirectusRevision.fromJson(data);
 }

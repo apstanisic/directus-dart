@@ -7,5 +7,6 @@ class ActivityConverter implements ItemsConverter<DirectusActivity> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusActivity fromJson(Map<String, dynamic> data) => DirectusActivity.fromJson(data);
+  DirectusActivity fromJson(Map<String, dynamic> data) =>
+      DirectusActivity.fromJson(data);
 }

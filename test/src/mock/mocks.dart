@@ -10,5 +10,6 @@ import 'package:mockito/annotations.dart';
   Dio,
   BaseOptions,
   AuthStorage,
+  RequestInterceptorHandler
 ])
-main() {}
+void main() {}

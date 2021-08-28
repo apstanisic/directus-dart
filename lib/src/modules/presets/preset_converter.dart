@@ -7,5 +7,6 @@ class PresetConverter implements ItemsConverter<DirectusPreset> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusPreset fromJson(Map<String, dynamic> data) => DirectusPreset.fromJson(data);
+  DirectusPreset fromJson(Map<String, dynamic> data) =>
+      DirectusPreset.fromJson(data);
 }
