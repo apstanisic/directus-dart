@@ -130,25 +130,31 @@ void main() {
     test('Do not get new access token if user is not logged in.', () async {
       reset(refreshClient);
       auth.tokens = null;
+      final interceptorHandler = MockRequestInterceptorHandler();
       await auth.refreshExpiredTokenInterceptor(
         RequestOptions(path: '/'),
-        RequestInterceptorHandler(),
+        interceptorHandler,
       );
 
       verifyZeroInteractions(refreshClient);
+      verify(interceptorHandler.next(any)).called(1);
+
       //
     });
 
     test('Do not get new access token if AT is valid for more then 10 seconds.', () async {
       reset(refreshClient);
+
+      final interceptorHandler = MockRequestInterceptorHandler();
       auth.tokens = mockAuthResponse();
       auth.tokens?.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 11));
       await auth.refreshExpiredTokenInterceptor(
         RequestOptions(path: '/'),
-        RequestInterceptorHandler(),
+        interceptorHandler,
       );
 
       verifyZeroInteractions(refreshClient);
+      verify(interceptorHandler.next(any)).called(1);
       //
     });
 
@@ -164,11 +170,13 @@ void main() {
       final loginData = mockAuthResponse();
       auth.tokens = loginData;
       auth.tokens!.accessTokenExpiresAt = DateTime.now().add(Duration(seconds: 9));
+      final interceptorHandler = MockRequestInterceptorHandler();
       await auth.refreshExpiredTokenInterceptor(
         RequestOptions(path: '/'),
-        RequestInterceptorHandler(),
+        interceptorHandler,
       );
 
+      verify(interceptorHandler.next(any)).called(1);
       verify(refreshClient.post('auth/refresh', data: {
         'mode': 'json',
         'refresh_token': loginData.refreshToken,
@@ -254,12 +262,14 @@ void main() {
         expect(called, 1);
         called += 1;
       };
+      final interceptorHandler = MockRequestInterceptorHandler();
 
       await auth.refreshExpiredTokenInterceptor(
         RequestOptions(path: '/'),
-        RequestInterceptorHandler(),
+        interceptorHandler,
       );
       expect(called, 2);
+      verify(interceptorHandler.next(any)).called(1);
     });
 
     test('client is unlocked if refresh throws an error', () async {
