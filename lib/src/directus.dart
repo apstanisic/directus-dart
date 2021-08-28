@@ -32,14 +32,13 @@ class Directus {
   /// Add check to [Dio] to see if SDK is initialized before sending HTTP request.
   ///
   /// If [Directus] is initialized, this interceptor will be removed.
-  RequestOptions _checkIfInited(RequestOptions options, RequestInterceptorHandler handler) {
+  void _checkIfInited(RequestOptions options, RequestInterceptorHandler handler) {
     if (!_isDirectusInitialized) {
       throw DirectusError(message: 'You must first call and await init method.');
     }
 
     client.interceptors.remove(_checkIfInited);
-
-    return options;
+    return handler.next(options);
   }
 
   /// Initialize SDK.
