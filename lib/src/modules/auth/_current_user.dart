@@ -8,11 +8,13 @@ class CurrentUser {
   CurrentUser({required this.client});
 // Get current user
   Future<DirectusResponse<DirectusUser>> read() async {
-    return DirectusResponse.fromRequest(() => client.get('users/me'), converter: UserConverter());
+    return DirectusResponse.fromRequest(() => client.get('users/me'),
+        converter: UserConverter());
   }
 
 // Update current user
-  Future<DirectusResponse<DirectusUser>> update({required DirectusUser data}) async {
+  Future<DirectusResponse<DirectusUser>> update(
+      {required DirectusUser data}) async {
     final mapData = data.toJson();
     return DirectusResponse.fromRequest(
       () => client.patch('users/me', data: mapData),

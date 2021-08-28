@@ -7,5 +7,6 @@ class FolderConverter implements ItemsConverter<DirectusFolder> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusFolder fromJson(Map<String, dynamic> data) => DirectusFolder.fromJson(data);
+  DirectusFolder fromJson(Map<String, dynamic> data) =>
+      DirectusFolder.fromJson(data);
 }

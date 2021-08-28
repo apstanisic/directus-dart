@@ -99,11 +99,13 @@ class Filter {
   ///
   /// This method is used for converting `and` and `or` filtering.
   @visibleForTesting
-  List<Map<String, dynamic>> convertFilterList(List<Map<String, Filter>> filters) {
+  List<Map<String, dynamic>> convertFilterList(
+      List<Map<String, Filter>> filters) {
     // For every item in List convert value from Filter to Map.
     return filters
         .map(
-          (filterMap) => filterMap.map((field, value) => value.toMapEntry(field)),
+          (filterMap) =>
+              filterMap.map((field, value) => value.toMapEntry(field)),
         )
         .toList();
   }

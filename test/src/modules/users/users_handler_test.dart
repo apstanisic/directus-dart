@@ -35,7 +35,8 @@ void main() {
     test('that `inviteMany` works.', () async {
       when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
-      await users.inviteMany(emails: ['test@example.com', 'test2@example.com'], role: 'some-uuid');
+      await users.inviteMany(
+          emails: ['test@example.com', 'test2@example.com'], role: 'some-uuid');
 
       verify(client.post('users/invite', data: {
         'email': ['test@example.com', 'test2@example.com'],

@@ -7,5 +7,6 @@ class RoleConverter implements ItemsConverter<DirectusRole> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusRole fromJson(Map<String, dynamic> data) => DirectusRole.fromJson(data);
+  DirectusRole fromJson(Map<String, dynamic> data) =>
+      DirectusRole.fromJson(data);
 }

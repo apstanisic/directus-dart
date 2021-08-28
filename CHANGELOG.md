@@ -14,7 +14,7 @@
 
 ## 0.5.1
 
-- Add option to pass a key to Directus (used for multiple auths)
+- Add option to pass a key to Directus (used for multiple auth)
 
 ## 0.5.0
 

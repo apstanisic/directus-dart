@@ -78,7 +78,8 @@ class DirectusFile {
   });
 
   /// Used for code generation
-  factory DirectusFile.fromJson(Map<String, dynamic> json) => _$DirectusFileFromJson(json);
+  factory DirectusFile.fromJson(Map<String, dynamic> json) =>
+      _$DirectusFileFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusFileToJson(this);

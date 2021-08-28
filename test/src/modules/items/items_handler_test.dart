@@ -32,11 +32,14 @@ void main() {
 
       expect(response, isA<DirectusResponse>());
       expect(response.data, exampleItem);
-      verify(client.get('items/test/some-id', queryParameters: OneQuery().toMap())).called(1);
+      verify(client.get('items/test/some-id',
+              queryParameters: OneQuery().toMap()))
+          .called(1);
     });
 
     test('readMany works properly', () async {
-      when(client.get(any, queryParameters: anyNamed('queryParameters'))).thenAnswer(dioResponse({
+      when(client.get(any, queryParameters: anyNamed('queryParameters')))
+          .thenAnswer(dioResponse({
         'data': [exampleItem, exampleItem]
       }));
 
@@ -45,26 +48,31 @@ void main() {
 
       expect(response, isA<DirectusListResponse>());
       expect(response.data, [exampleItem, exampleItem]);
-      verify(client.get('items/test', queryParameters: query.toMap())).called(1);
+      verify(client.get('items/test', queryParameters: query.toMap()))
+          .called(1);
     });
 
 // Regresion test: https://github.com/apstanisic/directus-dart/issues/18
     test('readMany applies filter without query', () async {
-      when(client.get(any, queryParameters: anyNamed('queryParameters'))).thenAnswer(dioResponse({
+      when(client.get(any, queryParameters: anyNamed('queryParameters')))
+          .thenAnswer(dioResponse({
         'data': [exampleItem, exampleItem]
       }));
 
-      final response = await items.readMany(filters: Filters({'one': Filter.eq(2)}));
+      final response =
+          await items.readMany(filters: Filters({'one': Filter.eq(2)}));
 
       final query = Query();
       expect(response, isA<DirectusListResponse>());
       expect(response.data, [exampleItem, exampleItem]);
       verify(client.get('items/test',
-          queryParameters: query.toMap(filters: Filters({'one': Filter.eq(2)})))).called(1);
+          queryParameters:
+              query.toMap(filters: Filters({'one': Filter.eq(2)})))).called(1);
     });
 
     test('createOne works properly', () async {
-      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({'data': exampleItem}));
+      when(client.post(any, data: anyNamed('data')))
+          .thenAnswer(dioResponse({'data': exampleItem}));
 
       final response = await items.createOne(exampleItem);
 
@@ -82,7 +90,8 @@ void main() {
 
       expect(response, isA<DirectusListResponse>());
       expect(response.data, [exampleItem, exampleItem]);
-      verify(client.post('items/test', data: [exampleItem, exampleItem])).called(1);
+      verify(client.post('items/test', data: [exampleItem, exampleItem]))
+          .called(1);
     });
 
     test('updateOne works properly', () async {
@@ -101,7 +110,8 @@ void main() {
         'data': [exampleItem, exampleItem]
       }));
 
-      final response = await items.updateMany(data: exampleItem, ids: ['1', '2']);
+      final response =
+          await items.updateMany(data: exampleItem, ids: ['1', '2']);
 
       expect(response, isA<DirectusListResponse>());
       expect(response.data, [exampleItem, exampleItem]);

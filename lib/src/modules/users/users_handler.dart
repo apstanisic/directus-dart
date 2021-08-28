@@ -21,7 +21,8 @@ class UsersHandler extends ItemsHandler<DirectusUser> {
     }
   }
 
-  Future<void> inviteMany({required List<String> emails, required String role}) async {
+  Future<void> inviteMany(
+      {required List<String> emails, required String role}) async {
     try {
       await client.post('users/invite', data: {'email': emails, 'role': role});
     } catch (e) {
@@ -29,9 +30,11 @@ class UsersHandler extends ItemsHandler<DirectusUser> {
     }
   }
 
-  Future<void> acceptInvite({required String token, required String password}) async {
+  Future<void> acceptInvite(
+      {required String token, required String password}) async {
     try {
-      await client.post('users/invite/accept', data: {'token': token, 'password': password});
+      await client.post('users/invite/accept',
+          data: {'token': token, 'password': password});
     } catch (e) {
       throw DirectusError.fromDio(e);
     }

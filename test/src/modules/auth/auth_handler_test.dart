@@ -5,7 +5,6 @@ import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:directus/src/modules/auth/_current_user.dart';
 import 'package:directus/src/modules/auth/_tfa.dart';
 import 'package:directus/src/modules/auth/auth_handler.dart';
-import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 

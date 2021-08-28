@@ -6,5 +6,6 @@ class CollectionConverter implements ItemsConverter<DirectusCollection> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusCollection fromJson(Map<String, dynamic> data) => DirectusCollection.fromJson(data);
+  DirectusCollection fromJson(Map<String, dynamic> data) =>
+      DirectusCollection.fromJson(data);
 }

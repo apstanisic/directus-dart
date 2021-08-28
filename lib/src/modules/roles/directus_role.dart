@@ -33,7 +33,8 @@ class DirectusRole {
   });
 
   /// Used for code generation
-  factory DirectusRole.fromJson(Map<String, dynamic> json) => _$DirectusRoleFromJson(json);
+  factory DirectusRole.fromJson(Map<String, dynamic> json) =>
+      _$DirectusRoleFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusRoleToJson(this);

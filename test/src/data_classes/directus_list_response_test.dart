@@ -4,14 +4,15 @@ import 'package:test/test.dart';
 
 void main() {
   test('DirectusListResponse.fromDio works', () async {
-    final response = await DirectusListResponse.fromRequest(() async => Response(
-          requestOptions: RequestOptions(path: '/'),
-          data: {
-            'data': [
-              {'hello': 'world'}
-            ]
-          },
-        ));
+    final response =
+        await DirectusListResponse.fromRequest(() async => Response(
+              requestOptions: RequestOptions(path: '/'),
+              data: {
+                'data': [
+                  {'hello': 'world'}
+                ]
+              },
+            ));
     expect(response, isA<DirectusListResponse>());
   });
 

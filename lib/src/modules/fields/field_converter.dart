@@ -7,5 +7,6 @@ class FieldConverter implements ItemsConverter<DirectusField> {
   Map<String, dynamic> toJson(data) => data.toJson();
 
   @override
-  DirectusField fromJson(Map<String, dynamic> data) => DirectusField.fromJson(data);
+  DirectusField fromJson(Map<String, dynamic> data) =>
+      DirectusField.fromJson(data);
 }

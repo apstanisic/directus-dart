@@ -33,7 +33,8 @@ class DirectusPreset {
   });
 
   /// Used for code generation
-  factory DirectusPreset.fromJson(Map<String, dynamic> json) => _$DirectusPresetFromJson(json);
+  factory DirectusPreset.fromJson(Map<String, dynamic> json) =>
+      _$DirectusPresetFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusPresetToJson(this);

@@ -41,7 +41,8 @@ class DirectusUser {
   });
 
   /// Used for code generation
-  factory DirectusUser.fromJson(Map<String, dynamic> json) => _$DirectusUserFromJson(json);
+  factory DirectusUser.fromJson(Map<String, dynamic> json) =>
+      _$DirectusUserFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusUserToJson(this);

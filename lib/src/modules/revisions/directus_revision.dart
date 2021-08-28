@@ -31,7 +31,8 @@ class DirectusRevision {
   });
 
   /// Used for code generation
-  factory DirectusRevision.fromJson(Map<String, dynamic> json) => _$DirectusRevisionFromJson(json);
+  factory DirectusRevision.fromJson(Map<String, dynamic> json) =>
+      _$DirectusRevisionFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusRevisionToJson(this);

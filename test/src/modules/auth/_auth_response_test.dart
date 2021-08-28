@@ -43,19 +43,24 @@ void main() {
       expect(response.accessTokenExpiresAt, isA<DateTime>());
 
       expect(
-        now.add(Duration(milliseconds: 5000)).isBefore(response.accessTokenExpiresAt),
+        now
+            .add(Duration(milliseconds: 5000))
+            .isBefore(response.accessTokenExpiresAt),
         isTrue,
       );
 
       expect(
-        now.add(Duration(milliseconds: 5000, seconds: 1)).isAfter(response.accessTokenExpiresAt),
+        now
+            .add(Duration(milliseconds: 5000, seconds: 1))
+            .isAfter(response.accessTokenExpiresAt),
         isTrue,
       );
     });
 
     test('Throws if response data is null', () {
       expect(
-        () => AuthResponse.fromResponse(Response(requestOptions: RequestOptions(path: '/'))),
+        () => AuthResponse.fromResponse(
+            Response(requestOptions: RequestOptions(path: '/'))),
         throwsException,
       );
     });
@@ -63,8 +68,8 @@ void main() {
     test('Throws if access token does not exist', () {
       validResponse['data']?.remove('access_token');
       expect(
-        () => AuthResponse.fromResponse(
-            Response(data: validResponse, requestOptions: RequestOptions(path: '/'))),
+        () => AuthResponse.fromResponse(Response(
+            data: validResponse, requestOptions: RequestOptions(path: '/'))),
         throwsException,
       );
     });

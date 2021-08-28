@@ -36,7 +36,8 @@ class DirectusSettings {
   });
 
   /// Used for code generation
-  factory DirectusSettings.fromJson(Map<String, dynamic> json) => _$DirectusSettingsFromJson(json);
+  factory DirectusSettings.fromJson(Map<String, dynamic> json) =>
+      _$DirectusSettingsFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusSettingsToJson(this);

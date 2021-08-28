@@ -22,7 +22,8 @@ class DirectusFolder {
   });
 
   /// Used for code generation
-  factory DirectusFolder.fromJson(Map<String, dynamic> json) => _$DirectusFolderFromJson(json);
+  factory DirectusFolder.fromJson(Map<String, dynamic> json) =>
+      _$DirectusFolderFromJson(json);
 
   /// Used for code generation
   Map<String, dynamic> toJson() => _$DirectusFolderToJson(this);

@@ -22,7 +22,8 @@ void main() {
       final response = await utils.randomString();
 
       expect(response, isA<String>());
-      verify(client.get('utils/random/string', queryParameters: {'length': 32})).called(1);
+      verify(client.get('utils/random/string', queryParameters: {'length': 32}))
+          .called(1);
     });
 
     test('that user can change `randomString` length.', () async {
@@ -38,7 +39,8 @@ void main() {
     });
 
     test('that `generateHash` works.', () async {
-      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({'data': 'some-hash'}));
+      when(client.post(any, data: anyNamed('data')))
+          .thenAnswer(dioResponse({'data': 'some-hash'}));
 
       var response = await utils.generateHash('some-string');
 
@@ -50,7 +52,8 @@ void main() {
     });
 
     test('that `verifyHash` works.', () async {
-      when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse({'data': true}));
+      when(client.post(any, data: anyNamed('data')))
+          .thenAnswer(dioResponse({'data': true}));
 
       var response = await utils.verifyHash('some-string', 'hash-string');
 

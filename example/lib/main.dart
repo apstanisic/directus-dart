@@ -30,10 +30,12 @@ class MyApp extends StatelessWidget {
   MyApp(this.sdk);
 
   /// Get posts.
-  Future<DirectusListResponse<Map<String, dynamic>>> getPosts() => sdk.items('posts').readMany();
+  Future<DirectusListResponse<Map<String, dynamic>>> getPosts() =>
+      sdk.items('posts').readMany();
 
   /// Get settings.
-  Future<DirectusResponse<DirectusSettings>> getSettings() => sdk.settings.read();
+  Future<DirectusResponse<DirectusSettings>> getSettings() =>
+      sdk.settings.read();
 
   Future<dynamic> getReviews() async {
     print('enter');

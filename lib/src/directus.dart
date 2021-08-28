@@ -24,17 +24,23 @@ class Directus {
   /// Constructor with all provided services.
   Directus(String url, {DirectusStorage? storage, Dio? client, this.key})
       : _storage = storage ?? SharedPreferencesStorage(),
-        client = client ?? Dio(BaseOptions(baseUrl: url.endsWith('/') ? url : '$url/')) {
+        client = client ??
+            Dio(BaseOptions(baseUrl: url.endsWith('/') ? url : '$url/')) {
     // Check if SDK is inited before first request.
-    this.client.interceptors.add(InterceptorsWrapper(onRequest: _checkIfInited));
+    this
+        .client
+        .interceptors
+        .add(InterceptorsWrapper(onRequest: _checkIfInited));
   }
 
   /// Add check to [Dio] to see if SDK is initialized before sending HTTP request.
   ///
   /// If [Directus] is initialized, this interceptor will be removed.
-  void _checkIfInited(RequestOptions options, RequestInterceptorHandler handler) {
+  void _checkIfInited(
+      RequestOptions options, RequestInterceptorHandler handler) {
     if (!_isDirectusInitialized) {
-      throw DirectusError(message: 'You must first call and await init method.');
+      throw DirectusError(
+          message: 'You must first call and await init method.');
     }
 
     client.interceptors.remove(_checkIfInited);
@@ -63,9 +69,11 @@ class Directus {
   /// and from json. If you don't care about types, use [items],
   /// that will return [Map]. [converter] is a simple interface that converts value to
   /// and from JSON so it can be consumed with this API.
-  ItemsHandler<T> typedItems<T>(String collection, {required ItemsConverter<T> converter}) {
+  ItemsHandler<T> typedItems<T>(String collection,
+      {required ItemsConverter<T> converter}) {
     if (collection.startsWith('directus')) {
-      throw DirectusError(message: 'You can\'t read $collection collection directly.');
+      throw DirectusError(
+          message: 'You can\'t read $collection collection directly.');
     }
     return ItemsHandler<T>(collection, client: client, converter: converter);
   }
@@ -76,7 +84,8 @@ class Directus {
 
   /// Items
   ItemsHandler<Map<String, dynamic>> items(String collection) =>
-      typedItems<Map<String, dynamic>>(collection, converter: MapItemsConverter());
+      typedItems<Map<String, dynamic>>(collection,
+          converter: MapItemsConverter());
 
   /// Activity
   ActivityHandler get activity => ActivityHandler(client: client);
