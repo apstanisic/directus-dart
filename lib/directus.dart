@@ -13,6 +13,7 @@ export 'src/data_classes/data_classes.dart';
 export 'src/directus.dart';
 export 'src/directus.dart';
 export 'src/modules/activity/directus_activity.dart';
+export 'src/modules/auth/auth_delegate.dart' show AuthDelegate;
 export 'src/modules/collections/directus_collection.dart';
 export 'src/modules/fields/directus_field.dart';
 export 'src/modules/files/directus_file.dart';
