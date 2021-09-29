@@ -4,9 +4,9 @@ import 'directus_field.dart';
 
 class FieldConverter implements ItemsConverter<DirectusField> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusField fromJson(Map<String, dynamic> data) =>
+  DirectusField fromJson(Map<String, Object?> data) =>
       DirectusField.fromJson(data);
 }
