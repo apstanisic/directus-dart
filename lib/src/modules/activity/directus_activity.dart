@@ -40,9 +40,9 @@ class DirectusActivity {
   });
 
   /// Used for code generation
-  factory DirectusActivity.fromJson(Map<String, dynamic> json) =>
+  factory DirectusActivity.fromJson(Map<String, Object?> json) =>
       _$DirectusActivityFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusActivityToJson(this);
+  Map<String, Object?> toJson() => _$DirectusActivityToJson(this);
 }
