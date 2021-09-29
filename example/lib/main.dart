@@ -1,90 +1,110 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:directus/directus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sdk = await Directus('http://localhost:8055').init();
-  print(1);
-  try {
-    print('w');
-    await sdk.auth.login(email: 'test@example.com', password: 'password');
-    print('e');
-  } catch (e) {
-    print('q');
-    print(e.toString());
-  }
-  print(2);
-  // await sdk
-  final user = await sdk.auth.currentUser?.read();
-  print(3);
-  print(user);
-  runApp(MyApp(sdk));
+  runApp(
+    MyApp(
+      sdk: sdk,
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({
+    Key? key,
+    required this.sdk,
+  }) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+
   final Directus sdk;
+}
 
-  MyApp(this.sdk);
+class _MyAppState extends State<MyApp> {
+  late StreamSubscription<DirectusUser?> _subscription;
 
-  /// Get posts.
-  Future<DirectusListResponse<Map<String, dynamic>>> getPosts() =>
-      sdk.items('posts').readMany();
+  DirectusUser? user;
 
-  /// Get settings.
-  Future<DirectusResponse<DirectusSettings>> getSettings() =>
-      sdk.settings.read();
+  @override
+  void initState() {
+    super.initState();
+    _subscription = widget.sdk.auth.user.listen((event) {
+      setState(() {
+        user = event;
+      });
+    });
+  }
 
-  Future<dynamic> getReviews() async {
-    print('enter');
+  Future<void> login() async {
     try {
-      final result = await sdk.items('posts').readMany(
-          // query: Query(
-          //     limit: 5,
-          //     offset: 0,
-          //     fields: ['*'],
-          //     meta: Meta(filterCount: true, totalCount: true)),
-          );
-
-      print('ehere');
-      result.data.forEach((project) => print(project));
-    } catch (e) {
-      print(e);
+      final data = <String, Object?>{
+        'email': 'test@example.com',
+        'password': 'password',
+      };
+      await widget.sdk.auth.login(data);
+    } on DirectusError catch (e) {
+      print(e.message);
     }
+  }
 
-    return;
+  Future<void> data() async {
+    try {
+      final data = await widget.sdk.users.readMany();
+      print(data);
+    } on DirectusError catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await widget.sdk.auth.logout();
+    } on DirectusError catch (e) {
+      print(e.message);
+    }
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Directus Demo',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Directus Example'),
+          title: const Text('Example Directus'),
         ),
         body: Center(
-          child: FutureBuilder<dynamic>(
-            future: getReviews(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Container();
-              }
-              return Placeholder();
-              final posts = snapshot.data.data;
-              return ListView.builder(
-                itemCount: posts.length,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(posts[index]['title']),
-                  trailing: Text(posts[index]['id'].toString()),
-                ),
-              );
-            },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('User: ${user?.id}'),
+              TextButton(
+                onPressed: login,
+                child: const Text('Login'),
+              ),
+              TextButton(
+                onPressed: logout,
+                child: const Text('Logout'),
+              ),
+              TextButton(
+                onPressed: data,
+                child: const Text('data'),
+              ),
+            ],
           ),
         ),
       ),
