@@ -4,9 +4,9 @@ import 'directus_activity.dart';
 
 class ActivityConverter implements ItemsConverter<DirectusActivity> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusActivity fromJson(Map<String, dynamic> data) =>
+  DirectusActivity fromJson(Map<String, Object?> data) =>
       DirectusActivity.fromJson(data);
 }
