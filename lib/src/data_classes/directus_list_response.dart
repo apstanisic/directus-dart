@@ -6,9 +6,9 @@ import 'data_classes.dart';
 
 /// Directus response object when data is [List].
 ///
-/// When response is returning a [List] of items, use this instead of [DirectusRespones].
+/// When response is returning a [List] of items, use this instead of [DirectusResponse].
 /// This class is created to properly and type safely convert data.
-/// Using [List] respones inside [DirectusRespone] will throw an error. Only this
+/// Using [List] responses inside [DirectusResponse] will throw an error. Only this
 /// response should be used. It has all the same properties and methods,
 /// but adopted when response is [List].
 class DirectusListResponse<T> implements DirectusResponse<List<T>> {
@@ -45,7 +45,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
   /// You can pass converter that is used to convert response [Map] to
   /// proper object, by default it will return [Map].
   static Future<DirectusListResponse<U>> fromRequest<U>(
-    Future<Response<dynamic>> Function() func, {
+    Future<Response<Object?>> Function() func, {
     ItemsConverter? converter,
   }) async {
     converter ??= MapItemsConverter();
@@ -65,7 +65,7 @@ class _Meta {
 
   _Meta({this.filterCount, this.totalCount});
 
-  _Meta.fromJson(Map<String, dynamic>? data)
-      : totalCount = data?['total_count'],
-        filterCount = data?['filter_count'];
+  _Meta.fromJson(Map<String, Object?>? data)
+      : totalCount = data?['total_count'] as int?,
+        filterCount = data?['filter_count'] as int?;
 }

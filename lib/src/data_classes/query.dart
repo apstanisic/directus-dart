@@ -1,5 +1,5 @@
-import 'one_query.dart';
 import 'data_classes.dart';
+import 'one_query.dart';
 
 /// All options that can be passed to and [ItemsHandler.readMany].
 ///
@@ -47,7 +47,7 @@ class Query extends OneQuery {
   Meta? meta;
 
   /// Custom url params
-  // Map<String, dynamic>? customParams;
+  // Map<String, Object?>? customParams;
 
   /// Constructor for query. All fields are optional.
   Query({
@@ -57,7 +57,7 @@ class Query extends OneQuery {
     this.meta,
     Map<String, Query>? deep,
     List<String>? fields,
-    Map<String, dynamic>? customParams,
+    Map<String, Object?>? customParams,
   }) : super(deep: deep, fields: fields, customParams: customParams);
 
   /// Convert [Query] to [Map] so it can be passed to Dio for request.
@@ -66,8 +66,8 @@ class Query extends OneQuery {
   /// with. [Filters] have seperate class and should be passed seperatly in methods.
   /// Fields where value is not set, will not be sent.
   @override
-  Map<String, dynamic> toMap({Filters? filters}) {
-    return {
+  Map<String, Object?> toMap({Filters? filters}) {
+    return <String, Object?>{
       if (customParams != null) ...customParams!,
       'filter': filters?.toMap(),
       'fields': fields?.join(','),

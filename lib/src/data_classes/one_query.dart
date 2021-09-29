@@ -41,7 +41,7 @@ class OneQuery {
   /// Custom url params.
   ///
   /// Allows user to pass additional url params to Directus API.
-  Map<String, dynamic>? customParams;
+  Map<String, Object?>? customParams;
 
   /// Token for accessing protected data.
   ///
@@ -53,8 +53,8 @@ class OneQuery {
   String? unsafeAccessToken;
 
   /// Convert [OneQuery] to [Map] so it can be sent in HTTP request.
-  Map<String, dynamic> toMap() {
-    return {
+  Map<String, Object?> toMap() {
+    return <String, Object?>{
       if (customParams != null) ...customParams!,
       if (unsafeAccessToken != null) 'access_token': unsafeAccessToken,
       'fields': fields?.join(','),
