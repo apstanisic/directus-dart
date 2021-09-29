@@ -13,7 +13,7 @@ class DirectusCollection {
   String? displayTemplate;
   bool? hidden;
   bool? singleton;
-  List<Map<String, dynamic>>? translations;
+  List<Map<String, Object?>>? translations;
   String? archiveField;
   bool? archiveAppFilter;
   String? archiveValue;
@@ -36,9 +36,9 @@ class DirectusCollection {
   });
 
   /// Used for code generation
-  factory DirectusCollection.fromJson(Map<String, dynamic> json) =>
+  factory DirectusCollection.fromJson(Map<String, Object?> json) =>
       _$DirectusCollectionFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusCollectionToJson(this);
+  Map<String, Object?> toJson() => _$DirectusCollectionToJson(this);
 }
