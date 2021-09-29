@@ -39,13 +39,13 @@ class SharedPreferencesStorage extends DirectusStorage {
       throw DirectusError(
           message: 'You can only store strings, numbers and booleans.');
     }
-    return Future<void>.value();
+    return;
   }
 
   @override
   Future<void> removeItem(String key) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
     await instance.remove(key);
-    return Future<void>.value();
+    return;
   }
 }
