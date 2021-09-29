@@ -4,6 +4,7 @@ import 'package:directus/src/data_classes/directus_error.dart';
 import 'package:directus/src/data_classes/directus_storage.dart';
 import 'package:directus/src/modules/items/items_converter.dart';
 
+import 'modules/auth/auth_delegate.dart';
 import 'modules/handlers.dart';
 import 'modules/items/map_items_converter.dart';
 
@@ -21,11 +22,25 @@ class Directus {
   /// Used for differentiating between multiple instances.
   final String? key;
 
+  /// Auth
+  late final AuthHandler auth;
+
   /// Constructor with all provided services.
-  Directus(String url, {DirectusStorage? storage, Dio? client, this.key})
-      : _storage = storage ?? SharedPreferencesStorage(),
+  Directus(
+    String url, {
+    DirectusStorage? storage,
+    Dio? client,
+    AuthDelegate? authDelegate,
+    this.key,
+  })  : _storage = storage ?? SharedPreferencesStorage(),
         client = client ??
             Dio(BaseOptions(baseUrl: url.endsWith('/') ? url : '$url/')) {
+    auth = AuthHandler(
+      client: this.client,
+      storage: _storage,
+      refreshClient: Dio(),
+      authDelegate: authDelegate,
+    );
     // Check if SDK is inited before first request.
     this
         .client
@@ -58,8 +73,8 @@ class Directus {
   /// sdk = await Directus(url).init();
   /// ```
   Future<Directus> init() async {
-    await auth.init();
     _isDirectusInitialized = true;
+    await auth.init();
     return this;
   }
 
@@ -78,14 +93,12 @@ class Directus {
     return ItemsHandler<T>(collection, client: client, converter: converter);
   }
 
-  /// Auth
-  late final AuthHandler auth =
-      AuthHandler(client: client, storage: _storage, refreshClient: Dio());
-
   /// Items
-  ItemsHandler<Map<String, dynamic>> items(String collection) =>
-      typedItems<Map<String, dynamic>>(collection,
-          converter: MapItemsConverter());
+  ItemsHandler<Map<String, Object?>> items(String collection) =>
+      typedItems<Map<String, Object?>>(
+        collection,
+        converter: MapItemsConverter(),
+      );
 
   /// Activity
   ActivityHandler get activity => ActivityHandler(client: client);
