@@ -12,11 +12,11 @@ class SharedPreferencesStorage extends DirectusStorage {
     WidgetsFlutterBinding.ensureInitialized();
   }
 
-  /// Get item from starage
+  /// Get item from storage
   @override
-  Future<dynamic> getItem(String key) async {
+  Future<Object?> getItem(String key) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
-    return instance.get(key);
+    return Future<Object?>.value(instance.get(key));
   }
 
   /// Set item to storage
@@ -24,7 +24,7 @@ class SharedPreferencesStorage extends DirectusStorage {
   /// Value can be either [String], [bool], [int] or [double].
   /// For any other type, it will throw [DirectusError].
   @override
-  Future<void> setItem(String key, dynamic value) async {
+  Future<void> setItem(String key, Object value) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
 
     if (value is String) {
@@ -39,5 +39,13 @@ class SharedPreferencesStorage extends DirectusStorage {
       throw DirectusError(
           message: 'You can only store strings, numbers and booleans.');
     }
+    return Future<void>.value();
+  }
+
+  @override
+  Future<void> removeItem(String key) async {
+    final instance = _instance ?? await SharedPreferences.getInstance();
+    await instance.remove(key);
+    return Future<void>.value();
   }
 }
