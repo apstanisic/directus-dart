@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 ///
 /// SDK should always throw [DirectusError], and never [Exception] or [DioError].
 /// If error is from an API (it returns statuc code > 400), that code will be set
-/// as [code]. Othervise [code] will be set to 1000. Error 1000 is used for when user didn't
+/// as [code]. Otherwise [code] will be set to 1000. Error 1000 is used for when user didn't
 /// properly configure SDK, or there is internal error.
 class DirectusError implements Exception {
   /// Message explaining error.
@@ -17,7 +17,7 @@ class DirectusError implements Exception {
   late final int code;
 
   /// Additional info that can be provided to error.
-  late final Map<String, dynamic>? additionalInfo;
+  late final Map<String, Object?>? additionalInfo;
 
   /// Constructor
   DirectusError({
@@ -30,7 +30,7 @@ class DirectusError implements Exception {
   ///
   /// It accepts [error] as [dynamic] for because by default exception is of type [Object],
   /// and it's a lot less boilerplate that for every error to both catch for [DioError],
-  /// and for any other error. This way, in case error is not [DioErro], it will simply
+  /// and for any other error. This way, in case error is not [DioError], it will simply
   /// complain that error is invalid.
   ///
   DirectusError.fromDio(Object error) {
