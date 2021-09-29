@@ -6,7 +6,7 @@
 /// and there is a double underscore before key if key exist for the same reason.
 class AuthFields {
   final String? _key;
-  AuthFields([String? key]) : _key = key != null ? '__$key' : '';
+  const AuthFields([String? key]) : _key = key != null ? '__$key' : '';
 
   String get accessToken => 'directus__access_token$_key';
   String get refreshToken => 'directus__refresh_token$_key';
