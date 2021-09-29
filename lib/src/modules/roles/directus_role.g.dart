@@ -6,25 +6,24 @@ part of 'directus_role.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DirectusRole _$DirectusRoleFromJson(Map<String, dynamic> json) {
-  return DirectusRole(
-    id: json['id'] as String?,
-    name: json['name'] as String?,
-    icon: json['icon'] as String?,
-    description: json['description'] as String?,
-    ipAccess: json['ip_access'] as String?,
-    enforceTfa: json['enforce_tfa'] as bool?,
-    moduleList: (json['module_list'] as List<dynamic>?)
-        ?.map((e) => e as Map<String, dynamic>)
-        .toList(),
-    collectionList: (json['collection_list'] as List<dynamic>?)
-        ?.map((e) => e as Map<String, dynamic>)
-        .toList(),
-    adminAccess: json['admin_access'] as bool?,
-    appAccess: json['app_access'] as bool?,
-    users: (json['users'] as List<dynamic>?)?.map((e) => e as Object).toList(),
-  );
-}
+DirectusRole _$DirectusRoleFromJson(Map<String, dynamic> json) => DirectusRole(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      icon: json['icon'] as String?,
+      description: json['description'] as String?,
+      ipAccess: json['ip_access'] as String?,
+      enforceTfa: json['enforce_tfa'] as bool?,
+      moduleList: (json['module_list'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
+      collectionList: (json['collection_list'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
+      adminAccess: json['admin_access'] as bool?,
+      appAccess: json['app_access'] as bool?,
+      users:
+          (json['users'] as List<dynamic>?)?.map((e) => e as Object).toList(),
+    );
 
 Map<String, dynamic> _$DirectusRoleToJson(DirectusRole instance) {
   final val = <String, dynamic>{};

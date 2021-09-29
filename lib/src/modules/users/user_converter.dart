@@ -4,9 +4,9 @@ import 'directus_user.dart';
 
 class UserConverter implements ItemsConverter<DirectusUser> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusUser fromJson(Map<String, dynamic> data) =>
+  DirectusUser fromJson(Map<String, Object?> data) =>
       DirectusUser.fromJson(data);
 }

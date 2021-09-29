@@ -14,10 +14,10 @@ class DirectusPreset {
   Object? role;
   String? collection;
   String? search;
-  List<Map<String, dynamic>>? filters;
+  List<Map<String, Object?>>? filters;
   String? layout;
-  Map<String, dynamic>? layoutQuery;
-  Map<String, dynamic>? layoutOptions;
+  Map<String, Object?>? layoutQuery;
+  Map<String, Object?>? layoutOptions;
 
   DirectusPreset({
     this.id,
@@ -33,9 +33,9 @@ class DirectusPreset {
   });
 
   /// Used for code generation
-  factory DirectusPreset.fromJson(Map<String, dynamic> json) =>
+  factory DirectusPreset.fromJson(Map<String, Object?> json) =>
       _$DirectusPresetFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusPresetToJson(this);
+  Map<String, Object?> toJson() => _$DirectusPresetToJson(this);
 }

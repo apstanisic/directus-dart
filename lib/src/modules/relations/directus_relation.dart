@@ -29,9 +29,9 @@ class DirectusRelation {
   });
 
   /// Used for code generation
-  factory DirectusRelation.fromJson(Map<String, dynamic> json) =>
+  factory DirectusRelation.fromJson(Map<String, Object?> json) =>
       _$DirectusRelationFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusRelationToJson(this);
+  Map<String, Object?> toJson() => _$DirectusRelationToJson(this);
 }

@@ -6,13 +6,12 @@ part of 'directus_folder.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DirectusFolder _$DirectusFolderFromJson(Map<String, dynamic> json) {
-  return DirectusFolder(
-    id: json['id'] as String?,
-    name: json['name'] as String?,
-    parent: json['parent'],
-  );
-}
+DirectusFolder _$DirectusFolderFromJson(Map<String, dynamic> json) =>
+    DirectusFolder(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      parent: json['parent'],
+    );
 
 Map<String, dynamic> _$DirectusFolderToJson(DirectusFolder instance) {
   final val = <String, dynamic>{};

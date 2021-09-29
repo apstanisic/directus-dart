@@ -4,9 +4,9 @@ import 'directus_revision.dart';
 
 class RevisionConverter implements ItemsConverter<DirectusRevision> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusRevision fromJson(Map<String, dynamic> data) =>
+  DirectusRevision fromJson(Map<String, Object?> data) =>
       DirectusRevision.fromJson(data);
 }

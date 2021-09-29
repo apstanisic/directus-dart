@@ -6,16 +6,15 @@ part of 'storage_asset_preset.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-StorageAssetPreset _$StorageAssetPresetFromJson(Map<String, dynamic> json) {
-  return StorageAssetPreset(
-    fit: json['fit'] as String,
-    key: json['key'] as String,
-    width: json['width'] as int,
-    height: json['height'] as int,
-    quality: json['quality'] as int,
-    withoutEnlargement: json['without_enlargement'] as bool,
-  );
-}
+StorageAssetPreset _$StorageAssetPresetFromJson(Map<String, dynamic> json) =>
+    StorageAssetPreset(
+      fit: json['fit'] as String,
+      key: json['key'] as String,
+      width: json['width'] as int,
+      height: json['height'] as int,
+      quality: json['quality'] as int,
+      withoutEnlargement: json['without_enlargement'] as bool,
+    );
 
 Map<String, dynamic> _$StorageAssetPresetToJson(StorageAssetPreset instance) =>
     <String, dynamic>{

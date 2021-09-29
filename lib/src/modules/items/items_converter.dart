@@ -10,8 +10,8 @@
 /// [Map] must have [String] as `key`, because that's only valid value for JSON.
 abstract class ItemsConverter<T> {
   /// Converts item from [Map] to [T]
-  T fromJson(Map<String, dynamic> data);
+  T fromJson(Map<String, Object?> data);
 
   /// Converts item from [T] to [Map]
-  Map<String, dynamic> toJson(T data);
+  Map<String, Object?> toJson(T data);
 }
