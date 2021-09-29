@@ -4,9 +4,9 @@ import 'directus_file.dart';
 
 class FileConverter implements ItemsConverter<DirectusFile> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusFile fromJson(Map<String, dynamic> data) =>
+  DirectusFile fromJson(Map<String, Object?> data) =>
       DirectusFile.fromJson(data);
 }

@@ -6,35 +6,33 @@ part of 'directus_file.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DirectusFile _$DirectusFileFromJson(Map<String, dynamic> json) {
-  return DirectusFile(
-    id: json['id'] as String?,
-    storage: json['storage'] as String?,
-    filenameDisk: json['filename_disk'] as String?,
-    filenameDownload: json['filename_download'] as String?,
-    title: json['title'] as String?,
-    type: json['type'] as String?,
-    folder: json['folder'],
-    uploadedBy: json['uploaded_by'],
-    uploadedOn: json['uploaded_on'] == null
-        ? null
-        : DateTime.parse(json['uploaded_on'] as String),
-    modifiedBy: json['modified_by'],
-    modifiedOn: json['modified_on'] == null
-        ? null
-        : DateTime.parse(json['modified_on'] as String),
-    charset: json['charset'] as String?,
-    filesize: json['filesize'] as int?,
-    width: json['width'] as int?,
-    height: json['height'] as int?,
-    duration: json['duration'] as int?,
-    embed: json['embed'] as String?,
-    description: json['description'] as String?,
-    location: json['location'] as String?,
-    tags: json['tags'] as String?,
-    metadata: json['metadata'] as Map<String, dynamic>?,
-  );
-}
+DirectusFile _$DirectusFileFromJson(Map<String, dynamic> json) => DirectusFile(
+      id: json['id'] as String?,
+      storage: json['storage'] as String?,
+      filenameDisk: json['filename_disk'] as String?,
+      filenameDownload: json['filename_download'] as String?,
+      title: json['title'] as String?,
+      type: json['type'] as String?,
+      folder: json['folder'],
+      uploadedBy: json['uploaded_by'],
+      uploadedOn: json['uploaded_on'] == null
+          ? null
+          : DateTime.parse(json['uploaded_on'] as String),
+      modifiedBy: json['modified_by'],
+      modifiedOn: json['modified_on'] == null
+          ? null
+          : DateTime.parse(json['modified_on'] as String),
+      charset: json['charset'] as String?,
+      filesize: json['filesize'] as int?,
+      width: json['width'] as int?,
+      height: json['height'] as int?,
+      duration: json['duration'] as int?,
+      embed: json['embed'] as String?,
+      description: json['description'] as String?,
+      location: json['location'] as String?,
+      tags: json['tags'] as String?,
+      metadata: json['metadata'] as Map<String, dynamic>?,
+    );
 
 Map<String, dynamic> _$DirectusFileToJson(DirectusFile instance) {
   final val = <String, dynamic>{};
