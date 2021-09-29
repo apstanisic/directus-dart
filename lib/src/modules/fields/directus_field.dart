@@ -9,16 +9,16 @@ class DirectusField {
   String? field;
   String? special;
   String? interface;
-  Map<String, dynamic>? options;
+  Map<String, Object?>? options;
   String? display;
-  Map<String, dynamic>? displayOptions;
+  Map<String, Object?>? displayOptions;
   bool? lock;
   bool? readonly;
   bool? hidden;
   int? sort;
   String? width;
   int? group;
-  List<Map<String, dynamic>>? translations;
+  List<Map<String, Object?>>? translations;
   String? note;
 
   DirectusField({
@@ -41,9 +41,9 @@ class DirectusField {
   });
 
   /// Used for code generation
-  factory DirectusField.fromJson(Map<String, dynamic> json) =>
+  factory DirectusField.fromJson(Map<String, Object?> json) =>
       _$DirectusFieldFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusFieldToJson(this);
+  Map<String, Object?> toJson() => _$DirectusFieldToJson(this);
 }
