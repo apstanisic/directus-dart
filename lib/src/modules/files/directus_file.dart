@@ -51,7 +51,7 @@ class DirectusFile {
   String? description;
   String? location;
   String? tags;
-  Map<String, dynamic>? metadata;
+  Map<String, Object?>? metadata;
 
   DirectusFile({
     this.id,
@@ -78,9 +78,9 @@ class DirectusFile {
   });
 
   /// Used for code generation
-  factory DirectusFile.fromJson(Map<String, dynamic> json) =>
+  factory DirectusFile.fromJson(Map<String, Object?> json) =>
       _$DirectusFileFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusFileToJson(this);
+  Map<String, Object?> toJson() => _$DirectusFileToJson(this);
 }
