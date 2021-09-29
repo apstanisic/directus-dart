@@ -56,5 +56,15 @@ void main() {
       expect(data?.accessTokenExpiresAt, isA<DateTime>());
       verify(storage.getItem(any)).called(4);
     });
+
+    test('removeLoginData', () async {
+      when(storage.removeItem(any)).thenAnswer((_) async {});
+
+      await authStorage.removeLoginData();
+      verify(storage.removeItem(fields.accessToken)).called(1);
+      verify(storage.removeItem(fields.refreshToken)).called(1);
+      verify(storage.removeItem(fields.accessTokenTtlInMs)).called(1);
+      verify(storage.removeItem(fields.expiresAt)).called(1);
+    });
   });
 }
