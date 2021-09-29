@@ -4,9 +4,9 @@ import 'directus_settings.dart';
 
 class SettingsConverter implements ItemsConverter<DirectusSettings> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusSettings fromJson(Map<String, dynamic> data) =>
+  DirectusSettings fromJson(Map<String, Object?> data) =>
       DirectusSettings.fromJson(data);
 }

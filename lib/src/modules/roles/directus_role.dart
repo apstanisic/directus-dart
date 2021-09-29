@@ -10,8 +10,8 @@ class DirectusRole {
   String? description;
   String? ipAccess;
   bool? enforceTfa;
-  List<Map<String, dynamic>>? moduleList;
-  List<Map<String, dynamic>>? collectionList;
+  List<Map<String, Object?>>? moduleList;
+  List<Map<String, Object?>>? collectionList;
   bool? adminAccess;
   bool? appAccess;
 
@@ -33,9 +33,9 @@ class DirectusRole {
   });
 
   /// Used for code generation
-  factory DirectusRole.fromJson(Map<String, dynamic> json) =>
+  factory DirectusRole.fromJson(Map<String, Object?> json) =>
       _$DirectusRoleFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusRoleToJson(this);
+  Map<String, Object?> toJson() => _$DirectusRoleToJson(this);
 }

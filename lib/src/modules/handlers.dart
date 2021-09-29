@@ -1,4 +1,5 @@
 export 'activity/activity_handler.dart';
+export 'auth/auth_delegate.dart';
 export 'auth/auth_handler.dart';
 export 'collections/collections_handler.dart';
 export 'fields/fields_handler.dart';

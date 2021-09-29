@@ -14,8 +14,8 @@ class DirectusRevision {
 
   /// Item is either [String]. It represents ID of item that is joined. Joining doesn't do anything.
   String? item;
-  Map<String, dynamic>? data;
-  Map<String, dynamic>? delta;
+  Map<String, Object?>? data;
+  Map<String, Object?>? delta;
 
   /// Parent revision. It is either [int] or [DirectusRevision].
   Object? parent;
@@ -31,9 +31,9 @@ class DirectusRevision {
   });
 
   /// Used for code generation
-  factory DirectusRevision.fromJson(Map<String, dynamic> json) =>
+  factory DirectusRevision.fromJson(Map<String, Object?> json) =>
       _$DirectusRevisionFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusRevisionToJson(this);
+  Map<String, Object?> toJson() => _$DirectusRevisionToJson(this);
 }

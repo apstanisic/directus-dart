@@ -21,9 +21,9 @@ class StorageAssetPreset {
   });
 
   /// Used for code generation
-  factory StorageAssetPreset.fromJson(Map<String, dynamic> json) =>
+  factory StorageAssetPreset.fromJson(Map<String, Object?> json) =>
       _$StorageAssetPresetFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$StorageAssetPresetToJson(this);
+  Map<String, Object?> toJson() => _$StorageAssetPresetToJson(this);
 }
