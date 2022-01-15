@@ -88,10 +88,11 @@ class Directus {
           converter: MapItemsConverter());
 
   /// Activity
-  ActivityHandler get activity => ActivityHandler(client: client);
+  late final ActivityHandler activity = ActivityHandler(client: client);
 
   /// Collections
-  CollectionsHandler get collections => CollectionsHandler(client: client);
+  late final CollectionsHandler collections =
+      CollectionsHandler(client: client);
 
   /// Use [client] instead. This is the same as client, only more descriptive name.
   ///
@@ -100,38 +101,39 @@ class Directus {
   Dio get custom => client;
 
   /// Fields
-  FieldsHandler get fields => FieldsHandler(client: client);
+  late final FieldsHandler fields = FieldsHandler(client: client);
 
   /// Files
-  FilesHandler get files => FilesHandler(client: client);
+  late final FilesHandler files = FilesHandler(client: client);
 
   /// Folders
-  FoldersHandler get folders => FoldersHandler(client: client);
+  late final FoldersHandler folders = FoldersHandler(client: client);
 
   /// Permissions
-  PermissionsHandler get permissions => PermissionsHandler(client: client);
+  late final PermissionsHandler permissions =
+      PermissionsHandler(client: client);
 
   /// Presets
-  PresetsHandler get presets => PresetsHandler(client: client);
+  late final PresetsHandler presets = PresetsHandler(client: client);
 
   /// Relations
-  RelationsHandler get relations => RelationsHandler(client: client);
+  late final RelationsHandler relations = RelationsHandler(client: client);
 
   /// Revisions
-  RevisionsHandler get revisions => RevisionsHandler(client: client);
+  late final RevisionsHandler revisions = RevisionsHandler(client: client);
 
   /// Roles
-  RolesHandler get roles => RolesHandler(client: client);
+  late final RolesHandler roles = RolesHandler(client: client);
 
   /// Server
-  ServerHandler get server => ServerHandler(client: client);
+  late final ServerHandler server = ServerHandler(client: client);
 
   /// Settings
-  SettingsHandler get settings => SettingsHandler(client: client);
+  late final SettingsHandler settings = SettingsHandler(client: client);
 
   /// Users
-  UsersHandler get users => UsersHandler(client: client);
+  late final UsersHandler users = UsersHandler(client: client);
 
   /// Utils
-  UtilsHandler get utils => UtilsHandler(client: client);
+  late final UtilsHandler utils = UtilsHandler(client: client);
 }
