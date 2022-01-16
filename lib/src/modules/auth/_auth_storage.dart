@@ -31,6 +31,7 @@ class AuthStorage {
     final accessTokenMsValid = await storage.getItem(fields.accessTokenTtlInMs);
     final expiresAtString = await storage.getItem(fields.expiresAt);
     final refreshToken = await storage.getItem(fields.refreshToken);
+    final staticToken = await storage.getItem(fields.staticToken);
 
     if (accessToken == null ||
         expiresAtString == null ||
@@ -44,6 +45,7 @@ class AuthStorage {
       accessTokenExpiresAt: DateTime.parse(expiresAtString),
       accessTokenTtlMs: accessTokenMsValid,
       refreshToken: refreshToken,
+      staticToken: staticToken,
     );
 
     return loginData;

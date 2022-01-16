@@ -19,12 +19,17 @@ class AuthResponse {
   /// It's using time of app time, not server time.
   late DateTime accessTokenExpiresAt;
 
+  /// Static token
+  ///
+  String? staticToken;
+
   /// Constructor for manually creating object
   AuthResponse({
     required this.accessToken,
     required this.accessTokenExpiresAt,
     required this.accessTokenTtlMs,
     required this.refreshToken,
+    this.staticToken,
   });
 
   /// Create [AuthResponse] from [Dio] [Response] object.

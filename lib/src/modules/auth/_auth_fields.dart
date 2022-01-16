@@ -12,4 +12,5 @@ class AuthFields {
   String get refreshToken => 'directus__refresh_token$_key';
   String get accessTokenTtlInMs => 'directus__access_token_ttl_ms$_key';
   String get expiresAt => 'directus__access_token_expires_at$_key';
+  String get staticToken => 'directus__static_token_$_key';
 }

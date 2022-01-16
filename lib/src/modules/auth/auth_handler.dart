@@ -156,6 +156,30 @@ class AuthHandler {
     }
   }
 
+  /// Stored static token to be used as auth
+  ///
+  String? _staticToken;
+
+  /// Set static access token
+  ///
+  /// Value is stored in [_staticToken], and will be added to query params if exist.
+  /// [ref link]: https://docs.directus.io/reference/authentication/#access-tokens
+  void staticToken(String? token) {
+    _staticToken = token;
+  }
+
+  void _addStaticTokenInterceptor() {
+    client.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        // options.queryParameters['access_token'] = _staticAuthToken;
+        // Attach static access token if provided
+        if (_staticToken != null) {
+          options.queryParameters['access_token'] = _staticToken;
+        }
+      },
+    ));
+  }
+
   /// This is run before every request. It check if token is about to expire, and fetches new one.
   ///
   /// If user is logged in, and token has less the 5s ttl, SDK will refresh token,
