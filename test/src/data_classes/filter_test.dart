@@ -1,5 +1,4 @@
 import 'package:directus/src/data_classes/data_classes.dart';
-import 'package:directus/src/data_classes/filter.dart';
 import 'package:test/test.dart';
 
 void main() {

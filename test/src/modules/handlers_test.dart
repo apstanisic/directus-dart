@@ -1,5 +1,4 @@
 import 'package:directus/src/modules/handlers.dart';
-import 'package:directus/src/modules/utils_handler.dart';
 import 'package:test/test.dart';
 
 import '../mock/mocks.mocks.dart';

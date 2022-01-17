@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
-import 'package:directus/src/data_classes/directus_list_response.dart';
-import 'package:directus/src/data_classes/directus_response.dart';
-import 'package:directus/src/data_classes/one_query.dart';
-import 'package:directus/src/data_classes/query.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -52,7 +48,7 @@ void main() {
           .called(1);
     });
 
-// Regresion test: https://github.com/apstanisic/directus-dart/issues/18
+// Regression test: https://github.com/apstanisic/directus-dart/issues/18
     test('readMany applies filter without query', () async {
       when(client.get(any, queryParameters: anyNamed('queryParameters')))
           .thenAnswer(dioResponse({

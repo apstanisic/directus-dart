@@ -1,5 +1,4 @@
 import 'package:directus/src/data_classes/data_classes.dart';
-import 'package:directus/src/data_classes/one_query.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -25,7 +24,7 @@ void main() {
       });
     });
 
-    test('Deep transforms to map recursevly', () {
+    test('Deep transforms to map recursively', () {
       final query = OneQuery(deep: {
         'one': Query(limit: 5, deep: {'two': Query(offset: 5)})
       });
