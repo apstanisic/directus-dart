@@ -4,6 +4,7 @@
 /// user should pass a key so data is stored in different place.
 /// There is a double underscore after directus to act as a "namespace",
 /// and there is a double underscore before key if key exist for the same reason.
+/// Key is used as namespace
 class AuthFields {
   final String? _key;
   const AuthFields([String? key]) : _key = key != null ? '__$key' : '';

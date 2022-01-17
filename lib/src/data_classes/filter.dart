@@ -125,8 +125,4 @@ class Filter {
   }
 }
 
-/// Needed because of Dart limitation.
-mixin _Filter {}
-
-/// Alias for [Filter].
-class F = Filter with _Filter;
+typedef F = Filter;

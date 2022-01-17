@@ -6,5 +6,5 @@ class MapItemsConverter extends ItemsConverter<Map<String, Object?>> {
   Map<String, Object?> fromJson(Map data) => Map.from(data);
 
   @override
-  Map<String, Object?> toJson(Map item) => Map.from(item);
+  Map<String, Object?> toJson(Map data) => Map.from(data);
 }

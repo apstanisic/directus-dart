@@ -8,7 +8,7 @@ import 'package:directus/src/modules/items/map_items_converter.dart';
 /// Most of Directus methods return [DirectusResponse].
 class DirectusResponse<T> {
   /// Data returned from request
-  late T data;
+  late final T data;
 
   /// Constructor that converts [Dio] [Response] to [DirectusResponse].
   DirectusResponse(Response dioResponse, {ItemsConverter? converter}) {
@@ -25,7 +25,7 @@ class DirectusResponse<T> {
   }
 
   /// Set [DirectusResponse] manually, without needing [Response].
-  DirectusResponse.manually(T data) : data = data;
+  DirectusResponse.manually(this.data);
 
   /// Static method that you can pass a closure that should return Dio [Response].
   ///

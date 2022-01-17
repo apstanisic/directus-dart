@@ -9,7 +9,7 @@ class AuthResponse {
   /// Access token
   late String accessToken;
 
-  /// Access token time to live in miliseconds
+  /// Access token time to live in milliseconds
   ///
   ///
   late int accessTokenTtlMs;
@@ -50,7 +50,7 @@ class AuthResponse {
     final accessTokenTtlInMs = data['expires'];
 
     if (accessToken == null ||
-        !(accessTokenTtlInMs is int) ||
+        accessTokenTtlInMs is! int ||
         refreshToken == null) {
       throw DirectusError(message: 'Login response is invalid.');
     }

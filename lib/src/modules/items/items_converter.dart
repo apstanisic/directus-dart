@@ -1,7 +1,7 @@
 /// Used for getting objects from and to [Map].
 ///
 /// This is used for most handlers that
-/// extend [ItemsHandler] for getting staticly typed object. There are only 2 methods
+/// extend [ItemsHandler] for getting statically typed object. There are only 2 methods
 /// that need to be overridden, [fromJson] and [toJson].
 /// If user is using `json_serializable` it's pretty straight forward to write converter.
 /// Default converter form [ItemsHandler] is [MapItemsConverter] that will simply clone

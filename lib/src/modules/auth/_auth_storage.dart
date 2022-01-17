@@ -59,7 +59,7 @@ class AuthStorage {
 
   /// Delete data from storage
   ///
-  /// This method should be called to deauthorize
+  /// This method should be called to remove auth
   Future<void> removeLoginData() async {
     await storage.removeItem(fields.accessToken);
     await storage.removeItem(fields.accessTokenTtlInMs);

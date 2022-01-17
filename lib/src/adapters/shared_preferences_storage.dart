@@ -7,8 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesStorage extends DirectusStorage {
   final SharedPreferences? _instance;
 
+  /// User can provide it's instance for testing
   SharedPreferencesStorage([SharedPreferences? instance])
       : _instance = instance {
+    // Fix for https://github.com/apstanisic/directus-dart/issues/19
     WidgetsFlutterBinding.ensureInitialized();
   }
 
@@ -16,7 +18,7 @@ class SharedPreferencesStorage extends DirectusStorage {
   @override
   Future<Object?> getItem(String key) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
-    return Future<Object?>.value(instance.get(key));
+    return instance.get(key);
   }
 
   /// Set item to storage
@@ -37,15 +39,15 @@ class SharedPreferencesStorage extends DirectusStorage {
       await instance.setDouble(key, value);
     } else {
       throw DirectusError(
-          message: 'You can only store strings, numbers and booleans.');
+        message: 'You can only store strings, numbers and booleans.',
+      );
     }
-    return;
   }
 
+  /// Remove item from storage
   @override
   Future<void> removeItem(String key) async {
     final instance = _instance ?? await SharedPreferences.getInstance();
     await instance.remove(key);
-    return;
   }
 }

@@ -9,7 +9,7 @@ import 'data_classes.dart';
 ///
 /// ```dart
 /// Filters({
-///   'name': Filter.eq('Aleksandar'),
+///   'name': Filter.eq('John'),
 ///   'email': Filter.contains('@gmail.com');
 ///   'favorite_food': Filter.notNull(),
 ///   'and': and([
@@ -19,7 +19,7 @@ import 'data_classes.dart';
 /// });
 ///
 /// Filters({
-///   'name': F.eq('Aleksandar'),
+///   'name': F.eq('John'),
 /// });
 ///
 /// ```

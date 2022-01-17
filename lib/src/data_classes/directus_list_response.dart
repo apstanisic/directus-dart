@@ -20,7 +20,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
   late final _Meta? meta;
 
   /// Manually set data.
-  DirectusListResponse.manually(data, {this.meta}) : data = data;
+  DirectusListResponse.manually(this.data, {this.meta});
 
   /// Constructor that converts Dio [Response] to [DirectusListResponse].
   /// You can pass converter that is used to convert response [Map] to
@@ -30,7 +30,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
     var data = dioResponse.data['data'];
     meta = _Meta.fromJson(dioResponse.data['meta']);
 
-    if (!(data is List)) {
+    if (data is! List) {
       throw DirectusError(message: 'Data should be a list.');
     }
     this.data =
@@ -39,7 +39,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
 
   /// Static method that you can pass a closure that should return Dio [Response].
   ///
-  /// This will automaticaly convert [Response] to either [DirectusListResponse] or [DirectusError].
+  /// This will automatically convert [Response] to either [DirectusListResponse] or [DirectusError].
   /// Most of the methods that return JSON object with key `data` that is [List]
   /// should be called inside this method.
   /// You can pass converter that is used to convert response [Map] to
