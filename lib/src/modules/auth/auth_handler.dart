@@ -6,12 +6,13 @@ import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:directus/src/modules/auth/_current_user.dart';
 import 'package:directus/src/modules/auth/_event_emitter.dart';
 import 'package:directus/src/modules/auth/_forgotten_password.dart';
+import 'package:directus/src/modules/auth/_static_token.dart';
 import 'package:directus/src/modules/auth/_tfa.dart';
 import 'package:meta/meta.dart';
 
 import '_auth_response.dart';
 
-class AuthHandler {
+class AuthHandler with StaticToken {
   /// Http client
   final Dio client;
 
@@ -40,11 +41,7 @@ class AuthHandler {
   late ForgottenPassword forgottenPassword;
 
   /// Stream Controller that emits changes
-  @visibleForTesting
-  final emitter = EventEmitter<AuthResponse?>();
-
-  /// Stored static token to be used as auth
-  String? _staticToken;
+  final _emitter = EventEmitter<AuthResponse?>();
 
   /// Auth constructor.
   ///
@@ -62,6 +59,8 @@ class AuthHandler {
     // Refresh url is same as normal url.
     _refreshClient.options.baseUrl = client.options.baseUrl;
     // Get new access token if current is expired.
+
+    registerStaticTokenInterceptor(client);
     client.interceptors
         .add(InterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor));
   }
@@ -71,7 +70,7 @@ class AuthHandler {
   /// Returns function to remove stream
   @experimental
   Function onChange(Function(String type, AuthResponse? event) func) {
-    return emitter.on(null, func);
+    return _emitter.on(null, func);
   }
 
   /// Initializes [AuthHandler], by getting data from cold storage.
@@ -86,7 +85,7 @@ class AuthHandler {
       tfa = Tfa(client: client);
     }
 
-    await emitter.emitAsync('init', tokens);
+    await _emitter.emitAsync('init', tokens);
   }
 
   /// Check if user is logged in.
@@ -114,7 +113,7 @@ class AuthHandler {
       currentUser = CurrentUser(client: client);
       tfa = Tfa(client: client);
 
-      await emitter.emitAsync('login', loginDataResponse);
+      await _emitter.emitAsync('login', loginDataResponse);
     } catch (e) {
       throw DirectusError.fromDio(e);
     }
@@ -132,7 +131,7 @@ class AuthHandler {
       currentUser = null;
       tfa = null;
       tokens = null;
-      await emitter.emitAsync('logout', null);
+      await _emitter.emitAsync('logout', null);
     }
   }
 
@@ -150,27 +149,6 @@ class AuthHandler {
     } else {
       client.options.headers['authorization'] = 'Bearer ${data.accessToken}';
     }
-  }
-
-  /// Set static access token
-  ///
-  /// Value is stored in [_staticToken], and will be added to query params if exist.
-  /// [ref link]: https://docs.directus.io/reference/authentication/#access-tokens
-  /// To remove token, set value to `null`.
-  void staticToken(String? token) {
-    _staticToken = token;
-  }
-
-  void _addStaticTokenInterceptor() {
-    client.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        // options.queryParameters['access_token'] = _staticAuthToken;
-        // Attach static access token if provided
-        if (_staticToken != null) {
-          options.queryParameters['access_token'] = _staticToken;
-        }
-      },
-    ));
   }
 
   /// This is run before every request. It check if token is about to expire, and fetches new one.
@@ -229,7 +207,7 @@ class AuthHandler {
       throw DirectusError.fromDio(e);
     }
     client.unlock();
-    await emitter.emitAsync('refresh', tokens);
+    await _emitter.emitAsync('refresh', tokens);
     return tokens;
   }
 }
