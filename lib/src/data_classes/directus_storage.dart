@@ -1,4 +1,4 @@
-/// Interface that any custom storage must fullfill to use
+/// Interface that any custom storage must fulfill to use
 /// their storage for storing directus internal data.
 /// SDK uses `shared_preferences` by default.
 /// If user wants something more secure, store remotely on some server,

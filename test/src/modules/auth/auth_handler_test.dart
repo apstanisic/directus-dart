@@ -204,9 +204,9 @@ void main() {
       auth.storage = authStorage;
       final authData = mockAuthResponse();
       when(authStorage.getLoginData()).thenAnswer((_) async => authData);
-      auth.onChange((event) {
-        expect(event.type, 'init');
-        expect(event.data, authData);
+      auth.onChange((type, data) {
+        expect(type, 'init');
+        expect(data, authData);
       });
       await auth.init();
     });
@@ -215,14 +215,14 @@ void main() {
       when(client.post(any, data: anyNamed('data'))).thenAnswer(dioResponse());
 
       var called = 0;
-      auth.onChange((event) {
+      auth.onChange((type, data) {
         expect(called, 0);
-        expect(event.type, 'logout');
-        expect(event.data, null);
+        expect(type, 'logout');
+        expect(data, null);
         called += 1;
       });
 
-      auth.onChange((event) {
+      auth.onChange((type, data) {
         expect(called, 1);
         called += 1;
       });
@@ -238,17 +238,17 @@ void main() {
 
       var called = 0;
 
-      auth.onChange((event) {
+      auth.onChange((type, data) {
         expect(called, 0);
-        expect(event.type, 'login');
-        expect(event.data, isA<AuthResponse>());
+        expect(type, 'login');
+        expect(data, isA<AuthResponse>());
         called += 1;
       });
 
-      auth.onChange((event) {
+      auth.onChange((type, data) {
         expect(called, 1);
-        expect(event.type, 'login');
-        expect(event.data, isA<AuthResponse>());
+        expect(type, 'login');
+        expect(data, isA<AuthResponse>());
         called += 1;
       });
 
@@ -270,13 +270,13 @@ void main() {
       auth.tokens = mockAuthResponse();
       auth.tokens!.accessTokenExpiresAt =
           DateTime.now().add(Duration(seconds: 4));
-      auth.onChange((event) {
+      auth.onChange((type, data) {
         expect(called, 0);
-        expect(event.type, 'refresh');
-        expect(event.data, isA<AuthResponse>());
+        expect(type, 'refresh');
+        expect(data, isA<AuthResponse>());
         called += 1;
       });
-      auth.onChange((event) {
+      auth.onChange((type, data) {
         expect(called, 1);
         called += 1;
       });

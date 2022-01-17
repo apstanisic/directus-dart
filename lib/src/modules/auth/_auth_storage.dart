@@ -12,7 +12,7 @@ class AuthStorage {
   AuthStorage(
     this.storage, {
     String? key,
-  }) : fields = AuthFields(key);
+  }) : fields = AuthFields(key ?? 'default');
 
   /// Store login data to cold storage, and set it in memory.
   ///
@@ -23,6 +23,9 @@ class AuthStorage {
     await storage.setItem(
         fields.expiresAt, data.accessTokenExpiresAt.toString());
     await storage.setItem(fields.refreshToken, data.refreshToken);
+    if (data.staticToken != null) {
+      await storage.setItem(fields.staticToken, data.staticToken!);
+    }
 
     return;
   }
