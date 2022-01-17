@@ -6,8 +6,6 @@ import 'package:test/test.dart';
 
 import '../../mock/mocks.mocks.dart';
 
-// import '../../mock/mock_directus_storage.dart';
-
 void main() {
   group('AuthStorage', () {
     late MockDirectusStorage storage;

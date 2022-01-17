@@ -7,11 +7,11 @@
 /// Key is used as namespace
 class AuthFields {
   final String? _key;
-  const AuthFields([String? key]) : _key = key != null ? '__$key' : '';
+  AuthFields([String? key]) : _key = key != null ? '__$key' : '';
 
-  String get accessToken => 'directus__access_token$_key';
-  String get refreshToken => 'directus__refresh_token$_key';
-  String get accessTokenTtlInMs => 'directus__access_token_ttl_ms$_key';
-  String get expiresAt => 'directus__access_token_expires_at$_key';
-  String get staticToken => 'directus__static_token_$_key';
+  late final String accessToken = 'directus__access_token$_key';
+  late final String refreshToken = 'directus__refresh_token$_key';
+  late final String accessTokenTtlInMs = 'directus__access_token_ttl_ms$_key';
+  late final String expiresAt = 'directus__access_token_expires_at$_key';
+  late final String staticToken = 'directus__static_token_$_key';
 }
