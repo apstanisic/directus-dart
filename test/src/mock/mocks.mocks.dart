@@ -6,6 +6,7 @@ import 'dart:async' as _i8;
 
 import 'package:dio/dio.dart' as _i2;
 import 'package:dio/src/dio_mixin.dart' as _i6;
+import 'package:directus/src/adapters/shared_preferences_storage.dart' as _i11;
 import 'package:directus/src/data_classes/data_classes.dart' as _i4;
 import 'package:directus/src/modules/auth/_auth_fields.dart' as _i5;
 import 'package:directus/src/modules/auth/_auth_response.dart' as _i10;
@@ -763,4 +764,29 @@ class MockRequestInterceptorHandler extends _i1.Mock
       super.noSuchMethod(
           Invocation.method(#reject, [error, callFollowingErrorInterceptor]),
           returnValueForMissingStub: null);
+}
+
+/// A class which mocks [SharedPreferencesStorage].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSharedPreferencesStorage extends _i1.Mock
+    implements _i11.SharedPreferencesStorage {
+  MockSharedPreferencesStorage() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i8.Future<Object?> getItem(String? key) =>
+      (super.noSuchMethod(Invocation.method(#getItem, [key]),
+          returnValue: Future<Object?>.value()) as _i8.Future<Object?>);
+  @override
+  _i8.Future<void> setItem(String? key, Object? value) =>
+      (super.noSuchMethod(Invocation.method(#setItem, [key, value]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  @override
+  _i8.Future<void> removeItem(String? key) =>
+      (super.noSuchMethod(Invocation.method(#removeItem, [key]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
 }

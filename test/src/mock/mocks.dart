@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:directus/directus.dart';
+import 'package:directus/src/adapters/shared_preferences_storage.dart';
 import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:directus/src/modules/handlers.dart';
 import 'package:mockito/annotations.dart';
@@ -11,5 +12,6 @@ import 'package:mockito/annotations.dart';
   BaseOptions,
   AuthStorage,
   RequestInterceptorHandler,
+  SharedPreferencesStorage,
 ])
 void main() {}
