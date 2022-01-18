@@ -1,3 +1,9 @@
+# 0.7.0
+
+- Require Dart 2.15
+- Added `sdk.auth.staticToken(token)`
+- Added `DirectusSingleton`
+
 ## 0.6.2
 
 - Require Dart 2.12 stable
