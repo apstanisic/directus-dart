@@ -4,9 +4,9 @@ import 'directus_preset.dart';
 
 class PresetConverter implements ItemsConverter<DirectusPreset> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusPreset fromJson(Map<String, dynamic> data) =>
+  DirectusPreset fromJson(Map<String, Object?> data) =>
       DirectusPreset.fromJson(data);
 }

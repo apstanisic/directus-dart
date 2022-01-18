@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 
 /// Used for filtering data
 ///
-/// It should be used inside a map as a value for comparisson
+/// It should be used inside a map as a value for comparison
 /// Example:
 /// ```dart
 /// final filter = {
@@ -16,90 +16,90 @@ import 'package:meta/meta.dart';
 /// };
 /// ```
 class Filter {
-  /// Comparisson that will be done (equal, not equal, less then...).
-  final String comparisson;
+  /// Comparison that will be done (equal, not equal, less then...).
+  final String comparison;
 
   /// Value to compare it to
-  final dynamic value;
+  final Object? value;
 
   /// Check if the values are equal
-  Filter(this.value) : comparisson = '_eq';
+  Filter(this.value) : comparison = '_eq';
 
   // Check if at least one filter is true.
   Filter.or(List<Map<String, Filter>> filters)
-      : comparisson = '_or',
+      : comparison = '_or',
         value = filters;
 
   // Check if at least one filter is true.
   Filter.and(List<Map<String, Filter>> filters)
-      : comparisson = '_and',
+      : comparison = '_and',
         value = filters;
 
   /// Check if the values are equal.
-  Filter.eq(this.value) : comparisson = '_eq';
+  Filter.eq(this.value) : comparison = '_eq';
 
   /// Check if the values are not equal.
-  Filter.notEq(this.value) : comparisson = '_neq';
+  Filter.notEq(this.value) : comparison = '_neq';
 
   /// Check to see if field contains value.
-  Filter.contains(this.value) : comparisson = '_contains';
+  Filter.contains(this.value) : comparison = '_contains';
 
   /// Check to see if field does not contain value.
-  Filter.notContains(this.value) : comparisson = '_ncontains';
+  Filter.notContains(this.value) : comparison = '_ncontains';
 
   /// Check to see if value in is provided list.
-  Filter.isIn(List this.value) : comparisson = '_in';
+  Filter.isIn(List this.value) : comparison = '_in';
 
   /// Check to see if field in not is provided list.
-  Filter.notIn(List this.value) : comparisson = '_nin';
+  Filter.notIn(List this.value) : comparison = '_nin';
 
   /// Check to see if value is greater then.
-  Filter.gt(this.value) : comparisson = '_gt';
+  Filter.gt(this.value) : comparison = '_gt';
 
   /// Check to see if value is greater then or equal.
-  Filter.gte(this.value) : comparisson = '_gte';
+  Filter.gte(this.value) : comparison = '_gte';
 
   /// Check to see if value is less then.
-  Filter.lt(this.value) : comparisson = '_lt';
+  Filter.lt(this.value) : comparison = '_lt';
 
   /// Check to see if value is less then or equal.
-  Filter.lte(this.value) : comparisson = '_lte';
+  Filter.lte(this.value) : comparison = '_lte';
 
   /// Check to see if value is empty.
   Filter.empty()
-      : comparisson = '_empty',
+      : comparison = '_empty',
         value = true;
 
   /// Check to see if value is not empty.
   Filter.notEmpty()
-      : comparisson = '_nempty',
+      : comparison = '_nempty',
         value = true;
 
   /// Check to see if value is null.
   Filter.isNull()
-      : comparisson = '_null',
+      : comparison = '_null',
         value = true;
 
   /// Check to see if value is not null.
   Filter.notNull()
-      : comparisson = '_nnull',
+      : comparison = '_nnull',
         value = true;
 
   /// Check to see if value is between.
-  Filter.between(dynamic from, dynamic to)
-      : comparisson = '_between',
+  Filter.between(Object? from, Object? to)
+      : comparison = '_between',
         value = [from, to];
 
   /// Check to see if value is not between.
-  Filter.notBetween(dynamic from, dynamic to)
-      : comparisson = '_nbetween',
+  Filter.notBetween(Object? from, Object? to)
+      : comparison = '_nbetween',
         value = [from, to];
 
   /// Convert [Filter][List] to [Map][List].
   ///
   /// This method is used for converting `and` and `or` filtering.
   @visibleForTesting
-  List<Map<String, dynamic>> convertFilterList(
+  List<Map<String, Object?>> convertFilterList(
       List<Map<String, Filter>> filters) {
     // For every item in List convert value from Filter to Map.
     return filters
@@ -113,17 +113,16 @@ class Filter {
   /// Convert filter to [MapEntry], with provided [field] name.
   ///
   /// That way it can easily be converted to [Map] for passing to [Dio]
-  MapEntry<String, dynamic> toMapEntry(String field) {
+  MapEntry<String, Object?> toMapEntry(String field) {
     // If value is a list of non filters
-    if (comparisson == '_or' || comparisson == '_and') {
-      return MapEntry(comparisson, convertFilterList(value));
+    if (comparison == '_or' || comparison == '_and') {
+      return MapEntry(
+        comparison,
+        convertFilterList(value as List<Map<String, Filter>>),
+      );
     }
-    return MapEntry(field, {comparisson: value});
+    return MapEntry(field, {comparison: value});
   }
 }
 
-/// Needed because of Dart limitation.
-mixin _Filter {}
-
-/// Alias for [Filter].
-class F = Filter with _Filter;
+typedef F = Filter;

@@ -1,6 +1,4 @@
-import 'package:meta/meta.dart';
-
-import 'data_classes.dart';
+import 'query.dart';
 
 /// All options that can be passed to some of [ItemsHandler] methods.
 ///
@@ -41,22 +39,12 @@ class OneQuery {
   /// Custom url params.
   ///
   /// Allows user to pass additional url params to Directus API.
-  Map<String, dynamic>? customParams;
-
-  /// Token for accessing protected data.
-  ///
-  /// Admin can set token for user that allows to access data without login.
-  /// This token is visible in url, and should only be used in development or over DoH.
-  /// TODO(apstanisic): See should there be option for this or should we just use custom params.
-  @visibleForTesting
-  @experimental
-  String? unsafeAccessToken;
+  Map<String, Object?>? customParams;
 
   /// Convert [OneQuery] to [Map] so it can be sent in HTTP request.
-  Map<String, dynamic> toMap() {
-    return {
+  Map<String, Object?> toMap() {
+    return <String, Object?>{
       if (customParams != null) ...customParams!,
-      if (unsafeAccessToken != null) 'access_token': unsafeAccessToken,
       'fields': fields?.join(','),
       'deep': deep?.map((key, value) => MapEntry(key, value.toMap())),
     }..removeWhere(

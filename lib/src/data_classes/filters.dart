@@ -3,13 +3,13 @@ import 'data_classes.dart';
 /// Object used for filtering items from collection.
 ///
 /// Provide [Map] in which key represent column name, and value is [Filter].
-/// [Filter] provides named constructor for every comparisson available.
+/// [Filter] provides named constructor for every comparison available.
 /// If you use `OR` or `AND`, [Map]'s key will be ignored.
 /// You can also use [F] instead of [Filter], it's an alias, so it's the same
 ///
 /// ```dart
 /// Filters({
-///   'name': Filter.eq('Aleksandar'),
+///   'name': Filter.eq('John'),
 ///   'email': Filter.contains('@gmail.com');
 ///   'favorite_food': Filter.notNull(),
 ///   'and': and([
@@ -19,7 +19,7 @@ import 'data_classes.dart';
 /// });
 ///
 /// Filters({
-///   'name': F.eq('Aleksandar'),
+///   'name': F.eq('John'),
 /// });
 ///
 /// ```
@@ -31,8 +31,8 @@ class Filters {
   /// Set filters.
   Filters(this.data);
 
-  /// Convert fitlers to map so it can be passed to [Dio].
-  Map<String, dynamic> toMap() {
+  /// Convert filters to map so it can be passed to [Dio].
+  Map<String, Object?> toMap() {
     return data.map((field, value) => value.toMapEntry(field));
   }
 }

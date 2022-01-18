@@ -1,25 +1,18 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/modules/auth/_auth_storage.dart';
 import 'package:directus/src/modules/auth/_current_user.dart';
+import 'package:directus/src/modules/auth/_event_emitter.dart';
 import 'package:directus/src/modules/auth/_forgotten_password.dart';
+import 'package:directus/src/modules/auth/_static_token.dart';
 import 'package:directus/src/modules/auth/_tfa.dart';
 import 'package:meta/meta.dart';
 
 import '_auth_response.dart';
 
-/// Definition that any callback function must fullfill if it wants to be Auth callback.
-///
-/// [type] is either `login`, `logout`, `init` or `refresh`.
-/// [data] is data returned from action. It can be [AuthResponse] for `login`, `init` and `refresh`,
-/// and [Null] for `logout` and `init`. `init` will have value if user is logged in.
-typedef ListenerFunction = Future<void> Function(
-    String type, AuthResponse? data);
-
-class AuthHandler {
+class AuthHandler with StaticToken {
   /// Http client
   final Dio client;
 
@@ -36,50 +29,53 @@ class AuthHandler {
 
   /// Manipulate current user.
   ///
-  /// This value is [CurrentUser] when user is logged in, and [null] othervise.
+  /// This value is [CurrentUser] when user is logged in, and [null] otherwise.
   CurrentUser? currentUser;
 
   /// Enable and disable two factor authentication.
   ///
-  /// This value is [Tfa] when user is logged in, and [null] othervise.
+  /// This value is [Tfa] when user is logged in, and [null] otherwise.
   Tfa? tfa;
 
   /// Class for requesting and setting forgotten password.
   late ForgottenPassword forgottenPassword;
 
-  /// Event listeners that will be called on auth event.
-  final List<ListenerFunction> _listeners = [];
-
-  /// Key used for differentiating between instances storage
-  final String? _key;
+  /// Stream Controller that emits changes
+  final _emitter = EventEmitter<AuthResponse?>();
 
   /// Auth constructor.
   ///
   /// Requires [Dio] client that makes HTTP requests, [DirectusStorage] for storing auth data,
   /// and [Dio] client that is used for making request for new access token.
-  AuthHandler(
-      {required this.client,
-      required DirectusStorage storage,
-      required Dio refreshClient,
-      String? key})
-      : _key = key,
-        storage = AuthStorage(storage),
+  /// Also accepts [String] key that enables use of multiple instance for storage
+  AuthHandler({
+    required this.client,
+    required DirectusStorage storage,
+    required Dio refreshClient,
+    String? key,
+  })  : storage = AuthStorage(storage, key: key),
         forgottenPassword = ForgottenPassword(client: client),
         _refreshClient = refreshClient {
     // Refresh url is same as normal url.
     _refreshClient.options.baseUrl = client.options.baseUrl;
     // Get new access token if current is expired.
+
+    registerStaticTokenInterceptor(client);
     client.interceptors
         .add(InterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor));
   }
 
   /// Add listener when auth status changes
+  ///
+  /// Returns function to remove stream
   @experimental
-  set onChange(ListenerFunction fn) => _listeners.add(fn);
+  Function onChange(Function(String type, AuthResponse? event) func) {
+    return _emitter.on(null, func);
+  }
 
   /// Initializes [AuthHandler], by getting data from cold storage.
   ///
-  /// This method should be called right after constructor, othervise logged in user
+  /// This method should be called right after constructor, otherwise logged in user
   /// might appear as not logged in, because data isn't fetched from cold storage.
   Future<void> init() async {
     tokens = await storage.getLoginData();
@@ -89,7 +85,7 @@ class AuthHandler {
       tfa = Tfa(client: client);
     }
 
-    await _callEventListeners('init', tokens);
+    await _emitter.emitAsync('init', tokens);
   }
 
   /// Check if user is logged in.
@@ -117,7 +113,7 @@ class AuthHandler {
       currentUser = CurrentUser(client: client);
       tfa = Tfa(client: client);
 
-      await _callEventListeners('login', loginDataResponse);
+      await _emitter.emitAsync('login', loginDataResponse);
     } catch (e) {
       throw DirectusError.fromDio(e);
     }
@@ -135,7 +131,7 @@ class AuthHandler {
       currentUser = null;
       tfa = null;
       tokens = null;
-      await _callEventListeners('logout');
+      await _emitter.emitAsync('logout', null);
     }
   }
 
@@ -149,10 +145,9 @@ class AuthHandler {
     _tokens = data;
 
     if (data == null) {
-      client.options.headers.remove(HttpHeaders.authorizationHeader);
+      client.options.headers.remove('authorization');
     } else {
-      client.options.headers[HttpHeaders.authorizationHeader] =
-          'Bearer ${data.accessToken}';
+      client.options.headers['authorization'] = 'Bearer ${data.accessToken}';
     }
   }
 
@@ -212,14 +207,7 @@ class AuthHandler {
       throw DirectusError.fromDio(e);
     }
     client.unlock();
-    await _callEventListeners('refresh', tokens);
+    await _emitter.emitAsync('refresh', tokens);
     return tokens;
-  }
-
-  /// Call all listeners after event happened.
-  Future<void> _callEventListeners(String type, [AuthResponse? data]) async {
-    for (var i = 0; i < _listeners.length; i++) {
-      await _listeners[i].call(type, data);
-    }
   }
 }

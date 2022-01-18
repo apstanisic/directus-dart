@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:directus/src/data_classes/directus_list_response.dart';
-import 'package:directus/src/data_classes/one_query.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:meta/meta.dart';
 
@@ -27,11 +25,10 @@ class ItemsHandler<T> {
   final String _endpoint;
 
   ItemsHandler(String collection,
-      {required Dio client, ItemsConverter? converter})
-      : client = client,
-        converter = converter ?? MapItemsConverter(),
+      {required this.client, ItemsConverter? converter})
+      : converter = converter ?? MapItemsConverter(),
         _endpoint = collection.startsWith('directus_')
-            ? '${collection.substring(9)}'
+            ? collection.substring(9)
             : 'items/$collection';
 
   /// Get item by ID
@@ -72,7 +69,7 @@ class ItemsHandler<T> {
     query ??= Query();
     return DirectusListResponse.fromRequest(
       () => client.get(
-        '$_endpoint',
+        _endpoint,
         queryParameters: query!.toMap(filters: filters),
       ),
       converter: converter,

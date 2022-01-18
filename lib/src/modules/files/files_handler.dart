@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:directus/src/data_classes/data_classes.dart';
 import 'package:directus/src/modules/items/items_handler.dart';
@@ -46,12 +44,12 @@ class FilesHandler {
   ///
   /// There is no method for uploading multiple files at the same time.
   @experimental
-  Future<Future<DirectusResponse<DirectusFile>>> uploadFile(File file) async {
-    final fileName = file.path.split('/').last;
+  Future<Future<DirectusResponse<DirectusFile>>> uploadFile(String path) async {
+    final fileName = path.split('/').last;
 
     final data = FormData.fromMap({
       'file': await MultipartFile.fromFile(
-        file.path,
+        path,
         filename: fileName,
       )
     });

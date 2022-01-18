@@ -16,9 +16,9 @@ class DirectusPermission {
   /// NOT FK to [DirectusCollection].
   String? collection;
   String? action;
-  Map<String, dynamic>? permissions;
-  Map<String, dynamic>? validation;
-  Map<String, dynamic>? presets;
+  Map<String, Object?>? permissions;
+  Map<String, Object?>? validation;
+  Map<String, Object?>? presets;
   List<String>? fields;
   int? limit;
 
@@ -35,9 +35,9 @@ class DirectusPermission {
   });
 
   /// Used for code generation
-  factory DirectusPermission.fromJson(Map<String, dynamic> json) =>
+  factory DirectusPermission.fromJson(Map<String, Object?> json) =>
       _$DirectusPermissionFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusPermissionToJson(this);
+  Map<String, Object?> toJson() => _$DirectusPermissionToJson(this);
 }

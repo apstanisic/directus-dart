@@ -4,9 +4,9 @@ import 'directus_relation.dart';
 
 class RelationConverter implements ItemsConverter<DirectusRelation> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusRelation fromJson(Map<String, dynamic> data) =>
+  DirectusRelation fromJson(Map<String, Object?> data) =>
       DirectusRelation.fromJson(data);
 }

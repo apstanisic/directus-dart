@@ -11,13 +11,17 @@ class DirectusActivity {
 
   /// User that performed action. Either [String] or [DirectusUser].
   Object? user;
+
   DateTime? timestamp;
+
   String? ip;
+
   String? userAgent;
 
   /// Name of the collection.
   ///
   /// It is NOT FK to [DirectusCollection].
+  ///
   String? collection;
 
   /// It's [int] or [String].
@@ -25,6 +29,7 @@ class DirectusActivity {
   /// It is not connected to any other collection.
   /// At least not when this code is written (January 2021).
   Object? item;
+
   String? comment;
 
   DirectusActivity({
@@ -40,9 +45,9 @@ class DirectusActivity {
   });
 
   /// Used for code generation
-  factory DirectusActivity.fromJson(Map<String, dynamic> json) =>
+  factory DirectusActivity.fromJson(Map<String, Object?> json) =>
       _$DirectusActivityFromJson(json);
 
   /// Used for code generation
-  Map<String, dynamic> toJson() => _$DirectusActivityToJson(this);
+  Map<String, Object?> toJson() => _$DirectusActivityToJson(this);
 }

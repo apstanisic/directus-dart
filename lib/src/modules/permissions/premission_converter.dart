@@ -4,9 +4,9 @@ import 'directus_permission.dart';
 
 class PermissionConverter implements ItemsConverter<DirectusPermission> {
   @override
-  Map<String, dynamic> toJson(data) => data.toJson();
+  Map<String, Object?> toJson(data) => data.toJson();
 
   @override
-  DirectusPermission fromJson(Map<String, dynamic> data) =>
+  DirectusPermission fromJson(Map<String, Object?> data) =>
       DirectusPermission.fromJson(data);
 }

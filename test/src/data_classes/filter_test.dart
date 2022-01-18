@@ -1,5 +1,4 @@
 import 'package:directus/src/data_classes/data_classes.dart';
-import 'package:directus/src/data_classes/filter.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -64,7 +63,8 @@ void main() {
       {'three': Filter.eq(4)},
       {'five': Filter.eq(6)},
     ]);
-    final filterList = filter.convertFilterList(filter.value);
+    final filterList =
+        filter.convertFilterList(filter.value as List<Map<String, Filter>>);
 
     expect(filterList.length, 3);
 
@@ -87,7 +87,8 @@ void main() {
       {'three': Filter.eq(4)},
       {'five': Filter.eq(6)},
     ]);
-    final filterList = filter.convertFilterList(filter.value);
+    final filterList =
+        filter.convertFilterList(filter.value as List<Map<String, Filter>>);
 
     expect(filterList.length, 3);
 

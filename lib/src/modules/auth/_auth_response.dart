@@ -9,7 +9,7 @@ class AuthResponse {
   /// Access token
   late String accessToken;
 
-  /// Access token time to live in miliseconds
+  /// Access token time to live in milliseconds
   ///
   ///
   late int accessTokenTtlMs;
@@ -19,12 +19,17 @@ class AuthResponse {
   /// It's using time of app time, not server time.
   late DateTime accessTokenExpiresAt;
 
+  /// Static token
+  ///
+  String? staticToken;
+
   /// Constructor for manually creating object
   AuthResponse({
     required this.accessToken,
     required this.accessTokenExpiresAt,
     required this.accessTokenTtlMs,
     required this.refreshToken,
+    this.staticToken,
   });
 
   /// Create [AuthResponse] from [Dio] [Response] object.
@@ -45,7 +50,7 @@ class AuthResponse {
     final accessTokenTtlInMs = data['expires'];
 
     if (accessToken == null ||
-        !(accessTokenTtlInMs is int) ||
+        accessTokenTtlInMs is! int ||
         refreshToken == null) {
       throw DirectusError(message: 'Login response is invalid.');
     }
