@@ -15,7 +15,6 @@ class DirectusSingleton {
   /// Get singleton instance
   ///
   /// Make sure to call `init` before accessing `instance`
-
   static Directus get instance {
     if (_instance == null) {
       throw DirectusError(message: 'You must call initialize first');
