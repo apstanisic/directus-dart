@@ -30,6 +30,15 @@ final sdk = await Directus('http://localhost:8055')
 
 ## Examples
 
+### Singleton
+
+```dart
+import 'package:directus/directus.dart';
+
+await DirectusSingleton.init('http://localhost:8055')
+final sdk = DirectusSingleton.instance;
+```
+
 ### Using collections
 
 #### Get Item by ID:
