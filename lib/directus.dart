@@ -8,6 +8,8 @@
 /// ```
 library directus;
 
+export 'src/data_classes/data_classes.dart';
+export 'src/directus.dart';
 export 'src/modules/activity/directus_activity.dart';
 export 'src/modules/collections/directus_collection.dart';
 export 'src/modules/fields/directus_field.dart';
@@ -20,6 +22,4 @@ export 'src/modules/revisions/directus_revision.dart';
 export 'src/modules/roles/directus_role.dart';
 export 'src/modules/settings/directus_settings.dart';
 export 'src/modules/users/directus_user.dart';
-
-export 'src/data_classes/data_classes.dart';
-export 'src/directus.dart';
+export 'src/singleton.dart';
