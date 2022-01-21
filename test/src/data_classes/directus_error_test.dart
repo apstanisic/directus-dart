@@ -30,4 +30,23 @@ void main() {
     expect(error.code, 400);
     expect(error.message, 'API message');
   });
+
+  test('that DirectusError will keep the original DioError', () {
+    final dioError = DioError(
+      requestOptions: RequestOptions(path: '/'),
+      response: Response(
+        requestOptions: RequestOptions(path: '/'),
+        data: {
+          'errors': [
+            {'message': 'API message'}
+          ]
+        },
+        statusCode: 400,
+        statusMessage: 'Bad Request',
+      ),
+    );
+    final error = DirectusError.fromDio(dioError);
+
+    expect(error.dioError, dioError);
+  });
 }
