@@ -19,6 +19,9 @@ class DirectusError implements Exception {
   /// Additional info that can be provided to error.
   late final Map<String, Object?>? additionalInfo;
 
+  /// Original DioError from error.
+  late final DioError? dioError;
+
   /// Constructor
   DirectusError({
     required this.message,
@@ -56,5 +59,6 @@ class DirectusError implements Exception {
       'codeMessage': error.response?.statusMessage ?? 'Error',
       'response': error.response
     };
+    dioError = error;
   }
 }

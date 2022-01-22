@@ -171,11 +171,15 @@ class AuthHandler with StaticToken {
       return handler.next(options);
     }
 
-    final response = await manuallyRefresh();
-    if (response?.accessToken != null) {
-      options.headers['Authorization'] = response!.accessToken;
-    } else {
-      options.headers.remove('Authorization');
+    try {
+      final response = await manuallyRefresh();
+      if (response?.accessToken != null) {
+        options.headers['Authorization'] = response!.accessToken;
+      } else {
+        options.headers.remove('Authorization');
+      }
+    } on DirectusError catch (e) {
+      return handler.reject(e.dioError!);
     }
 
     return handler.next(options);

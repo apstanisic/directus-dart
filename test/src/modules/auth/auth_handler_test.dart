@@ -290,6 +290,36 @@ void main() {
       verify(interceptorHandler.next(any)).called(1);
     });
 
+    test('refreshing token rethrows DioError when manuallyRefresh failed',
+        () async {
+      final dioError = DioError(
+          requestOptions: RequestOptions(path: '/'),
+          response: Response(
+            requestOptions: RequestOptions(path: '/'),
+            data: 'error',
+          ));
+      final interceptorHandler = MockRequestInterceptorHandler();
+
+      when(refreshClient.post(any, data: anyNamed('data'))).thenAnswer(
+        (realInvocation) {
+          throw dioError;
+        },
+      );
+
+      // Setup for forcing refresh token
+      auth.tokens = mockAuthResponse();
+      auth.tokens!.accessTokenExpiresAt =
+          DateTime.now().add(Duration(seconds: 4));
+
+      await auth.refreshExpiredTokenInterceptor(
+        RequestOptions(path: '/'),
+        interceptorHandler,
+      );
+
+      // Check for the same dioError is thrown
+      verify(interceptorHandler.reject(dioError)).called(1);
+    });
+
     test('client is unlocked if refresh throws an error', () async {
       when(refreshClient.post(any, data: anyNamed('data')))
           .thenAnswer((realInvocation) {
