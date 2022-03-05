@@ -21,6 +21,10 @@ void main() {
       'fourteen': Filter.notBetween(2, 6),
       'fiveteen': Filter.isIn(['value']),
       'sixteen': Filter.notIn(['value']),
+      'author': Filter.relation(
+        'name',
+        Filter.eq('Rijk van Zanten'),
+      ),
     }).toMap();
 
     expect(filters['zero'], {'_eq': 'value'});
@@ -47,6 +51,11 @@ void main() {
     });
     expect(filters['sixteen'], {
       '_nin': ['value']
+    });
+    expect(filters['author'], {
+      'name': {
+        '_eq': 'Rijk van Zanten',
+      },
     });
   });
 

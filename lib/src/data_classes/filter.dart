@@ -12,7 +12,11 @@ import 'package:meta/meta.dart';
 ///   'or': Filter.or([
 ///     {'name': Filter.notEq('Evan')},
 ///     {'name': Filter.notEq('Mark')},
-///   ])
+///   ]),
+///   'author': Filter.relation(
+///     'name',
+///     Filter.eq('Rijk van Zanten'),
+///    ),
 /// };
 /// ```
 class Filter {
@@ -95,6 +99,11 @@ class Filter {
       : comparison = '_nbetween',
         value = [from, to];
 
+  /// Relation
+  const Filter.relation(String value, Filter filter)
+      : value = filter,
+        comparison = value;
+
   /// Convert [Filter][List] to [Map][List].
   ///
   /// This method is used for converting `and` and `or` filtering.
@@ -121,6 +130,14 @@ class Filter {
         convertFilterList(value as List<Map<String, Filter>>),
       );
     }
+
+    // Relation
+    final v = value;
+    if (v != null && v is Filter) {
+      final childMap = v.toMapEntry(comparison);
+      return MapEntry(field, {childMap.key: childMap.value});
+    }
+
     return MapEntry(field, {comparison: value});
   }
 }
