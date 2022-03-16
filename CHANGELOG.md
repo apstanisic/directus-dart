@@ -1,3 +1,7 @@
+# 0.7.1
+
+- Fix auth not working
+
 # 0.7.0
 
 - Require Dart 2.15
