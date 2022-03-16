@@ -40,10 +40,14 @@ class Directus {
     final check = InterceptorsWrapper(
       onRequest: (options, handler) {
         if (!_isInitialized) {
-          throw DirectusError(
-            message: 'You must first call and await init method.',
-          );
+          return handler.reject(DioError(
+              type: DioErrorType.other,
+              requestOptions: options,
+              error: DirectusError(
+                message: 'You must first call and await init method.',
+              )));
         }
+        return handler.next(options);
       },
     );
     client.interceptors.add(check);
