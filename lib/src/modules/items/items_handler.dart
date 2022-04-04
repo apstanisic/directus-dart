@@ -81,9 +81,9 @@ class ItemsHandler<T> {
   /// ```dart
   /// await items.createOne({'name': 'Test'});
   /// ```
-  Future<DirectusResponse<T>> createOne(T data) async {
+  Future<DirectusResponse<T?>> createOne(T data) async {
     final mapData = converter.toJson(data);
-    return DirectusResponse.fromRequest(
+    return DirectusResponse.fromRequest<T?>(
       () => client.post(_endpoint, data: mapData),
       converter: converter,
     );
@@ -94,9 +94,9 @@ class ItemsHandler<T> {
   /// ```dart
   /// await items.createMany([{'name': 'Test One'}, {'name': 'Test Two'}]);
   /// ```
-  Future<DirectusListResponse<T>> createMany(List<T> data) async {
+  Future<DirectusListResponse<T?>> createMany(List<T> data) async {
     final mapData = data.map((item) => converter.toJson(item));
-    return DirectusListResponse.fromRequest<T>(
+    return DirectusListResponse.fromRequest<T?>(
       () => client.post(_endpoint, data: mapData),
       converter: converter,
     );
@@ -107,10 +107,10 @@ class ItemsHandler<T> {
   /// ```dart
   /// await items.updateOne(id: '5', data: {'name': 'Test'});
   /// ```
-  Future<DirectusResponse<T>> updateOne(
+  Future<DirectusResponse<T?>> updateOne(
       {required T data, required String id}) async {
     final mapData = converter.toJson(data);
-    return DirectusResponse.fromRequest(
+    return DirectusResponse.fromRequest<T?>(
       () => client.patch('$_endpoint/$id', data: mapData),
       converter: converter,
     );
@@ -121,13 +121,13 @@ class ItemsHandler<T> {
   /// ```dart
   /// await items.updateMany(ids: ['5', '6', '7'], data: {'name': 'Test'});
   /// ```
-  Future<DirectusListResponse<T>> updateMany(
+  Future<DirectusListResponse<T?>> updateMany(
       {required List<String> ids, required T data}) async {
     if (ids.isEmpty) return DirectusListResponse.manually([]);
 
     final mapData = converter.toJson(data);
 
-    return DirectusListResponse.fromRequest(
+    return DirectusListResponse.fromRequest<T?>(
       () => client.patch(
         '$_endpoint/${ids.join(',')}',
         data: mapData,
