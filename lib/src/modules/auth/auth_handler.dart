@@ -131,6 +131,7 @@ class AuthHandler with StaticToken {
       currentUser = null;
       tfa = null;
       tokens = null;
+      await storage.removeLoginData();
       await _emitter.emitAsync('logout', null);
     }
   }
