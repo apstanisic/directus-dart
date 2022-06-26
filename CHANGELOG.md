@@ -1,3 +1,7 @@
+# 0.7.2
+
+- Fix logout not working
+
 # 0.7.1
 
 - Fix auth not working
