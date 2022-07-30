@@ -3,6 +3,36 @@ import 'package:meta/meta.dart';
 
 part 'directus_file.g.dart';
 
+/// Fit of the thumbnail
+///
+/// The fit of the thumbnail while always preserving the aspect ratio,
+/// can be any of the following options
+enum DirectusThumbnailFit {
+  /// Covers both width/height by cropping/clipping to fit
+  cover,
+
+  /// Contain within both width/height using "letterboxing" as needed
+  contain,
+
+  /// Resize to be as large as possible, ensuring dimensions are less
+  /// than or equal to the requested width and height
+  inside,
+
+  /// Resize to be as small as possible, ensuring dimensions are greater
+  /// than or equal to the requested width and height
+  outside,
+}
+
+/// File format to return the thumbnail in
+///
+/// What file format to return the thumbnail in. One of jpg, png, webp, tiff
+enum DirectusThumbnailFormat {
+  jpg,
+  png,
+  webp,
+  tiff,
+}
+
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class DirectusFile {
   /// Return root url.
@@ -23,6 +53,38 @@ class DirectusFile {
     }
 
     return '$baseUrl/assets/$id';
+  }
+
+  /// Return thumbnail url.
+  ///
+  /// This will return url from /.
+  @experimental
+  String? thumbnailUrl(
+    String baseUrl, {
+    required int width,
+    required int height,
+    DirectusThumbnailFit fit = DirectusThumbnailFit.cover,
+    int? quality,
+    DirectusThumbnailFormat? format,
+  }) {
+    if (id == null) return null;
+    // Remove trailing / if exists.
+    if (baseUrl.endsWith('/')) {
+      baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+    }
+    String url =
+        '$baseUrl/assets/$id?fit=${fit.name}&width=$width&height=$height';
+    if (quality != null) {
+      assert(
+        quality >= 1 && quality <= 100,
+        'quality of the thumbnail should be from 1 to 100',
+      );
+      url += '&quality=$quality';
+    }
+    if (format != null) {
+      url += '&format=${format.name}';
+    }
+    return url;
   }
 
   String? id;
