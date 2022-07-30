@@ -28,6 +28,9 @@ class FilesHandler {
           converter: FileConverter(),
         );
 
+  /// Update one file, same method as in [ItemsHandler.updateOne].
+  late final updateOne = handler.updateOne;
+
   /// Get one file, same method as in [ItemsHandler.readOne].
   late final readOne = handler.readOne;
 
