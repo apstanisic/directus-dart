@@ -20,6 +20,7 @@ void main() {
     final files = FilesHandler(client: MockDio());
     files.handler = handler;
 
+    expect(files.updateOne, handler.updateOne);
     expect(files.readOne, handler.readOne);
     expect(files.readMany, handler.readMany);
     expect(files.deleteOne, handler.deleteOne);
