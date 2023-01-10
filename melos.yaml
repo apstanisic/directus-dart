@@ -1,0 +1,6 @@
+name: directus
+
+repository: https://github.com/apstanisic/directus-dart
+
+packages:
+  - packages/**

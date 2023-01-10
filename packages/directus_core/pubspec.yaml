@@ -1,0 +1,24 @@
+name: directus_core
+description: The unofficial SDK for Directus, with REST API and auth.
+version: 0.7.2
+homepage: https://www.directus.io
+repository: https://github.com/apstanisic/directus-dart
+issue_tracker: https://github.com/apstanisic/directus-dart/issues
+
+environment:
+  sdk: ">=2.15.0 <3.0.0"
+
+dependencies:
+  # Http client
+  dio: ^4.0.6
+  # Annotations
+  meta: ^1.8.0
+  # Used for decorators for JSON serialization
+  json_annotation: ^4.7.0
+
+dev_dependencies:
+  test: ^1.22.1
+  mockito: ^5.3.2
+  json_serializable: ^6.5.4
+  build_runner: ^2.3.3
+  lints: ^2.0.1

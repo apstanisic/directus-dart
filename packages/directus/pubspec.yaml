@@ -1,0 +1,25 @@
+name: directus
+description: The unofficial SDK for Directus, with REST API and auth. Compatible with Flutter.
+version: 0.7.2
+homepage: https://www.directus.io
+repository: https://github.com/apstanisic/directus-dart
+issue_tracker: https://github.com/apstanisic/directus-dart/issues
+
+environment:
+  sdk: ">=2.18.6 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  directus_core: 0.7.2
+  # Storage
+  shared_preferences: ^2.0.15
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
