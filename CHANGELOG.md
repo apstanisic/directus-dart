@@ -1,3 +1,7 @@
+# 0.9.0
+
+- Split directus and directus_core
+
 # 0.8.2
 
 - Pub analysis fixes
