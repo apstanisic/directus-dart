@@ -1,3 +1,7 @@
+# 0.9.3
+
+- Enable passing map to filter
+
 # 0.9.2
 
 - Fix `directus` not exporting core

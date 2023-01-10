@@ -9,7 +9,10 @@ void main() {
       'five': Filter.and([
         {'five.one': Filter.eq(2)},
         {'five.two': Filter.eq(4)},
-      ])
+      ]),
+      'custom': {
+        'hello': 'world',
+      }
     });
 
     expect(filters.toMap(), {
@@ -22,7 +25,10 @@ void main() {
         {
           'five.two': {'_eq': 4}
         },
-      ]
+      ],
+      'custom': {
+        'hello': 'world',
+      }
     });
   });
 }
