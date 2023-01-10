@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/packages/directus/melos_directus.iml" filepath="$PROJECT_DIR$/packages/directus/melos_directus.iml" />
       <module fileurl="file://$PROJECT_DIR$/packages/directus_core/melos_directus_core.iml" filepath="$PROJECT_DIR$/packages/directus_core/melos_directus_core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/packages/directus_core/example/directus_core_example/melos_directus_core_example.iml" filepath="$PROJECT_DIR$/packages/directus_core/example/directus_core_example/melos_directus_core_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/directus_core/example/melos_directus_core_example.iml" filepath="$PROJECT_DIR$/packages/directus_core/example/melos_directus_core_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/directus/example/melos_directus_example.iml" filepath="$PROJECT_DIR$/packages/directus/example/melos_directus_example.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_directus.iml" filepath="$PROJECT_DIR$/melos_directus.iml" />
     </modules>
   </component>

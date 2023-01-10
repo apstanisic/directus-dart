@@ -17,7 +17,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
   late final List<T> data;
 
   /// Response metadata.
-  late final _Meta? meta;
+  late final ResponseMeta? meta;
 
   /// Manually set data.
   DirectusListResponse.manually(this.data, {this.meta});
@@ -28,7 +28,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
   DirectusListResponse(Response dioResponse, {ItemsConverter? converter}) {
     converter ??= MapItemsConverter();
     var data = dioResponse.data['data'];
-    meta = _Meta.fromJson(dioResponse.data['meta']);
+    meta = ResponseMeta.fromJson(dioResponse.data['meta']);
 
     if (data is! List) {
       throw DirectusError(message: 'Data should be a list.');
@@ -59,13 +59,13 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
 }
 
 /// Response metadata
-class _Meta {
+class ResponseMeta {
   int? totalCount;
   int? filterCount;
 
-  _Meta({this.filterCount, this.totalCount});
+  ResponseMeta({this.filterCount, this.totalCount});
 
-  _Meta.fromJson(Map<String, Object?>? data)
+  ResponseMeta.fromJson(Map<String, Object?>? data)
       : totalCount = data?['total_count'] as int?,
         filterCount = data?['filter_count'] as int?;
 }

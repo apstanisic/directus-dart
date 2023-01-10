@@ -1,3 +1,16 @@
+# 0.8.2
+
+- Pub analysis fixes
+
+# 0.8.1
+
+- Fix license
+
+# 0.8.0
+
+- Switched to monorepo
+- Bug fixes
+
 # 0.7.2
 
 - Fix logout not working

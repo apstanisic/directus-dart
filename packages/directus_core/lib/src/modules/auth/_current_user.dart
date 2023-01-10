@@ -16,6 +16,7 @@ class CurrentUser {
   Future<DirectusResponse<DirectusUser>> update(
       {required DirectusUser data}) async {
     final mapData = data.toJson();
+    print(mapData);
     return DirectusResponse.fromRequest(
       () => client.patch('users/me', data: mapData),
       converter: UserConverter(),

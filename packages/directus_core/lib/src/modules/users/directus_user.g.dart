@@ -21,8 +21,6 @@ DirectusUser _$DirectusUserFromJson(Map<String, dynamic> json) => DirectusUser(
       theme: json['theme'] as String?,
       status: json['status'] as String?,
       role: json['role'],
-      rawValues:
-          getRawValues(json, 'raw_values') as Map<String, dynamic>? ?? const {},
     );
 
 Map<String, dynamic> _$DirectusUserToJson(DirectusUser instance) {
@@ -48,6 +46,5 @@ Map<String, dynamic> _$DirectusUserToJson(DirectusUser instance) {
   writeNotNull('theme', instance.theme);
   writeNotNull('status', instance.status);
   writeNotNull('role', instance.role);
-  val['raw_values'] = instance.rawValues;
   return val;
 }

@@ -197,6 +197,7 @@ class AuthHandler with StaticToken {
   @experimental
   Future<AuthResponse?> manuallyRefresh() async {
     if (tokens == null) return null;
+    // ignore: deprecated_member_use
     client.lock();
 
     try {
@@ -208,9 +209,11 @@ class AuthHandler with StaticToken {
       await storage.storeLoginData(loginDataResponse);
       tokens = loginDataResponse;
     } catch (e) {
+      // ignore: deprecated_member_use
       client.unlock();
       throw DirectusError.fromDio(e);
     }
+    // ignore: deprecated_member_use
     client.unlock();
     await _emitter.emitAsync('refresh', tokens);
     return tokens;

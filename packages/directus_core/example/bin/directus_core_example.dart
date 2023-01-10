@@ -5,7 +5,7 @@ Future<void> main(List<String> arguments) async {
   try {
     final result = await createUser();
     print(1);
-    // print(result.data.rawValues['test_value']);
+    print(result.data);
   } catch (e) {
     print(2);
     print(e);

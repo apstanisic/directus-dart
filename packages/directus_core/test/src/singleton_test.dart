@@ -1,5 +1,4 @@
 import 'package:directus_core/directus_core.dart';
-import 'package:directus_core/src/memory_storage.dart';
 import 'package:test/test.dart';
 
 void main() {

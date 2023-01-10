@@ -23,12 +23,12 @@ Future<DirectusListResponse<DirectusUser>> getUsers() async {
 Future<DirectusResponse<DirectusUser>> createUser() async {
   final sdk = await getSdkSingleton();
   final user = DirectusUser(
-      email: "john5@domain.tld",
-      password: "password",
-      rawValues: {"test_value": "RawValue"});
+    email: "john5@domain.tld",
+    password: "password",
+  );
   final res = await sdk.users.createOne(user);
   // sdk.users.converter = MyConverter();
-  print(res.data.rawValues['test_value']);
+  // print(res.data.rawValues['test_value']);
   return res;
 }
 
@@ -45,7 +45,7 @@ Future<DirectusResponse<DirectusFile>> uploadFile() async {
 
   print(Directory.current.path);
   final res = await sdk.files
-      .uploadFile(Directory.current.path + '/lib/some_data.json');
+      .uploadFile('${Directory.current.path}/lib/some_data.json');
   return res;
 }
 
