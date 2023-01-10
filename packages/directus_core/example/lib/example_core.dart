@@ -9,8 +9,9 @@ Future<DirectusCore> getSdkSingleton() async {
   await DirectusCoreSingleton.init(DirectusConst.url, storage: MemoryStorage());
 
   final sdk = DirectusCoreSingleton.instance;
-  await sdk.auth
-      .login(email: DirectusConst.username, password: DirectusConst.password);
+  // await sdk.auth
+  //     .login(email: DirectusConst.username, password: DirectusConst.password);
+  await sdk.auth.login(email: 'test@example.com', password: 'password');
   return sdk;
 }
 

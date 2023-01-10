@@ -1,3 +1,7 @@
+# 0.9.1
+
+- Fix case when user can create, but can't read
+
 # 0.9.0
 
 - Split directus and directus_core
