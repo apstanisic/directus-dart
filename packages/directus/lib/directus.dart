@@ -8,7 +8,7 @@
 /// ```
 library directus;
 
-export 'package:directus/directus.dart';
+export 'package:directus_core/directus_core.dart';
 
 export './src/directus_base.dart';
 export './src/shared_preferences_storage.dart';

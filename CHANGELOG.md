@@ -1,3 +1,7 @@
+# 0.9.2
+
+- Fix `directus` not exporting core
+
 # 0.9.1
 
 - Fix case when user can create, but can't read
