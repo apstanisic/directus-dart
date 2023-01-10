@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:directus_core/directus_core.dart';
+
+/// Replace this with env_placeholder.dart
 import 'package:directus_core_example/env.dart';
 
-Future<DirectusCore> getSdk() async {
+Future<DirectusCore> getSdkSingleton() async {
   await DirectusCoreSingleton.init(DirectusConst.url, storage: MemoryStorage());
 
   final sdk = DirectusCoreSingleton.instance;
@@ -13,13 +15,13 @@ Future<DirectusCore> getSdk() async {
 }
 
 Future<DirectusListResponse<DirectusUser>> getUsers() async {
-  final sdk = await getSdk();
+  final sdk = await getSdkSingleton();
   // sdk.users.converter = AAA();
   return sdk.users.readMany(query: Query(limit: 1));
 }
 
 Future<DirectusResponse<DirectusUser>> createUser() async {
-  final sdk = await getSdk();
+  final sdk = await getSdkSingleton();
   final user = DirectusUser(
       email: "john5@domain.tld",
       password: "password",
@@ -32,14 +34,14 @@ Future<DirectusResponse<DirectusUser>> createUser() async {
 
 /// THIS IS NOT WORKING
 Future<DirectusResponse<DirectusField>> readFields() async {
-  final sdk = await getSdk();
+  final sdk = await getSdkSingleton();
 
   final res = await sdk.fields.readOne("1");
   return res;
 }
 
 Future<DirectusResponse<DirectusFile>> uploadFile() async {
-  final sdk = await getSdk();
+  final sdk = await getSdkSingleton();
 
   print(Directory.current.path);
   final res = await sdk.files

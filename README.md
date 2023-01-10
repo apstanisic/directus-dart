@@ -21,10 +21,28 @@ flutter format .
 
 Create instance and initialize. You must run `.init()` for storage to be initialized. Otherwise, there `DirectusError` will be thrown.
 
+### directus
+
+This package requires Flutter since it's using `shared_preferences` for persisting data.
+
 ```dart
 import 'package:directus/directus.dart';
 
 final sdk = await Directus('http://localhost:8055')
+                    .init();
+```
+
+### directus_core
+
+This package does not require Flutter, but it does not know how to store data, so you have
+to pass it your custom storage that extends `DirectusStorage`. We provide memory storage,
+that holds your data in memory while app is live.
+
+```dart
+import 'package:directus_core/directus_core.dart';
+
+// Provide your custom storage
+final sdk = await DirectusCore('http://localhost:8055', storage: MemoryStorage())
                     .init();
 ```
 
