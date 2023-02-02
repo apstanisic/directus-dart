@@ -21,10 +21,14 @@ class ArticleConverter extends ItemsConverter<MyArticle> {
 Future<void> main(List<String> arguments) async {
   try {
     final sdk = await getSdkSingleton();
-    final res = await sdk
-        .typedItems('contacts', converter: ArticleConverter())
-        .readOne('1');
-    print(res.data.id);
+
+    final res = await sdk.items('contacts').readMany(
+          filters: Filters(
+            {'id': 1},
+          ),
+          query: Query(limit: 1),
+        );
+    print(res.data);
   } catch (e) {
     print(e);
   }

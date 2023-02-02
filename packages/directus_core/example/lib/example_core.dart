@@ -2,16 +2,15 @@ import 'dart:io';
 
 import 'package:directus_core/directus_core.dart';
 
-/// Replace this with env_placeholder.dart
-import 'package:directus_core_example/env.dart';
-
 Future<DirectusCore> getSdkSingleton() async {
-  await DirectusCoreSingleton.init(DirectusConst.url, storage: MemoryStorage());
+  // await DirectusCoreSingleton.init(DirectusConst.url, storage: MemoryStorage());
+  await DirectusCoreSingleton.init('http://localhost:8055',
+      storage: MemoryStorage());
 
   final sdk = DirectusCoreSingleton.instance;
-  await sdk.auth
-      .login(email: DirectusConst.username, password: DirectusConst.password);
-  // await sdk.auth.login(email: 'test@example.com', password: 'password');
+  // await sdk.auth
+  //     .login(email: DirectusConst.username, password: DirectusConst.password);
+  await sdk.auth.login(email: 'admin@example.com', password: 'password');
   return sdk;
 }
 

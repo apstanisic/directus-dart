@@ -211,7 +211,11 @@ class AuthHandler with StaticToken {
     } catch (e) {
       // ignore: deprecated_member_use
       client.unlock();
-      throw DirectusError.fromDio(e);
+      final error = DirectusError.fromDio(e);
+      if (error.code == 401) {
+        await logout().catchError((e) {});
+      }
+      throw error;
     }
     // ignore: deprecated_member_use
     client.unlock();

@@ -340,5 +340,29 @@ void main() {
 
       verify(client.unlock()).called(1);
     });
+
+    test('log user out when refreshing access token returns 401', () async {
+      when(refreshClient.post(any, data: anyNamed('data')))
+          .thenAnswer((realInvocation) {
+        throw DioError(
+            requestOptions: RequestOptions(path: '/'),
+            response: Response(
+              requestOptions: RequestOptions(path: '/'),
+              data: 'error',
+              statusCode: 401,
+            ));
+      });
+      auth.tokens = mockAuthResponse();
+
+      try {
+        await auth.manuallyRefresh();
+      } catch (e) {
+        // logout is called
+        verify(auth.client.post('auth/logout', data: anyNamed('data')))
+            .called(1);
+      }
+
+      verify(client.unlock()).called(1);
+    });
   });
 }
