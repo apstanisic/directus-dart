@@ -1,3 +1,7 @@
+# 0.9.4
+
+- Bug fix
+
 # 0.9.3
 
 - Enable passing map to filter
