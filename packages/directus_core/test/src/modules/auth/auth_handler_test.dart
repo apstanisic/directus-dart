@@ -357,12 +357,13 @@ void main() {
       try {
         await auth.manuallyRefresh();
       } catch (e) {
-        // logout is called
-        verify(auth.client.post('auth/logout', data: anyNamed('data')))
-            .called(1);
+        // data is removed
+        verify(authStorage.removeLoginData()).called(1);
+        expect(auth.currentUser, null);
+        expect(auth.tokens, null);
+        // do not call logout endpoint
+        verifyNever(auth.client.post('auth/logout', data: anyNamed('data')));
       }
-
-      verify(client.unlock()).called(1);
     });
   });
 }

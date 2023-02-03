@@ -104,6 +104,8 @@ class AuthHandler with StaticToken {
       if (otp != null) 'otp': otp
     };
 
+    await removeAuthState();
+
     try {
       final dioResponse = await client.post('auth/login', data: data);
       final loginDataResponse = AuthResponse.fromResponse(dioResponse);
@@ -128,12 +130,16 @@ class AuthHandler with StaticToken {
     } catch (e) {
       throw DirectusError.fromDio(e);
     } finally {
-      currentUser = null;
-      tfa = null;
-      tokens = null;
-      await storage.removeLoginData();
+      await removeAuthState();
       await _emitter.emitAsync('logout', null);
     }
+  }
+
+  removeAuthState() async {
+    currentUser = null;
+    tfa = null;
+    tokens = null;
+    await storage.removeLoginData();
   }
 
   /// Get login data
@@ -213,7 +219,8 @@ class AuthHandler with StaticToken {
       client.unlock();
       final error = DirectusError.fromDio(e);
       if (error.code == 401) {
-        await logout().catchError((e) {});
+        await removeAuthState();
+        await _emitter.emitAsync('logout', null);
       }
       throw error;
     }
