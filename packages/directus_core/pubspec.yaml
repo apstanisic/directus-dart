@@ -6,7 +6,7 @@ repository: https://github.com/apstanisic/directus-dart
 issue_tracker: https://github.com/apstanisic/directus-dart/issues
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.18.5 <3.0.0"
 
 dependencies:
   # Http client
