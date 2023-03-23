@@ -1,6 +1,6 @@
 name: directus_core
 description: The unofficial SDK for Directus with REST API and auth. This core package does not require Flutter.
-version: 0.9.5
+version: 0.10.1
 homepage: https://www.directus.io
 repository: https://github.com/apstanisic/directus-dart
 issue_tracker: https://github.com/apstanisic/directus-dart/issues

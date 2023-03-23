@@ -1,6 +1,6 @@
 name: directus
 description: The unofficial SDK for Directus, provides REST API and authentication. Requires Flutter.
-version: 0.9.5
+version: 0.10.1
 homepage: https://www.directus.io
 repository: https://github.com/apstanisic/directus-dart
 issue_tracker: https://github.com/apstanisic/directus-dart/issues
@@ -10,7 +10,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  directus_core: 0.9.5
+  directus_core: 0.10.1
   # Storage
   shared_preferences: ^2.0.15
   flutter:
