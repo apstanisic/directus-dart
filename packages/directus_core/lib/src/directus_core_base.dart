@@ -41,7 +41,7 @@ class DirectusCore {
       onRequest: (options, handler) {
         if (!_isInitialized) {
           return handler.reject(DioError(
-              type: DioErrorType.other,
+              type: DioErrorType.unknown,
               requestOptions: options,
               error: DirectusError(
                 message: 'You must first call and await init method.',
