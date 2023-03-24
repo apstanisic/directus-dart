@@ -1,3 +1,7 @@
+# 0.10.2
+
+- Try to fix "Dio does not support lock anymore"
+
 # 0.10.1
 
 - Publish only one package by accident
