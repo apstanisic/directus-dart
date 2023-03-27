@@ -29,7 +29,12 @@ Future<void> main(List<String> arguments) async {
     //     );
     final res = await sdk.items('product').readMany(
         query: Query(
-            limit: 1, offset: 0, fields: ['sku', 'image', 'translations.*']),
+            customParams: {
+              "deep[translations][_filter][languages_code][_eq]": "en"
+            },
+            limit: 1,
+            offset: 0,
+            fields: ['sku', 'image', 'translations.*']),
         filters: Filters({
           'and': Filter.and([
             {'sku': Filter.eq('hello')},

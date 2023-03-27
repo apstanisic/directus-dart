@@ -27,7 +27,7 @@ void main() {
     });
 
     test('that client will be created if one isn\'t provided.', () {
-      sdk = DirectusCore('url', storage: storage);
+      sdk = DirectusCore('http://example.com', storage: storage);
       expect(sdk.client, isA<Dio>());
     });
 
