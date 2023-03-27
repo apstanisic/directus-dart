@@ -1,3 +1,7 @@
+# 0.11.0
+
+- Custom params overwrite normal params
+
 # 0.10.2
 
 - Try to fix "Dio does not support lock anymore"
