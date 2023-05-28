@@ -68,7 +68,6 @@ class Query extends OneQuery {
   @override
   Map<String, Object?> toMap({Filters? filters}) {
     return <String, Object?>{
-      if (customParams != null) ...customParams!,
       'filter': filters?.toMap(),
       'fields': fields?.join(','),
       'limit': limit,
@@ -76,6 +75,7 @@ class Query extends OneQuery {
       'meta': meta?.toString(),
       'sort': sort?.join(','),
       'deep': deep?.map((key, value) => MapEntry(key, value.toMap())),
+      if (customParams != null) ...customParams!,
     }..removeWhere(
         (key, value) => value == null,
       );

@@ -61,8 +61,9 @@ class AuthHandler with StaticToken {
     // Get new access token if current is expired.
 
     registerStaticTokenInterceptor(client);
-    client.interceptors
-        .add(InterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor));
+    client.interceptors.add(
+      QueuedInterceptorsWrapper(onRequest: refreshExpiredTokenInterceptor),
+    );
   }
 
   /// Add listener when auth status changes
@@ -204,7 +205,7 @@ class AuthHandler with StaticToken {
   Future<AuthResponse?> manuallyRefresh() async {
     if (tokens == null) return null;
     // ignore: deprecated_member_use
-    client.lock();
+    // client.lock();
 
     try {
       final response = await _refreshClient.post('auth/refresh', data: {
@@ -216,7 +217,7 @@ class AuthHandler with StaticToken {
       tokens = loginDataResponse;
     } catch (e) {
       // ignore: deprecated_member_use
-      client.unlock();
+      // client.unlock();
       final error = DirectusError.fromDio(e);
       if (error.code == 401) {
         await removeAuthState();
@@ -225,7 +226,7 @@ class AuthHandler with StaticToken {
       throw error;
     }
     // ignore: deprecated_member_use
-    client.unlock();
+    // client.unlock();
     await _emitter.emitAsync('refresh', tokens);
     return tokens;
   }

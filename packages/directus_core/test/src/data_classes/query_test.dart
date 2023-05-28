@@ -42,7 +42,9 @@ void main() {
     });
   });
 
-  test('customParams wont overwrite other options', () {
+// That is the main point of custom params, to give user control
+// when default options do not work
+  test('customParams overwrite other options', () {
     final query = Query(
       fields: ['id'],
       deep: {},
@@ -55,18 +57,16 @@ void main() {
         'fields': 'test',
         'random': 'value',
         'limit': 3,
-        'offset': 3,
-        'sort': ['any'],
       },
     );
     expect(query.toMap(), {
-      'deep': {},
-      'limit': 5,
-      'meta': 'filter_count',
+      'random': 'value',
+      'deep': 'test',
+      'fields': 'test',
+      'limit': 3,
       'offset': 5,
       'sort': 'name',
-      'fields': 'id',
-      'random': 'value',
+      'meta': 'filter_count',
     });
   });
 }

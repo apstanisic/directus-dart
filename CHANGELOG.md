@@ -1,3 +1,19 @@
+# 0.11.0
+
+- Custom params overwrite normal params
+
+# 0.10.2
+
+- Try to fix "Dio does not support lock anymore"
+
+# 0.10.1
+
+- Publish only one package by accident
+
+# 0.10.0
+
+- Update `dio`
+
 # 0.9.5
 
 - Bug fix

@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  directus:
+    image: directus/directus:9
+    restart: unless-stopped
+    environment:
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: password
+      KEY: test_key
+      SECRET: test_secret
+      DB_CLIENT: sqlite3
+      DB_FILENAME: /tmp/database.db
+
+    ports:
+      - 8055:8055

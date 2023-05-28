@@ -8,7 +8,8 @@ environment:
   sdk: ">=2.18.6 <3.0.0"
 
 dependencies:
-  directus_core: any
+  directus_core:
+    path: ../
 
 dev_dependencies:
   lints: ^2.0.0

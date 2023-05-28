@@ -8,7 +8,7 @@ import '../../mock/mocks.mocks.dart';
 
 void main() {
   // TODO Fix this test, it's skiping currently
-  // It problem with mockito generation, I just don't know where or why
+  // It is a problem with mockito generation, I just don't know where or why
   group('AuthStorage', () {
     late MockDirectusStorage storage;
     late AuthStorage authStorage;
