@@ -44,15 +44,20 @@ class DirectusFile {
   /// without needing to pass [baseUrl], but It's not possible right now. One solution is to
   /// make [FileConverter] do that, but that is complicating a codebase, for a little gain,
   /// this way all converters and classes are same.
+  /// Added [accessToken] param to get Authorized URL for [DirectusFile].
   @experimental
-  String? downloadUrl(String baseUrl) {
+  String? downloadUrl(String baseUrl, {String? accessToken}) {
     if (id == null) return null;
     // Remove trailing / if exists.
     if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
 
-    return '$baseUrl/assets/$id';
+    if (accessToken?.isNotEmpty ?? false) {
+      return '$baseUrl/assets/$id?access_token=$accessToken';
+    } else {
+      return '$baseUrl/assets/$id';
+    }
   }
 
   /// Return thumbnail url.
@@ -72,8 +77,7 @@ class DirectusFile {
     if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
-    String url =
-        '$baseUrl/assets/$id?fit=${fit.name}&width=$width&height=$height';
+    String url = '$baseUrl/assets/$id?fit=${fit.name}&width=$width&height=$height';
     if (quality != null) {
       assert(
         quality >= 1 && quality <= 100,
@@ -144,8 +148,7 @@ class DirectusFile {
   });
 
   /// Used for code generation
-  factory DirectusFile.fromJson(Map<String, Object?> json) =>
-      _$DirectusFileFromJson(json);
+  factory DirectusFile.fromJson(Map<String, Object?> json) => _$DirectusFileFromJson(json);
 
   /// Used for code generation
   Map<String, Object?> toJson() => _$DirectusFileToJson(this);
