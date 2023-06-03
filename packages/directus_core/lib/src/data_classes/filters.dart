@@ -23,7 +23,7 @@ import 'data_classes.dart';
 /// });
 ///
 /// ```
-/// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/api/query/filter.md)
+/// [Additional info](https://github.com/directus/directus/blob/main/docs/reference/filter-rules.md)
 class Filters {
   /// Filters
   Map<String, Object?> data;
