@@ -187,7 +187,7 @@ class AuthHandler with StaticToken {
         options.headers.remove('Authorization');
       }
     } on DirectusError catch (e) {
-      return handler.reject(e.dioError!);
+      return handler.reject(e.dioException!);
     }
 
     return handler.next(options);

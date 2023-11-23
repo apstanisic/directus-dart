@@ -52,7 +52,7 @@ class DirectusListResponse<T> implements DirectusResponse<List<T>> {
     try {
       final response = await func();
       return DirectusListResponse<U>(response, converter: converter);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       throw DirectusError.fromDio(error);
     }
   }

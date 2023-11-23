@@ -130,13 +130,13 @@ void main() {
     });
 
     test('deleteOne throws DirectusError, and not DioError', () async {
-      when(client.delete(any)).thenThrow(DioError);
+      when(client.delete(any)).thenThrow(DioException);
       expect(() => items.deleteOne('5'), throwsException);
       verify(client.delete('items/test/5')).called(1);
     });
 
     test('deleteMany throws DirectusError, and not DioError', () async {
-      when(client.delete(any)).thenThrow(DioError);
+      when(client.delete(any)).thenThrow(DioException);
       expect(() => items.deleteMany(['1', '2', '3']), throwsException);
       verify(client.delete('items/test/1,2,3')).called(1);
     });

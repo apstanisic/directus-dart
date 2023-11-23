@@ -1466,7 +1466,7 @@ class MockRequestInterceptorHandler extends _i1.Mock
       );
   @override
   void reject(
-    _i2.DioError? error, [
+    _i2.DioException? error, [
     bool? callFollowingErrorInterceptor = false,
   ]) =>
       super.noSuchMethod(

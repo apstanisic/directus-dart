@@ -40,8 +40,8 @@ class DirectusCore {
     final check = InterceptorsWrapper(
       onRequest: (options, handler) {
         if (!_isInitialized) {
-          return handler.reject(DioError(
-              type: DioErrorType.unknown,
+          return handler.reject(DioException(
+              type: DioExceptionType.unknown,
               requestOptions: options,
               error: DirectusError(
                 message: 'You must first call and await init method.',

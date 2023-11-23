@@ -55,10 +55,10 @@ class Query extends OneQuery {
     this.offset,
     this.sort,
     this.meta,
-    Map<String, Query>? deep,
-    List<String>? fields,
-    Map<String, Object?>? customParams,
-  }) : super(deep: deep, fields: fields, customParams: customParams);
+    super.deep,
+    super.fields,
+    super.customParams,
+  });
 
   /// Convert [Query] to [Map] so it can be passed to Dio for request.
   ///

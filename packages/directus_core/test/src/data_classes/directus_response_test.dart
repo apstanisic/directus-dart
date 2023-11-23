@@ -13,10 +13,10 @@ void main() {
     expect(response, isA<DirectusResponse>());
   });
 
-  test('that `DirectusResponse.fromDio` throws on Dio error.', () async {
+  test('that `DirectusResponse.fromDio` throws on Dio exception.', () async {
     expect(() async {
       await DirectusResponse.fromRequest(
-        () async => throw DioError(
+        () async => throw DioException(
             requestOptions: RequestOptions(path: '/'),
             response: Response(
               requestOptions: RequestOptions(path: '/'),

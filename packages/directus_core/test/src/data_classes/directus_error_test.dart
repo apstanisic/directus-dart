@@ -14,7 +14,7 @@ void main() {
   test(
       'that DirectusError will parse DioError to get correct error from server API.',
       () async {
-    final error = DirectusError.fromDio(DioError(
+    final error = DirectusError.fromDio(DioException(
         requestOptions: RequestOptions(path: '/'),
         response: Response(
           requestOptions: RequestOptions(path: '/'),
@@ -32,7 +32,7 @@ void main() {
   });
 
   test('that DirectusError will keep the original DioError', () {
-    final dioError = DioError(
+    final dioError = DioException(
       requestOptions: RequestOptions(path: '/'),
       response: Response(
         requestOptions: RequestOptions(path: '/'),
@@ -47,6 +47,6 @@ void main() {
     );
     final error = DirectusError.fromDio(dioError);
 
-    expect(error.dioError, dioError);
+    expect(error.dioException, dioError);
   });
 }
