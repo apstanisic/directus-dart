@@ -12,7 +12,7 @@ dependencies:
   # Http client
   dio: ">=5.0.0 <6.0.0"
   # Annotations
-  meta: ^1.11.0
+  meta: ^1.9.1
   # Used for decorators for JSON serialization
   json_annotation: ^4.8.1
 
