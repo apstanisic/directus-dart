@@ -1,6 +1,6 @@
 # Directus SDK for Dart/Flutter
 
-Unofficial Directus SDK for Dart/Flutter that provides APIs for reading, creating, updating and deleting user and system data, authentication, and access to activity. This package is port of SDK for JS from [here](https://github.com/directus/directus/tree/main/packages/sdk-js). Most methods are same as in JS, but there are some differences because of Dart type
+Unofficial Directus SDK for Dart/Flutter that provides APIs for reading, creating, updating and deleting user and system data, authentication, and access to activity. This package is port of SDK for JS from [here](This package is port of SDK for JS from [here](https://github.com/directus/directus/tree/main/sdk). Most methods are same as in JS, but there are some differences because of Dart type
 system.
 
 ## Installation
