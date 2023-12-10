@@ -6,15 +6,15 @@ repository: https://github.com/apstanisic/directus-dart
 issue_tracker: https://github.com/apstanisic/directus-dart/issues
 
 environment:
-  sdk: ">=2.18.5 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   # Http client
   dio: ">=5.0.0 <6.0.0"
   # Annotations
-  meta: ^1.8.0
+  meta: ^1.9.1
   # Used for decorators for JSON serialization
-  json_annotation: ^4.7.0
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   test: ^1.22.1
