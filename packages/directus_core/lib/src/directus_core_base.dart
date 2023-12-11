@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:directus_core/src/data_classes/directus_error.dart';
 import 'package:directus_core/src/data_classes/directus_storage.dart';
 import 'package:directus_core/src/modules/items/items_converter.dart';
+import 'package:directus_core/src/modules/graphql/graphql_handler.dart';
 
 import 'modules/handlers.dart';
 import 'modules/items/map_items_converter.dart';
@@ -40,8 +41,8 @@ class DirectusCore {
     final check = InterceptorsWrapper(
       onRequest: (options, handler) {
         if (!_isInitialized) {
-          return handler.reject(DioError(
-              type: DioErrorType.unknown,
+          return handler.reject(DioException(
+              type: DioExceptionType.unknown,
               requestOptions: options,
               error: DirectusError(
                 message: 'You must first call and await init method.',
@@ -148,4 +149,16 @@ class DirectusCore {
   /// HTTP client that can be used for accessing custom extensions.
   @Deprecated('Use this.client instead')
   Dio get custom => client;
+
+  /// Execute GraphQL queries.
+  ///
+  /// [ItemsConverter] must be provided that will convert data to
+  /// and from json. [converter] is a simple interface that converts value to
+  /// and from JSON so it can be consumed with this API.
+  GraphQLHandler<T> graphql<T>({ItemsConverter<T>? converter}) {
+    return GraphQLHandler<T>(
+      client: client,
+      converter: converter,
+    );
+  }
 }

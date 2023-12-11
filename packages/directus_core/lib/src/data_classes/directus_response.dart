@@ -42,7 +42,7 @@ class DirectusResponse<T> {
     try {
       final response = await func();
       return DirectusResponse<U>(response, converter: converter);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       throw DirectusError.fromDio(error);
     }
   }

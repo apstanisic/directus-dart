@@ -294,7 +294,7 @@ void main() {
 
     test('refreshing token rethrows DioError when manuallyRefresh failed',
         () async {
-      final dioError = DioError(
+      final dioError = DioException(
           requestOptions: RequestOptions(path: '/'),
           response: Response(
             requestOptions: RequestOptions(path: '/'),
@@ -325,7 +325,7 @@ void main() {
     test('client is unlocked if refresh throws an error', () async {
       when(refreshClient.post(any, data: anyNamed('data')))
           .thenAnswer((realInvocation) {
-        throw DioError(
+        throw DioException(
             requestOptions: RequestOptions(path: '/'),
             response: Response(
               requestOptions: RequestOptions(path: '/'),
@@ -346,7 +346,7 @@ void main() {
     test('log user out when refreshing access token returns 401', () async {
       when(refreshClient.post(any, data: anyNamed('data')))
           .thenAnswer((realInvocation) {
-        throw DioError(
+        throw DioException(
             requestOptions: RequestOptions(path: '/'),
             response: Response(
               requestOptions: RequestOptions(path: '/'),
