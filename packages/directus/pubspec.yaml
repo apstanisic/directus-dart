@@ -13,6 +13,7 @@ dependencies:
   directus_core: 0.11.0
   # Storage
   shared_preferences: ^2.2.2
+  
   flutter:
     sdk: flutter
 
