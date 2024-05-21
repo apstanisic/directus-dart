@@ -26,8 +26,11 @@ class Filter {
   /// Value to compare it to
   final Object? value;
 
-  /// Check if the values are equal
-  Filter(this.value) : comparison = '_eq';
+  /// Basic filter constructor
+  ///
+  /// [value] is the value to be compared
+  /// [comparison] is the comparison to be done (_eq, _neq, _icontain, etc) (see Directus Api Doc)
+  Filter({this.value, required this.comparison});
 
   // Check if at least one filter is true.
   Filter.or(List<Map<String, Filter>> filters)
